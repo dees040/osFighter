@@ -1,7 +1,7 @@
 osFighter
 =========
 
-OpenSource Roll Playing Click.
+OpenSource Roll Playing Click Game.
 
 Currently under active development.
 
