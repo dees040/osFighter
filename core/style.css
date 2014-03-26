@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+/* put prompts on same line as fields */
+.form-item, #edit-name, #edit-pass { display : block; background-color:rgb(255,0,255); } 
+#block-user-0 h2, #user-login-form .item-list { display : none; }
+#user-login-form { text-align : right; }
+#user-login-form input { font-size : 0.9em; }
+#user-login-form .form-text { width:120px; }   /* sets the field widths */
+.form-submit, #edit-submit {      /* puts the login button right under the password field */
+  margin-top:0;
+}
