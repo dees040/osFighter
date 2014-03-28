@@ -621,7 +621,9 @@ class Session
     */
    function adminEditAccount($subusername, $subnewpass, $subconfnewpass, $subemail, $subuserlevel, $subusertoedit){
       global $database, $form;  //The database and form object
-      
+
+       $config = $database->getConfigs();
+
       /* New password entered */
       if($subnewpass){
          /* New Password error checking */
@@ -733,6 +735,7 @@ class Session
          else{
             /* Check if password too short or is not alphanumeric */
             $subcurpass = stripslashes($subcurpass);
+            $config = $database->getConfigs();
             if(strlen($subcurpass) < $config['min_pass_chars'] ||
                !preg_match("/^([0-9a-z])+$/i", ($subcurpass = trim($subcurpass)))){
                $form->setError($field, "* Current Password incorrect");
@@ -825,8 +828,21 @@ class Session
       	return false;
       }
    }
-   
-   /**
+
+    /**
+     * isUserGroup - Returns true if uses is in the given Group
+     */
+    function isUserGroup($groupID) {
+        $groups = unserialize($this->userinfo['groups']);
+
+        if (in_array($groupID, $groups)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
     * generateRandID - Generates a string made up of randomized
     * letters (lower and upper case) and digits and returns
     * the md5 hash of it to be used as a userid.
@@ -865,4 +881,3 @@ $session = new Session;
 
 /* Initialize form object */
 $form = new Form;
-?>

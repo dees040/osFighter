@@ -6,10 +6,10 @@
  * correct.
  */
 
-define("DB_SERVER", "_DB_HOST_");
-define("DB_USER", "_DB_USER_");
-define("DB_PASS", "_DB_PASSWORD_");
-define("DB_NAME", "_DB_NAME_");
+define("DB_SERVER", "localhost");
+define("DB_USER", "root");
+define("DB_PASS", "");
+define("DB_NAME", "osfighter");
 
 /**
  * Database Table Constants - these constants
@@ -21,6 +21,7 @@ define("TBL_ACTIVE_USERS",  "active_users");
 define("TBL_ACTIVE_GUESTS", "active_guests");
 define("TBL_BANNED_USERS",  "banned_users");
 define("TBL_CONFIGURATION", "configuration");
+define("TBL_PAGES", "pages");
 
 /**
  * Special Names and Level Constants - the admin
