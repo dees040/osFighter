@@ -1,5 +1,5 @@
 <?php
-    $link = explode('/', $_SERVER['REQUEST_URI']);
+    $link = $_GET['REQUEST_URI'];
 
     $info = array(
         'url'  => $link,

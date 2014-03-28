@@ -4,4 +4,4 @@ RewriteEngine On
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
 
-RewriteRule ^.*$ /index.php
+RewriteRule ^(.*)$ index.php?REQUEST_URI=$1 [L,QSA]
