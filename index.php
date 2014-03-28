@@ -1,10 +1,9 @@
 <?php
-    $link = isset($_GET['REQUEST_URI']) ? $_GET['REQUEST_URI'] : "home";
+    $link = $_GET['REQUEST_URI'];
 
     $info = array(
         'url'  => $link,
-        'base' => str_replace("", $link, "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']),
-        'path' => str_replace('\\', '/', getcwd())
+        'path' => getcwd()
     );
 
     include 'core/initialize.php';

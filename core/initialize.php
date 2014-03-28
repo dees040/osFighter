@@ -10,22 +10,16 @@ class initialize
     /**
      * Class constructor
      * Check if the given url exsits and the user has permission to see it.
-     * @param $infoSets: url and path info
+     * @param $info: url and path info
      */
-    function initialize($infoSets) {
-        global $database;
-
-        $this->url      = $infoSets['url'];
-        $this->home_dir = $infoSets['path'];
+    function initialize($info) {
+        $this->url      = $info['url'];
+        $this->home_dir = $info['path'];
 
         if (is_object($linkInfo = $this->pageExsits())) {
             if ($this->hasPermissions($linkInfo->groups)) {
-                $info = array(
-                    'link'  => $linkInfo,
-                    'theme' => $database->getConfigs()['DEFAULT_THEME'],
-                    'base'  => $infoSets['base']
-                );
-                include 'themes/'.$info['theme'].'/ingame.php';
+                $info = $linkInfo;
+
             } else {
                 // Include 403
             }
