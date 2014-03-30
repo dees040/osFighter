@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: ariel;
+    background: #E5E9EC;
+}
+
+.main-header {
+    background: #FFF;
+    width: 100%;
+    height: 50px;
+    color: #A1A1A1;
+    border-bottom: 5px solid #ca322c;
+}
+
+.left-header {
+    position: absolute;
+    left: 10px;
+    top: 4px;
+}
+
+.right-header {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+}
+
+.main-menu {
+    background: #1C1C1C;
+    cursor: pointer;
+    height: 100%;
+    width: 50px;
+    z-index: 1;
+    float: left;
+}
+
+.user-menu {
+    background: #1B1E24;
+    height: 50px;
+    width: 100px;
+    z-index: 1;
+    float: left;
+}
+
+.top-menu {
+    display: inline-block;
+}
+
+.title {
+    background-image: url('../images/icons/house.png');
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    padding-left: 30px;  /* width of the image plus a little extra padding */
+}
