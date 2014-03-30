@@ -5,9 +5,6 @@
  * The Form class is meant to simplify the task of keeping
  * track of errors in user submitted forms and the form
  * field values that were entered correctly.
- *
- * Updated by: The Angry Frog
- * Last Updated: October 26, 2011
  */
  
 class Form

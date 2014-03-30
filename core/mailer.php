@@ -9,10 +9,6 @@
  * If you are running Windows and want a mail server, check
  * out this website to see a list of freeware programs:
  * <http://www.snapfiles.com/freeware/server/fwmailserver.html>
- *
- * Written by: Jpmaster77 a.k.a. The Grandmaster of C++ (GMC)
- * Updated by: The Angry Frog
- * Last Updated: April 4, 2012
  */
 
 class Mailer

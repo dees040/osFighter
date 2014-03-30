@@ -3,7 +3,7 @@
  * Database.php
  *
  * The Database class is used to pull/push info
- * from en to database.
+ * from and to database.
  *
  * By dees040
  * On 08-02-2014
