@@ -22,7 +22,7 @@ class initialize
             if ($this->hasPermissions($linkInfo->groups)) {
                 $info = array(
                     'link'  => $linkInfo,
-                    'theme' => $database->getConfigs()['DEFAULT_THEME'],
+                    'theme' => $database->getConfigs()['ACTIVE_THEME'],
                     'base'  => $infoSets['base']
                 );
                 include 'themes/'.$info['theme'].'/ingame.php';
