@@ -1,0 +1,72 @@
+
+ul.tabs
+{
+    padding: 8px 0 8px;
+    margin:0;
+    font-size: 0;
+    list-style-type: none;
+    text-align: center; /*set to left, center, or right to align the tabs as desired*/
+}
+        
+ul.tabs li
+{
+    display: inline;
+    margin-right: 2px;/*distance between tabs*/
+    font: normal 11px Arial;
+}
+        
+ul.tabs li a
+{
+    text-decoration: none;
+    position: relative;
+    padding: 8px 8px;
+    color: #000;
+    border-radius: 3px 3px 3px 3px;
+    outline:none;
+}
+  
+        
+ul.tabs li a:hover
+{
+    text-decoration: underline;
+    color: #000;
+}
+        
+ul.tabs li.selected a
+{
+    position: relative;
+    top: 0px;
+    font-weight:bold;
+    background: url(../../../images/layout/tabhover.png);
+    border-bottom: 1px solid #FFF;
+    color: #fff;
+}
+        
+        
+ul.tabs li.selected a:hover, ul.tabs li.selected a:hover
+{
+    text-decoration: none;
+}
+
+div.tabcontents
+{
+    background: url('images/content-info.png') no-repeat #f4f0e9;
+    width: 600px;
+    height: auto;
+    color: #504b3e;
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 11px;
+    padding: 10px;
+    text-align: justify;
+    line-height: 24px;
+}
+
+a{
+    color: #a34639;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
