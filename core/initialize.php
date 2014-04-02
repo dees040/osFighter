@@ -46,7 +46,7 @@ class initialize
             ->select("SELECT * FROM ".TBL_PAGES." WHERE link = :url", $items)
             ->fetchObject();
 
-        if (is_object($link)) {
+        if (is_object($link) && $this->checkFileExsits($link->file)) {
             return $link;
         }
 
@@ -67,6 +67,23 @@ class initialize
             if ($session->isUserGroup($groupID)) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Function to check if file exsits in files system
+     * @param $path path to file which need to be checked
+     * @return bool
+     */
+    function checkFileExsits($path) {
+        global $session;
+
+        if ($session->logged_in && file_exists("files/ingame/".$path)) {
+            return true;
+        } else if (file_exists("files/outgame/".$path)) {
+            return true;
         }
 
         return false;
