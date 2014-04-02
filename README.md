@@ -8,5 +8,5 @@ Currently under active development.
 By:
  - Dees Oomens
  - Corné Steenbakkers
- - Rudolf Wardanjan
+ - Frenzo Brouwer
  - Duncan Verbruggen
