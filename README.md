@@ -7,6 +7,4 @@ Currently under active development.
 
 By:
  - Dees Oomens
- - Corné Steenbakkers
  - Frenzo Brouwer
- - Duncan Verbruggen
