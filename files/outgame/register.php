@@ -28,7 +28,7 @@ if($session->logged_in){
 	else if($_SESSION['regsuccess']==0 || $_SESSION['regsuccess']==5){
       echo "<h1>Registered!</h1>";
       echo "<p>Thank you <b>".$_SESSION['reguname']."</b>, your information has been added to the database, "
-          ."you may now <a href=\"main.php\">log in</a>.</p>";
+          ."you may now <a href=\"login\">log in</a>.</p>";
 	}
 	else if($_SESSION['regsuccess']==3){
       echo "<h1>Registered!</h1>";
@@ -78,7 +78,7 @@ if($form->num_errors > 0){
    echo "<td style=\"color:#ff0000\">".$form->num_errors." error(s) found</td>";
 }
 ?>
-<form action="process.php" method="post">
+<form action="core/process.php" method="post">
 <table align="left" border="0" cellspacing="0" cellpadding="3">
 <tr>
 	<td>Username:</td>

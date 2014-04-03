@@ -35,7 +35,7 @@ else{
  */
 ?>
 
-<form action="process.php" method="POST">
+<form action="core/process.php" method="POST">
 
 <h1>Forgot Password</h1>
 <table align="left" border="0" cellspacing="0" cellpadding="3">

@@ -9,7 +9,7 @@
  * Originally written by: Jpmaster77 a.k.a. The Grandmaster of C++ (GMC)
  * Last Updated by The Angry Frog : January 11th, 2012
  */
-include("include/session.php");
+include("session.php");
 
 class Process
 {
@@ -61,13 +61,13 @@ class Process
       
       /* Login successful */
       if($retval){
-         header("Location: ".$session->referrer);
+         header("Location: ../home");
       }
       /* Login failed */
       else{
          $_SESSION['value_array'] = $_POST;
          $_SESSION['error_array'] = $form->getErrorArray();
-         header("Location: ".$session->referrer);
+         header("Location: ../login");
       }
    }
    
@@ -79,7 +79,7 @@ class Process
       global $database, $session;
       $config = $database->getConfigs();
 	  $retval = $session->logout();
-	  header("Location: ".$config['WEB_ROOT'].$config['home_page']);
+	  header("Location: ../home");
    }
    
    /**
@@ -97,7 +97,7 @@ class Process
 	  if($config['ACCOUNT_ACTIVATION'] == 4){
 	  	$_SESSION['reguname'] = $_POST['user'];
         $_SESSION['regsuccess'] = 6;
-		header("Location: ".$session->referrer);
+		header("Location: ../register");
 	  }
 	  
       /* Convert username to all lowercase (by option) */
@@ -114,37 +114,37 @@ class Process
       if($retval == 0){
          $_SESSION['reguname'] = $_POST['user'];
          $_SESSION['regsuccess'] = 0;
-         header("Location: ".$session->referrer);
+         header("Location: ../register");
       }
       /* E-mail Activation */
       else if($retval == 3){
          $_SESSION['reguname'] = $_POST['user'];
          $_SESSION['regsuccess'] = 3;
-         header("Location: ".$session->referrer);
+         header("Location: ../register");
       }
       /* Admin Activation */
       else if($retval == 4){
          $_SESSION['reguname'] = $_POST['user'];
          $_SESSION['regsuccess'] = 4;
-         header("Location: ".$session->referrer);
+         header("Location: ../register");
       }
       /* No Activation Needed but E-mail going out */
       else if($retval == 5){
          $_SESSION['reguname'] = $_POST['user'];
          $_SESSION['regsuccess'] = 5;
-         header("Location: ".$session->referrer);
+         header("Location: ../register");
       }
       /* Error found with form */
       else if($retval == 1){
          $_SESSION['value_array'] = $_POST;
          $_SESSION['error_array'] = $form->getErrorArray();
-         header("Location: ".$session->referrer);
+         header("Location: ../register");
       }
       /* Registration attempt failed */
       else if($retval == 2){
          $_SESSION['reguname'] = $_POST['user'];
          $_SESSION['regsuccess'] = 2;
-         header("Location: ".$session->referrer);
+         header("Location: ../register");
       }
    }
    
@@ -205,7 +205,7 @@ class Process
          }
       }
       
-      header("Location: ".$session->referrer);
+      header("Location: ../forgot-pass");
    }
    
    /**
@@ -221,13 +221,13 @@ class Process
       /* Account edit successful */
       if($retval){
          $_SESSION['useredit'] = true;
-         header("Location: ".$session->referrer);
+         header("Location: ../edit-account");
       }
       /* Error found with form */
       else{
          $_SESSION['value_array'] = $_POST;
          $_SESSION['error_array'] = $form->getErrorArray();
-         header("Location: ".$session->referrer);
+         header("Location: ../edit-account");
       }
    }
 };

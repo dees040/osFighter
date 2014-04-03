@@ -32,7 +32,7 @@ if($form->num_errors > 0){
    echo $form->num_errors." error(s) found";
 }
 ?>
-<form action="process.php" method="POST">
+<form action="core/process.php" method="POST">
 <table align="left" border="0" cellspacing="0" cellpadding="3">
 <tr><td>Username:</td><td><input type="text" name="user" maxlength="30" value="<?php echo $form->value("user"); ?>"></td><td><?php echo $form->error("user"); ?></td></tr>
 <tr><td>Password:</td><td><input type="password" name="pass" maxlength="30" value="<?php echo $form->value("pass"); ?>"></td><td><?php echo $form->error("pass"); ?></td></tr>

@@ -23,16 +23,17 @@ class initialize
                 $info = array(
                     'link'  => $linkInfo,
                     'theme' => $database->getConfigs()['ACTIVE_THEME'],
-                    'base'  => $infoSets['base']
+                    'base'  => $infoSets['base'],
+                    'file'  => $this->getThemeFile()
                 );
 
-                global $session;
-                include 'themes/'.$info['theme'].'/ingame.php';
+                global $session, $form;
+                include 'themes/'.$info['theme'].'/'.$info['file'];
             } else {
-                // Include 403
+                include 'files/http/403.php';
             }
         } else {
-            // Include 404
+            include 'files/http/404.php';
         }
     }
 
@@ -91,6 +92,18 @@ class initialize
         }
 
         return false;
+    }
+
+    /**
+     * Function that return theme file by user loggin_in status
+     * @return string
+     */
+    function getThemeFile() {
+        global $session;
+
+        if ($session->logged_in) return "ingame.php";
+
+        return "outgame.php";
     }
 }
 

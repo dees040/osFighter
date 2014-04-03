@@ -328,7 +328,7 @@ class MySQLDB
         $dbarray = $stmt->fetch();
         $db_timestamp = $dbarray['timestamp'];
         $timeout = time()-$config['USER_TIMEOUT']*60;
-        if($db_timestamp < $timeout && !isset($_COOKIE['cookname']) && !isset($_COOKIE['cookid'])) header("Location:".$config['WEB_ROOT']."process.php");
+        if($db_timestamp < $timeout && !isset($_COOKIE['cookname']) && !isset($_COOKIE['cookid'])) header("Location:".$config['WEB_ROOT']."core/process.php");
 
         $query = "UPDATE ".TBL_USERS." SET timestamp = :time WHERE username = :username";
         $stmt = $this->connection->prepare($query);
