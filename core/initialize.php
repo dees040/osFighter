@@ -25,6 +25,8 @@ class initialize
                     'theme' => $database->getConfigs()['ACTIVE_THEME'],
                     'base'  => $infoSets['base']
                 );
+
+                global $session;
                 include 'themes/'.$info['theme'].'/ingame.php';
             } else {
                 // Include 403
@@ -36,19 +38,21 @@ class initialize
 
     /**
      * Functions to check if page exsits
-     * @return bool|mixed
+     * @return bool|object
      */
     function pageExsits() {
         global $database;
+
+        if (substr($this->url, -1) == "/") {
+            $this->url = substr($this->url, 0, -1);
+        }
 
         $items = array(':url' => $this->url);
         $link = $database
             ->select("SELECT * FROM ".TBL_PAGES." WHERE link = :url", $items)
             ->fetchObject();
 
-        if (is_object($link) && $this->checkFileExsits($link->file)) {
-            return $link;
-        }
+        if (is_object($link) && $this->checkFileExsits($link->file)) return $link;
 
         return false;
     }
@@ -63,10 +67,10 @@ class initialize
 
         $groupsArray = unserialize($groups);
 
+        if (empty($groupsArray)) return true;
+
         foreach($groupsArray as $groupID) {
-            if ($session->isUserGroup($groupID)) {
-                return true;
-            }
+            if ($session->isUserGroup($groupID)) return true;
         }
 
         return false;
@@ -80,9 +84,9 @@ class initialize
     function checkFileExsits($path) {
         global $session;
 
-        if ($session->logged_in && file_exists("files/ingame/".$path)) {
+        if ($session->logged_in && file_exists("files/".$path)) {
             return true;
-        } else if (file_exists("files/outgame/".$path)) {
+        } else if (file_exists("files/".$path)) {
             return true;
         }
 
