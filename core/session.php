@@ -818,21 +818,18 @@ class Session
     * over a certain userlevel, false otherwise.
     */
    function overUserlevel($level){
-      if ($this->userlevel > $level) { return true; }
-      else {
-      	return false;
-      }
+      if ($this->userlevel > $level) return true;
+      return false;
    }
 
     /**
      * isUserGroup - Returns true if uses is in the given Group
      */
     function isUserGroup($groupID) {
-        $groups = unserialize($this->userinfo['groups']);
+        if (!$this->logged_in) return false;
 
-        if (in_array($groupID, $groups)) {
-            return true;
-        }
+        $groups = unserialize($this->userinfo['groups']);
+        if (!empty($groups) && in_array($groupID, $groups)) return true;
 
         return false;
     }

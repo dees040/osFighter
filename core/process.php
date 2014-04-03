@@ -45,7 +45,7 @@ class Process
        * by mistake and therefore is redirected.
        */
        else{
-          header("Location: ".$config['WEB_ROOT'].$config['home_page']);
+          header("Location: ../home");
        }
    }
 
