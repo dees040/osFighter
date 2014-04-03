@@ -1,11 +1,8 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: ariel;
     background: #E5E9EC;
+    margin: 0;
+    padding: 0;
 }
 
 .main-header {

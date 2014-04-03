@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title><?php //echo $info['titel']." | ".$info['link']->titel; ?></title>
+        <title><?php //echo $info['title']." | ".$info['link']->title; ?></title>
         <base href="<?php echo $info['base']; ?>" />
         <script src="files/js/jquery.min.js"></script>
         <script src="files/js/jquery-ui.min.js"></script>

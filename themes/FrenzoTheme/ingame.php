@@ -18,7 +18,7 @@
                         <td>
                             <div class="bar">
                                 <div class="bar" style="width: 70%; background: #dd5252;">
-                                    50%
+                                    70%
                                 </div>
                             </div>
                         </td>
@@ -92,74 +92,12 @@
             </div>
 
             <div id="content">
-                <div class="content-titel">Content titel</div>
-
-                    <div style="margin-left: 8px;">
-                    <ul class="tabs" id="tab">
-                        <li><a href="#tabellen-opmaak">Tabellen opmaak</a></li>
-                        <li><a href="#input">Inputs</a></li>
-                        <li><a href="#tab3">Tab3</a></li>
-                    </ul>
-                    </div>
-
+                <div class="content-titel"><?php echo $info['link']->title; ?></div>
                     <div class="content-inhoud" class="inhoud">
-                        <div id="tabellen-opmaak">
-                            <strong>Tabellen opmaak</strong><br />
-                            <table>
-                                <tr>
-                                    <td width="40%">Gebruikersnaam</td>
-                                    <td width="16px;"><img src="themes/FrenzoTheme/images/icons/status_online.png" border="0" alt="0" /></td>
-                                    <td>Frenzo</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Rank</td>
-                                    <td><img src="http://test.web-mobiel.nl/osbanditi/themes/FrenzoTheme/images/icons_gif/lightning.gif" border="0" alt="0" /></td>
-                                    <td>Groentje</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Stad</td>
-                                    <td><img src="http://test.web-mobiel.nl/osbanditi/themes/FrenzoTheme/images/icons_gif/world.gif" border="0" alt="0" /></td>
-                                    <td>Las Vegas</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div id="input">
-                        <strong>Input velden</strong><br />
-                            <table>
-                                <tr>
-                                    <td width="40%">Tekst/pass</td>
-                                    <td width="16px;"><img src="themes/FrenzoTheme/images/icons/status_online.png" border="0" alt="0" /></td>
-                                    <td><input type="text" /></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Submit</td>
-                                    <td><img src="http://test.web-mobiel.nl/osbanditi/themes/FrenzoTheme/images/icons_gif/lightning.gif" border="0" alt="0" /></td>
-                                    <td><input type="submit" /></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Tekst area</td>
-                                    <td><img src="http://test.web-mobiel.nl/osbanditi/themes/FrenzoTheme/images/icons_gif/world.gif" border="0" alt="0" /></td>
-                                    <td><textarea></textarea></td>
-                                </tr>
-                            </table>
-
-                        </div>
-
-                        <div id="tab3">tab3</div>
-
+                        <?php include 'files/'.$info['link']->file; ?>
                     </div>
                 <div class="content-footer"></div>
 
-                <div class="content-titel">Content titel</div>
-                <div class="content-inhoud">
-
-                </div>
-                <div class="content-footer"></div>
 
             </div>
 
@@ -201,6 +139,18 @@
                     <li><a href="#">Online: 1</a></li>
                     <li style="border: 0;"><a href="#">Meer statistieken</a></li>
                 </ul>
+
+                <?php if ($session->isAdmin()) { ?>
+                <ul class="menu">
+                    <h1>Admin</h1> <img src="themes/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
+
+                    <li><a href="#">Server tijd: 18:50:55</a></li>
+                    <li><a href="#">Gangsters: 19</a></li>
+                    <li><a href="#">Ziekenhuis</a></li>
+                    <li><a href="#">Online: 1</a></li>
+                    <li style="border: 0;"><a href="#">Meer statistieken</a></li>
+                </ul>
+                <?php } ?>
             </div>
 
         </div>
