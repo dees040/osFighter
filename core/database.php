@@ -394,7 +394,7 @@ class MySQLDB
     /**
      * Select from database
      *
-     * @param-1: The query that has to be excuted
+     * @param-1: The query that has to be executed
      * @param-2: The placeholders (Default = empty array)
      * @return:  Query result
      */
@@ -412,7 +412,7 @@ class MySQLDB
     /**
      * Update the database
      *
-     * @param-1: The query that has to be excuted
+     * @param-1: The query that has to be executed
      * @param-2: The placeholders (Default = empty array)
      */
     function update($query, $items = array()) {
@@ -427,7 +427,7 @@ class MySQLDB
     /**
      * Insert into the database
      *
-     * @param-1: The query that has to be excuted
+     * @param-1: The query that has to be executed
      * @param-2: The placeholders (Default = empty array)
      */
     function insert($query, $items = array()) {
@@ -442,7 +442,7 @@ class MySQLDB
     /**
      * Delete from database
      *
-     * @param-1: The query that has to be excuted
+     * @param-1: The query that has to be executed
      * @param-2: The placeholders (Default = empty array)
      */
     function delete($query, $items = array()) {

@@ -74,47 +74,84 @@ else{
 
 <h1>Register</h1>
 <?php
-if($form->num_errors > 0){
-   echo "<td style=\"color:#ff0000\">".$form->num_errors." error(s) found</td>";
-}
+    if ($form->num_errors > 0) {
+       echo "<td style=\"color:#ff0000\">".$form->num_errors." error(s) found</td>";
+    }
 ?>
 <form action="core/process.php" method="post">
-<table align="left" border="0" cellspacing="0" cellpadding="3">
-<tr>
-	<td>Username:</td>
-	<td><input type="text" name="user" value="<?php echo $form->value("user"); ?>" /></td>
-	<td><?php echo $form->error("user"); ?></td>
-</tr>
-<tr>
-	<td>Password:</td>
-	<td><input type="password" name="pass" value="<?php echo $form->value("pass"); ?>" /></td>
-	<td><?php echo $form->error("pass"); ?></td></tr>
-<tr>
-	<td>Confirm password:</td>
-	<td><input type="password" name="conf_pass" value="<?php echo $form->value("conf_pass"); ?>" /></td>
-	<td><?php echo $form->error("pass"); ?></td>
-</tr>
-<tr>
-	<td>Email address:</td>
-	<td><input type="text" name="email" value="<?php echo $form->value("email"); ?>" /></td>
-	<td><?php echo $form->error("email"); ?></td>
-</tr>
-<tr>
-	<td>Confirm email address:</td>
-	<td><input type="text" name="conf_email" value="<?php echo $form->value("conf_email"); ?>" /></td>
-	<td><?php echo $form->error("email"); ?></td>
-</tr>
-<tr><td colspan="2" align="right">
-<input type="hidden" name="subjoin" value="1" />
-<input type="submit" value="Register!" id="submit" /></td></tr>
-<tr><td colspan="2" align="left">
-	<?php echo "<a href=".$config['WEB_ROOT'].$config['home_page'].">Back to Home Page</a>"; ?>
-</td></tr>
-</table>
-<!-- The following div tag displays a hidden form field in an attempt at tricking automated bots. -->
-<div style='display:none; visibility:hidden;'><input type='text' name='killbill' maxlength='50' /></div>
+    <table align="left" border="0" cellspacing="0" cellpadding="3">
+        <tr>
+            <td>
+                Username:
+            </td>
+            <td>
+                <input type="text" name="user" value="<?php echo $form->value("user"); ?>" />
+            </td>
+            <td>
+                <?php echo $form->error("user"); ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password:
+            </td>
+            <td>
+                <input type="password" name="pass" value="<?php echo $form->value("pass"); ?>" />
+            </td>
+            <td>
+                <?php echo $form->error("pass"); ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Confirm password:
+            </td>
+            <td>
+                <input type="password" name="conf_pass" value="<?php echo $form->value("conf_pass"); ?>" />
+            </td>
+            <td>
+                <?php echo $form->error("pass"); ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Email address:
+            </td>
+            <td>
+                <input type="text" name="email" value="<?php echo $form->value("email"); ?>" />
+            </td>
+            <td>
+                <?php echo $form->error("email"); ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Confirm email address:
+            </td>
+            <td>
+                <input type="text" name="conf_email" value="<?php echo $form->value("conf_email"); ?>" />
+            </td>
+            <td>
+                <?php echo $form->error("email"); ?>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                <input type="hidden" name="subjoin" value="1" />
+                <input type="submit" value="Register!" id="submit" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="left">
+                <?php echo "<a href='home'>Back to Home Page</a>"; ?>
+            </td>
+        </tr>
+    </table>
+    <!-- The following div tag displays a hidden form field in an attempt at tricking automated bots. -->
+    <div style='display:none; visibility:hidden;'>
+        <input type='text' name='killbill' maxlength='50' />
+    </div>
 </form>
-
 <?php
 }
 ?>

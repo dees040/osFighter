@@ -48,5 +48,3 @@ define("GUEST_LEVEL", 0);
  */
 define("USER_TIMEOUT", 2);
 define("GUEST_TIMEOUT", 5);
-
-?>
