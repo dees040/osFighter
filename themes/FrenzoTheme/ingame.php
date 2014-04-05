@@ -133,10 +133,10 @@
                 <ul class="menu">
                     <h1>Statistieken</h1> <img src="themes/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
 
-                    <li><a href="#">Server tijd: 18:50:55</a></li>
-                    <li><a href="#">Gangsters: 19</a></li>
+                    <li><a href="#">Server tijd: <?php echo date("H:i:s"); ?></a></li>
+                    <li><a href="#">Gangsters: <?php echo $database->getNumMembers() ?></a></li>
                     <li><a href="#">Ziekenhuis</a></li>
-                    <li><a href="#">Online: 1</a></li>
+                    <li><a href="#">Online: <?php echo $database->calcNumActiveUsers(); ?></a></li>
                     <li style="border: 0;"><a href="#">Meer statistieken</a></li>
                 </ul>
 
@@ -144,12 +144,6 @@
                 <ul class="menu">
                     <h1>Admin</h1> <img src="themes/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
 
-                    <li><a href="#">Server tijd: 18:50:55</a></li>
-                    <li><a href="#">Gangsters: 19</a></li>
-                    <li><a href="#">Ziekenhuis</a></li>
-                    <li><a href="#">Online: 1</a></li>
-                    <li style="border: 0;"><a href="#">Meer statistieken</a></li>
-                </ul>
                 <?php } ?>
             </div>
 
