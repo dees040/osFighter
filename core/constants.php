@@ -22,6 +22,7 @@ define("TBL_ACTIVE_GUESTS", "active_guests");
 define("TBL_BANNED_USERS",  "banned_users");
 define("TBL_CONFIGURATION", "configuration");
 define("TBL_PAGES", "pages");
+define("TBL_MENUS", "menus");
 
 /**
  * Special Names and Level Constants - the admin

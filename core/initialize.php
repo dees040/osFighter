@@ -21,10 +21,12 @@ class initialize
         if (is_object($linkInfo = $this->pageExsits())) {
             if ($this->hasPermissions($linkInfo->groups)) {
                 $info = array(
-                    'link'  => $linkInfo,
-                    'theme' => $database->getConfigs()['ACTIVE_THEME'],
-                    'base'  => $infoSets['base'],
-                    'file'  => $this->getThemeFile()
+                    'link'   => $linkInfo,
+                    'theme'  => $database->getConfigs()['ACTIVE_THEME'],
+                    'base'   => $infoSets['base'],
+                    'title'  => $database->getConfigs()['SITE_NAME'],
+                    'file'   => $this->getThemeFile(),
+                    'menu'   => $this->getMenus()
                 );
 
                 global $session, $form;
@@ -104,6 +106,34 @@ class initialize
         if ($session->logged_in) return "ingame.php";
 
         return "outgame.php";
+    }
+
+    /**
+     * Function that returns all menu items from the database
+     * and checks if user has permissions to get on the page
+     * that menu link goes to
+     * @return array
+     */
+    function getMenus() {
+        global $database;
+
+        $menuItems = array();
+        $query = $database->select("SELECT * FROM ".TBL_MENUS);
+
+        foreach($query as $menuItem) {
+            $items = array('pid' => $menuItem['pid']);
+            $page = $database->select("SELECT groups, title, link FROM ".TBL_PAGES." WHERE id = :pid", $items);
+
+            if ($page->rowCount() == 0) continue;
+
+            $pageInfo = $page->fetchObject();
+
+            if (!$this->hasPermissions($pageInfo->groups)) continue;
+
+            $menuItems[$pageInfo->menu][] = $pageInfo;
+        }
+
+        return $menuItems;
     }
 }
 
