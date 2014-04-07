@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?php //echo $info['title']." | ".$info['link']->title; ?></title>
+        <title><?php echo $info['title']." | ".$info['link']->title; ?></title>
         <link href="themes/FrenzoTheme/css/ingame.css" rel="stylesheet" />
         <link href="themes/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
         <script src="files/js/jquery.min.js"></script>
