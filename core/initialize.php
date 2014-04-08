@@ -6,6 +6,7 @@ class initialize
 {
     var $url;
     var $home_dir;
+    var $link_info;
 
     /**
      * Class constructor
@@ -13,23 +14,14 @@ class initialize
      * @param $infoSets: url and path info
      */
     function initialize($infoSets) {
-        global $database;
-
         $this->url      = $infoSets['url'];
         $this->home_dir = $infoSets['path'];
 
-        if (is_object($linkInfo = $this->pageExsits())) {
-            if ($this->hasPermissions($linkInfo->groups)) {
-                $info = array(
-                    'link'   => $linkInfo,
-                    'theme'  => $database->getConfigs()['ACTIVE_THEME'],
-                    'base'   => $infoSets['base'],
-                    'title'  => $database->getConfigs()['SITE_NAME'],
-                    'file'   => $this->getThemeFile(),
-                    'menu'   => $this->getMenus()
-                );
+        if (is_object($this->link_info = $this->pageExsits())) {
+            if ($this->hasPermissions($this->link_info->groups)) {
+                $info = $this->getInfoArray();
 
-                global $session, $form;
+                global $session, $form, $database;
                 include 'themes/'.$info['theme'].'/'.$info['file'];
             } else {
                 include 'files/http/403.php';
@@ -134,6 +126,23 @@ class initialize
         }
 
         return $menuItems;
+    }
+
+    /**
+     * Function that returns all page info needed for rendering a page
+     * @return array with (page) info
+     */
+    function getInfoArray() {
+        global $database;
+        $configs = $database->getConfigs();
+
+        return array(
+            'link'   => $this->link_info,
+            'theme'  => $configs['ACTIVE_THEME'],
+            'title'  => $configs['SITE_NAME'],
+            'file'   => $this->getThemeFile(),
+            'menu'   => $this->getMenus()
+        );
     }
 }
 
