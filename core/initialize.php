@@ -122,7 +122,7 @@ class initialize
 
             if (!$this->hasPermissions($pageInfo->groups)) continue;
 
-            $menuItems[$pageInfo->menu][] = $pageInfo;
+            $menuItems[$menuItem['menu']][] = $pageInfo;
         }
 
         return $menuItems;
