@@ -8,6 +8,7 @@
 include("database.php");
 include("mailer.php");
 include("form.php");
+include("admin.php");
 
 class Session
 {

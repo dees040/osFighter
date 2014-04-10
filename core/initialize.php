@@ -7,6 +7,7 @@ class initialize
     var $url;
     var $home_dir;
     var $link_info;
+    var $base;
 
     /**
      * Class constructor
@@ -16,12 +17,13 @@ class initialize
     function initialize($infoSets) {
         $this->url      = $infoSets['url'];
         $this->home_dir = $infoSets['path'];
+        $this->base     = $infoSets['base'];
 
-        if (is_object($this->link_info = $this->pageExsits())) {
+        if (is_object($this->link_info = $this->pageExists())) {
             if ($this->hasPermissions($this->link_info->groups)) {
                 $info = $this->getInfoArray();
 
-                global $session, $form, $database;
+                global $session, $form, $database, $admin;
                 include 'themes/'.$info['theme'].'/'.$info['file'];
             } else {
                 include 'files/http/403.php';
@@ -35,7 +37,7 @@ class initialize
      * Functions to check if page exsits
      * @return bool|object
      */
-    function pageExsits() {
+    function pageExists() {
         global $database;
 
         if (substr($this->url, -1) == "/") {
@@ -118,9 +120,9 @@ class initialize
 
             if ($page->rowCount() == 0) continue;
 
-            $pageInfo = $page->fetchObject();
+            $pageInfo = $page->fetch();
 
-            if (!$this->hasPermissions($pageInfo->groups)) continue;
+            if (!$this->hasPermissions($pageInfo['groups'])) continue;
 
             $menuItems[$menuItem['menu']][] = $pageInfo;
         }
@@ -137,11 +139,12 @@ class initialize
         $configs = $database->getConfigs();
 
         return array(
-            'link'   => $this->link_info,
-            'theme'  => $configs['ACTIVE_THEME'],
-            'title'  => $configs['SITE_NAME'],
-            'file'   => $this->getThemeFile(),
-            'menu'   => $this->getMenus()
+            'link'     => $this->link_info,
+            'theme'    => $configs['ACTIVE_THEME'],
+            'title'    => $configs['SITE_NAME'],
+            'file'     => $this->getThemeFile(),
+            'menu'     => $this->getMenus(),
+            'base'     => $this->base
         );
     }
 }

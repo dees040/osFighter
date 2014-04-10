@@ -2,6 +2,7 @@
 <html>
     <head>
         <title><?php echo $info['title']." | ".$info['link']->title; ?></title>
+        <base href="<?= $info['base']; ?>">
         <link href="themes/FrenzoTheme/css/ingame.css" rel="stylesheet" />
         <link href="themes/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
         <script src="files/js/jquery.min.js"></script>
@@ -52,42 +53,52 @@
 
             <div class="menus" style="float: left;">
                 <ul class="menu">
-                    <h1>Persoonlijk</h1> <img src="themes/FrenzoTheme/images/icons/1391648113_administrator.png" class="menu-icon" />
+                    <h1>Personal</h1> <img src="themes/FrenzoTheme/images/icons/1391648113_administrator.png" class="menu-icon" />
 
-                    <li><a href="#">Startpagina</a></li>
-                    <li><a href="#">Profiel beheren</a></li>
-                    <li><a href="#">Mijn logs</a></li>
-                    <li><a href="#">Kladblok</a></li>
-                    <li><a href="#">Vrienden & vijanden</a></li>
-                    <li><a href="#">Respect</a></li>
-                    <li style="border: 0;"><a href="#">Uitloggen</a></li>
+                    <?php
+                    if (isset($info['menu']['personal'])) {
+                        foreach($info['menu']['personal'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
+                    <li style="border: 0;"><a href="core/process.php">Log out</a></li>
                 </ul>
 
                 <ul class="menu">
                     <h1>Call Credits</h1> <img src="themes/FrenzoTheme/images/icons/1391731203_bookmark_toolbar.png" class="menu-icon" />
 
-                    <li><a href="#">Call credits uitgeven</a></li>
-                    <li style="border: 0;"><a href="#">Credits kopen</a></li>
+                    <?php
+                    if (isset($info['menu']['call-credits'])) {
+                        foreach($info['menu']['call-credits'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
 
                 <ul class="menu">
-                    <h1>Familie</h1> <img src="themes/FrenzoTheme/images/icons/1391731263_family.png" class="menu-icon" />
+                    <h1>Family</h1> <img src="themes/FrenzoTheme/images/icons/1391731263_family.png" class="menu-icon" />
 
-                    <li><a href="#">Familie's</a></li>
-                    <li><a href="#">Nieuwe familie</a></li>
-                    <li><a href="#">Familie: geen</a></li>
-                    <li style="border: 0;"><a href="#">Aanmelden bij familie</a></li>
+                    <?php
+                    if (isset($info['menu']['family'])) {
+                        foreach($info['menu']['family'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
 
                 <ul class="menu">
-                    <h1>Overige</h1> <img src="themes/FrenzoTheme/images/icons/1391731349_search.png" class="menu-icon" />
+                    <h1>Extra</h1> <img src="themes/FrenzoTheme/images/icons/1391731349_search.png" class="menu-icon" />
 
-                    <li><a href="#">Dodenlijst</a></li>
-                    <li><a href="#">Ledenlijst</a></li>
-                    <li><a href="#">Verhaal</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Crew</a></li>
-                    <li style="border: 0;"><a href="#">Zoeken</a></li>
+                    <?php
+                    if (isset($info['menu']['extra'])) {
+                        foreach($info['menu']['extra'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
             </div>
 
@@ -103,47 +114,63 @@
 
             <div class="menus" style="float: right;">
                 <ul class="menu">
-                    <h1>Criminaliteit</h1> <img src="themes/FrenzoTheme/images/icons/1391731384_Police_officer.png" class="menu-icon" />
+                    <h1>Crime</h1> <img src="themes/FrenzoTheme/images/icons/1391731384_Police_officer.png" class="menu-icon" />
 
-                    <li><a href="#">Misdaden</a></li>
-                    <li><a href="#">Georganiseerde misdaad</a></li>
-                    <li><a href="#">Route 66</a></li>
-                    <li><a href="#">Drugs</a></li>
-                    <li><a href="#">Voertuigen</a></li>
-                    <li style="border: 0;"><a href="#">Werken</a></li>
+                    <?php
+                    if (isset($info['menu']['crime'])) {
+                        foreach($info['menu']['crime'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
 
                 <ul class="menu">
-                    <h1>Locaties</h1> <img src="themes/FrenzoTheme/images/icons/1391731369_push_pin.png" class="menu-icon" />
+                    <h1>Locations</h1> <img src="themes/FrenzoTheme/images/icons/1391731369_push_pin.png" class="menu-icon" />
 
-                    <li><a href="#">Gevangenis</a></li>
-                    <li><a href="#">Woningen</a></li>
-                    <li><a href="#">Ziekenhuis</a></li>
-                    <li><a href="#">Bank</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li style="border: 0;"><a href="#">Reizen</a></li>
+                    <?php
+                    if (isset($info['menu']['locations'])) {
+                        foreach($info['menu']['locations'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
 
                 <ul class="menu">
                     <h1>Casino</h1> <img src="themes/FrenzoTheme/images/icons/1391731460_Game-casino.png" class="menu-icon" />
 
-                    <li style="border: 0;"><a href="#">Loterij</a></li>
+                    <?php
+                    if (isset($info['menu']['casino'])) {
+                        foreach($info['menu']['casino'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
 
                 <ul class="menu">
-                    <h1>Statistieken</h1> <img src="themes/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
+                    <h1>Statistics</h1> <img src="themes/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
 
-                    <li><a href="#">Server tijd: <?php echo date("H:i:s"); ?></a></li>
-                    <li><a href="#">Gangsters: <?php echo $database->getNumMembers() ?></a></li>
+                    <li><a href="#">Server time: <?php echo date("H:i:s"); ?></a></li>
+                    <li><a href="#">Gangsters: <?php echo $database->getNumMembers(); ?></a></li>
                     <li><a href="#">Ziekenhuis</a></li>
-                    <li><a href="#">Online: <?php echo $database->calcNumActiveUsers(); ?></a></li>
+                    <li><a href="#">Online: <?php echo $database->num_active_users; ?></a></li>
                     <li style="border: 0;"><a href="#">Meer statistieken</a></li>
                 </ul>
 
                 <?php if ($session->isAdmin()) { ?>
                 <ul class="menu">
-                    <h1>Admin</h1> <img src="themes/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
+                    <h1>Admin</h1> <img src="themes/FrenzoTheme/images/icons/1391648113_administrator.png" class="menu-icon" />
 
+                    <?php
+                    if (isset($info['menu']['admin'])) {
+                        foreach($info['menu']['admin'] as $menu) {
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                        }
+                    }
+                    ?>
+                </ul>
                 <?php } ?>
             </div>
 
