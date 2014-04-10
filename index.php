@@ -3,7 +3,7 @@
 
     $info = array(
         'url'  => $link,
-        'base' => str_replace("", $link, "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']),
+        'base' => str_replace($link, "", "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']),
         'path' => str_replace('\\', '/', getcwd())
     );
 
