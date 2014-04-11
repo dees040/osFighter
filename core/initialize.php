@@ -112,7 +112,7 @@ class initialize
         global $database;
 
         $menuItems = array();
-        $query = $database->select("SELECT * FROM ".TBL_MENUS);
+        $query = $database->select("SELECT * FROM ".TBL_MENUS." ORDER BY weight");
 
         foreach($query as $menuItem) {
             $items = array('pid' => $menuItem['pid']);

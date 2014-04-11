@@ -129,6 +129,17 @@ class admin
             }
         }
     }
+
+    function saveMenuItems($menuItems) {
+        global $database;
+
+        $weight = 0;
+        foreach($menuItems as $key => $val) {
+            $items = array(':id' => $key, ':weight' => $weight);
+            $database->update("UPDATE ".TBL_MENUS." SET weight = :weight WHERE id = :id", $items);
+            $weight++;
+        }
+    }
 }
 
 $admin = new admin;
