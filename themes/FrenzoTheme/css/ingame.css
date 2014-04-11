@@ -134,6 +134,10 @@ ul.menu li a{
 	margin-top: -5px;
 }
 
+ul.menu li:last-child {
+    border: 0;
+}
+
 ul.menu li a:hover{
 	color: #f0e6d0;
 }

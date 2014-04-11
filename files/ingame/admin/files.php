@@ -16,12 +16,13 @@
             if (isset($_POST['submit-create-page'])) {
                 $retval = $admin->fileSystemCreateForm($_POST['title'], $_POST['link'], $_POST['file'], $_POST['category']);
 
-                if (empty($retval)) {
-                    echo "<strong>New page created</strong>";
-                } else {
-                    foreach($retval as $error) {
+                if ($retval) {
+                    foreach($admin->errorArray as $error) {
                         echo $error."<br>";
                     }
+                } else {
+                    echo "<strong>New page created</strong><br>";
+                    if (!empty($admin->reportArray)) foreach($admin->reportArray as $error) echo $error."<br>";
                 }
             }
         ?>
@@ -86,18 +87,18 @@
                 $items = array(':id' => $_POST['page']);
                 $query = $database->select("SELECT * FROM ".TBL_PAGES." WHERE id = :id", $items);
                 $page  = $query->fetchObject();
-                $_SESSION['get-page-id'] = $_POST['submit-get-page'];
+
+                $_SESSION['get-page-id'] = $_POST['page'];
             }
 
             if (isset($_POST['submit-edit-page'])) {
                 $retval = $admin->fileSystemEditForm($_POST['title'], $_POST['link'], $_POST['file'], $_POST['category']);
 
-                if (empty($retval)) {
-                    echo "<strong>New page created</strong>";
+                if ($retval) {
+                    foreach($admin->errorArray as $error) echo $error."<br>";
                 } else {
-                    foreach($retval as $error) {
-                        echo $error."<br>";
-                    }
+                    echo "<strong>New page created</strong><br>";
+                    if (!empty($admin->reportArray)) foreach($admin->reportArray as $error) echo $error."<br>";
                 }
             }
         ?>

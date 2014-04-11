@@ -24,7 +24,7 @@ class admin
         $this->checkFileSystemForm($title, $link, $file, $category, true);
 
         if (!empty($this->errorArray)) {
-            return $this->errorArray;
+            return true;
         }
 
         $items = array(':title' => $title, ':link' => $link, ':file' => "ingame/".$category."/".$file);
@@ -37,7 +37,7 @@ class admin
         $items = array(':pid' => $pid, ':link' => $link, ':menu' => $category);
         $database->insert("INSERT INTO ".TBL_MENUS." SET pid = :pid, link = :link, menu = :menu", $items);
 
-        return $this->reportArray;
+        return false;
     }
 
     /**
@@ -54,16 +54,18 @@ class admin
         $this->checkFileSystemForm($title, $link, $file, $category, false);
 
         if (!empty($this->errorArray)) {
-            return $this->errorArray;
+            return true;
         }
 
         $items = array(':title' => $title, ':link' => $link, ':file' => "ingame/".$category."/".$file, 'id' => $_SESSION['get-page-id']);
         $database->insert("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file WHERE id = :id", $items);
 
         $items = array(':pid' => $_SESSION['get-page-id'], ':link' => $link, ':menu' => $category);
-        $database->insert("INSERT INTO ".TBL_MENUS." SET pid = :pid, link = :link, menu = :menu", $items);
+        $database->insert("UPDATE ".TBL_MENUS." SET link = :link, menu = :menu WHERE pid = :pid", $items);
 
-        return $this->reportArray;
+        unset($_SESSION['get-page-id']);
+
+        return false;
     }
 
     /**
