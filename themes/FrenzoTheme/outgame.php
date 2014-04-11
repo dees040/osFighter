@@ -32,7 +32,7 @@
                 <div id="content">
                     <div id="inhoud">
                         <h1><?php echo $info['link']->title; ?></h1>
-                        <?php include 'files/'.$info['link']->file; ?>
+                        <?php include 'files/outgame/'.$info['link']->file; ?>
                     </div>
                 </div>
 

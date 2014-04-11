@@ -12,29 +12,33 @@ class admin
 
     /**
      * Form checker for form file-system create page
-     * @param $title
-     * @param $link
-     * @param $file
-     * @param $category
+     * @param $info
      * @return array returns array with error's, returns empty array when 0 errors
      */
-    function fileSystemCreateForm($title, $link, $file, $category) {
+    function fileSystemCreateForm($info) {
         global $database;
 
-        $this->checkFileSystemForm($title, $link, $file, $category, true);
+        $this->checkFileSystemForm($info['title'], $info['link'], $info['file'], $info['category'], true);
 
         if (!empty($this->errorArray)) {
             return true;
         }
 
-        $items = array(':title' => $title, ':link' => $link, ':file' => "ingame/".$category."/".$file);
-        $database->insert("INSERT INTO ".TBL_PAGES." set title = :title, link = :link, file = :file", $items);
+        $groupsArray = $this->updateArray($info);
 
-        $items = array(':link' => $link);
+        $items = array(
+            ':title' => $info['title'],
+            ':link' => $info['link'],
+            ':file' => "ingame/".$info['category']."/".$info['file'],
+            ':groups' => serialize($groupsArray)
+        );
+        $database->insert("INSERT INTO ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups", $items);
+
+        $items = array(':link' => $info['link']);
         $query = $database->select("SELECT id FROM ".TBL_PAGES." WHERE link = :link", $items);
         $pid   = $query->fetchObject()->id;
 
-        $items = array(':pid' => $pid, ':link' => $link, ':menu' => $category);
+        $items = array(':pid' => $pid, ':link' => $info['link'], ':menu' => $info['category']);
         $database->insert("INSERT INTO ".TBL_MENUS." SET pid = :pid, link = :link, menu = :menu", $items);
 
         return false;
@@ -42,25 +46,30 @@ class admin
 
     /**
      * Form checker for form file-system edit page
-     * @param $title
-     * @param $link
-     * @param $file
-     * @param $category
+     * @param $info
      * @return array returns array with error's, returns empty array when 0 errors
      */
-    function fileSystemEditForm($title, $link, $file, $category) {
+    function fileSystemEditForm($info) {
         global $database;
 
-        $this->checkFileSystemForm($title, $link, $file, $category, false);
+        $this->checkFileSystemForm($info['title'], $info['link'], $info['file'], $info['category'], false);
 
         if (!empty($this->errorArray)) {
             return true;
         }
 
-        $items = array(':title' => $title, ':link' => $link, ':file' => "ingame/".$category."/".$file, 'id' => $_SESSION['get-page-id']);
-        $database->insert("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file WHERE id = :id", $items);
+        $groupsArray = $this->updateArray($info);
 
-        $items = array(':pid' => $_SESSION['get-page-id'], ':link' => $link, ':menu' => $category);
+        $items = array(
+            ':title' => $info['title'],
+            ':link' => $info['link'],
+            ':file' => "ingame/".$info['category']."/".$info['file'],
+            'id' => $_SESSION['get-page-id'],
+            ':groups' => serialize($groupsArray)
+        );
+        $database->insert("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups WHERE id = :id", $items);
+
+        $items = array(':pid' => $_SESSION['get-page-id'], ':link' => $info['link'], ':menu' => $info['category']);
         $database->insert("UPDATE ".TBL_MENUS." SET link = :link, menu = :menu WHERE pid = :pid", $items);
 
         unset($_SESSION['get-page-id']);
@@ -124,12 +133,25 @@ class admin
             } else {
                 if (!file_exists("files/ingame/".$category."/".$file)) {
                     $this->reportArray[] = " - Because the file not exists yet, i created it for you.";
-                    touch("files/ingame/".$category."/".$file);
+                    //touch("files/ingame/".$category."/".$file);
                 }
             }
         }
     }
 
+    function updateArray($array) {
+        array_shift($array);
+        array_shift($array);
+        array_shift($array);
+        array_shift($array);
+        array_pop($array);
+
+        return $array;
+    }
+
+    /**
+     * @param $menuItems
+     */
     function saveMenuItems($menuItems) {
         global $database;
 

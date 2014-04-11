@@ -105,7 +105,7 @@
             <div id="content">
                 <div class="content-titel"><?php echo $info['link']->title; ?></div>
                     <div class="content-inhoud" class="inhoud">
-                        <?php include 'files/'.$info['link']->file; ?>
+                        <?php include 'files/ingame/'.$info['link']->menu.'/'.$info['link']->file; ?>
                     </div>
                 <div class="content-footer"></div>
 

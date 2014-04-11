@@ -46,10 +46,10 @@ class initialize
 
         $items = array(':url' => $this->url);
         $link = $database
-            ->select("SELECT * FROM ".TBL_PAGES." WHERE link = :url", $items)
+            ->select("SELECT pages.*, menus.menu FROM ".TBL_PAGES." INNER JOIN menus ON menus.pid = pages.id WHERE pages.link = :url", $items)
             ->fetchObject();
 
-        if (is_object($link) && $this->checkFileExsits($link->file)) return $link;
+        if (is_object($link) && $this->checkFileExsits($link->menu, $link->file)) return $link;
 
         return false;
     }
@@ -75,15 +75,16 @@ class initialize
 
     /**
      * Function to check if file exsits in files system
+     * @param $category catogery where file needs to be checked
      * @param $path path to file which need to be checked
      * @return bool
      */
-    function checkFileExsits($path) {
+    function checkFileExsits($category, $path) {
         global $session;
 
-        if ($session->logged_in && file_exists("files/".$path)) {
+        if ($session->logged_in && file_exists("files/ingame/".$category."/".$path)) {
             return true;
-        } else if (file_exists("files/".$path)) {
+        } else if (file_exists("files/outgame/".$path)) {
             return true;
         }
 

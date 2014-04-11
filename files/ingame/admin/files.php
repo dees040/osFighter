@@ -13,8 +13,10 @@
     <!-- file-sytem page tab2: Create -->
     <div id="tab2">
         <?php
+            $groups = $database->select("SELECT * FROM ".TBL_GROUPS." ORDER BY name")->fetchAll();
+
             if (isset($_POST['submit-create-page'])) {
-                $retval = $admin->fileSystemCreateForm($_POST['title'], $_POST['link'], $_POST['file'], $_POST['category']);
+                $retval = $admin->fileSystemCreateForm($_POST);
 
                 if ($retval) {
                     foreach($admin->errorArray as $error) {
@@ -70,6 +72,18 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        Permissions:
+                    </td>
+                    <td>
+                        <?php
+                            foreach($groups as $group) {
+                                echo '<input type="checkbox" value="'.$group['id'].'" name="'.$group['id'].'"> '.$group['name'].'<br>';
+                            }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         <input type="submit" value="Create page" style="float: right" name="submit-create-page">
                     </td>
@@ -87,17 +101,18 @@
                 $items = array(':id' => $_POST['page']);
                 $query = $database->select("SELECT * FROM ".TBL_PAGES." WHERE id = :id", $items);
                 $page  = $query->fetchObject();
+                $page->groups = unserialize($page->groups);
 
                 $_SESSION['get-page-id'] = $_POST['page'];
             }
 
             if (isset($_POST['submit-edit-page'])) {
-                $retval = $admin->fileSystemEditForm($_POST['title'], $_POST['link'], $_POST['file'], $_POST['category']);
+                $retval = $admin->fileSystemEditForm($_POST);
 
                 if ($retval) {
                     foreach($admin->errorArray as $error) echo $error."<br>";
                 } else {
-                    echo "<strong>New page created</strong><br>";
+                    echo "<strong>Page edited</strong><br>";
                     if (!empty($admin->reportArray)) foreach($admin->reportArray as $error) echo $error."<br>";
                 }
             }
@@ -155,6 +170,22 @@
                                 <option value="casino">Casino</option>
                                 <option value="admin">Admin</option>
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Permissions:
+                        </td>
+                        <td>
+                            <?php
+                            foreach($groups as $group) {
+                                $checked = "";
+                                if (in_array($group['id'], $page->groups)) {
+                                    $checked = "checked";
+                                }
+                                echo '<input type="checkbox" value="'.$group['id'].'" name="'.$group['id'].'" '.$checked.'> '.$group['name'].'<br>';
+                            }
+                            ?>
                         </td>
                     </tr>
                     <tr>

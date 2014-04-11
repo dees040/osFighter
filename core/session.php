@@ -9,6 +9,7 @@ include("database.php");
 include("mailer.php");
 include("form.php");
 include("admin.php");
+include("user.php");
 
 class Session
 {
@@ -842,5 +843,7 @@ class Session
  */
 $session = new Session;
 
-/* Initialize form object */
+/* Initialize form and user object */
 $form = new Form;
+$user = new User;
+

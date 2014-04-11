@@ -23,6 +23,10 @@ define("TBL_BANNED_USERS",  "banned_users");
 define("TBL_CONFIGURATION", "configuration");
 define("TBL_PAGES", "pages");
 define("TBL_MENUS", "menus");
+define("TBL_INFO", "users_info");
+define("TBL_TIME", "users_time");
+define("TBL_GROUPS", "groups");
+
 
 /**
  * Special Names and Level Constants - the admin
