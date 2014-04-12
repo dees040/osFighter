@@ -74,8 +74,8 @@ class initialize
     }
 
     /**
-     * Function to check if file exsits in files system
-     * @param $category catogery where file needs to be checked
+     * Function to check if file exists in files system
+     * @param $category category where file needs to be checked
      * @param $path path to file which need to be checked
      * @return bool
      */
