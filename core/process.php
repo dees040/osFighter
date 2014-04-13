@@ -6,7 +6,15 @@
  * forms, redirecting the user to the correct pages if errors are found, or if 
  * form is successful, either way. Also handles the logout procedure.
  */
-include("session.php");
+function osFighter_autoloader($class) {
+    include strtolower($class) . '.php';
+}
+
+spl_autoload_register('osFighter_autoloader');
+$database = new Database;
+$mailer   = new Mailer;
+$session  = new Session;
+$form     = new Form;
 
 class Process
 {
@@ -229,5 +237,4 @@ class Process
     }
 };
 
-/* Initialize process */
-$process = new Process;
+$process  = new Process;

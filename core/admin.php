@@ -166,5 +166,3 @@ class admin
         }
     }
 }
-
-$admin = new admin;

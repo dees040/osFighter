@@ -137,6 +137,3 @@ class Mailer
         return mail($email,$subject,$body,$from);
     }
 };
-
-/* Initialize mailer object */
-$mailer = new Mailer;

@@ -1,6 +1,16 @@
 <?php
 
-include("session.php");
+function osFighter_autoloader($class) {
+    include 'core/' . strtolower($class) . '.php';
+}
+
+spl_autoload_register('osFighter_autoloader');
+$database = new Database;
+$mailer   = new Mailer;
+$session  = new Session;
+$form     = new Form;
+$user     = new User;
+$admin    = new Admin;
 
 class initialize
 {

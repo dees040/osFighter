@@ -5,11 +5,6 @@
  * The Session class is meant to simplify the task of keeping
  * track of logged in users and also guests.
  */
-include("database.php");
-include("mailer.php");
-include("form.php");
-include("admin.php");
-include("user.php");
 
 class Session
 {
@@ -499,15 +494,3 @@ class Session
         return $randstr;
     }
 };
-
-/**
- * Initialize session object - This must be initialized before
- * the form object because the form uses session variables,
- * which cannot be accessed unless the session has started.
- */
-$session = new Session;
-
-/* Initialize form and user object */
-$form = new Form;
-$user = new User;
-

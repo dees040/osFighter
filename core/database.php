@@ -10,7 +10,7 @@
  */
 include("constants.php");
       
-class MySQLDB
+class Database
 {
    private $connection;         //The MySQL database connection
    public $num_active_users;   //Number of active users viewing site
@@ -459,6 +459,3 @@ class MySQLDB
     }
    
 };
-
-/* Create database connection */
-$database = new MySQLDB;
