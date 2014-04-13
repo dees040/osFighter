@@ -8,6 +8,7 @@ class initialize
     var $home_dir;
     var $link_info;
     var $base;
+    var $info = array();
 
     /**
      * Class constructor
@@ -21,15 +22,14 @@ class initialize
 
         if (is_object($this->link_info = $this->pageExists())) {
             if ($this->hasPermissions($this->link_info->groups)) {
-                $info = $this->getInfoArray();
+                $this->info = $this->getInfoArray();
 
-                global $session, $form, $database, $admin;
-                include 'themes/'.$info['theme'].'/'.$info['file'];
+                $this->info['file_to_load'] = 'themes/'.$this->info['theme'].'/'.$this->info['file'];
             } else {
-                include 'files/http/403.php';
+                $this->info['file_to_load'] =  'files/http/403.php';
             }
         } else {
-            include 'files/http/404.php';
+            $this->info['file_to_load'] =  'files/http/404.php';
         }
     }
 
@@ -150,4 +150,7 @@ class initialize
     }
 }
 
-$initialize = new initialize($info);
+$initialize = new initialize($init);
+
+$info = $initialize->info;
+include($info['file_to_load']);
