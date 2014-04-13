@@ -9,12 +9,12 @@
  
 class Form
 {
-   var $values = array();  //Holds submitted form field values
-   var $errors = array();  //Holds submitted form error messages
-   var $num_errors;   //The number of errors in submitted form
+   private $values = array();  //Holds submitted form field values
+   private $errors = array();  //Holds submitted form error messages
+   public $num_errors;   //The number of errors in submitted form
 
    /* Class constructor */
-   function Form(){
+   public function Form(){
         /**
          * Get form value and error arrays, used when there
          * is an error with a user-submitted form.
@@ -35,7 +35,7 @@ class Form
      * setValue - Records the value typed into the given
      * form field by the user.
      */
-    function setValue($field, $value){
+    public function setValue($field, $value){
         $this->values[$field] = $value;
     }
 
@@ -43,7 +43,7 @@ class Form
      * setError - Records new form error given the form
      * field name and the error message attached to it.
      */
-    function setError($field, $errmsg){
+    public function setError($field, $errmsg){
         $this->errors[$field] = $errmsg;
         $this->num_errors = count($this->errors);
     }
@@ -52,7 +52,7 @@ class Form
      * value - Returns the value attached to the given
      * field, if none exists, the empty string is returned.
      */
-    function value($field){
+    public function value($field){
         if (array_key_exists($field,$this->values)) {
            return htmlspecialchars(stripslashes($this->values[$field]));
         } else {
@@ -64,7 +64,7 @@ class Form
      * error - Returns the error message attached to the
      * given field, if none exists, the empty string is returned.
      */
-    function error($field){
+    public function error($field){
         if (array_key_exists($field,$this->errors)) {
             return "<span style=\"color:#F00\">".$this->errors[$field]."</span>";
         } else {
@@ -73,7 +73,7 @@ class Form
    }
 
     /* getErrorArray - Returns the array of error messages */
-    function getErrorArray(){
+    public function getErrorArray(){
         return $this->errors;
     }
 };

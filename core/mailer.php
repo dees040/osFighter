@@ -18,7 +18,7 @@ class Mailer
      * sendActivation - Sends an activation e-mail to the newly
      * registered user with a link to activate the account.
      */
-    function sendActivation($user, $email, $pass, $token, $config){
+    public function sendActivation($user, $email, $pass, $token, $config){
         $from = "From: ".$config['EMAIL_FROM_NAME']." <".$config['EMAIL_FROM_ADDR'].">";
         $subject = $config['SITE_NAME']." - Welcome!";
         $body = $user.",\n\n"
@@ -36,7 +36,7 @@ class Mailer
      * adminActivation - Sends an activation e-mail to the newly
      * registered user explaining that admin will activate the account.
      */
-    function adminActivation($user, $email, $pass, $config){
+    public function adminActivation($user, $email, $pass, $config){
         $from    = "From: ".$config['EMAIL_FROM_NAME']." <".$config['EMAIL_FROM_ADDR'].">";
         $subject = $config['SITE_NAME']." - Welcome!";
         $body    = $user.",\n\n"
@@ -57,7 +57,7 @@ class Mailer
      * to come FROM the user using the e-mail address he or she registered
      * with.
      */
-    function activateByAdmin($user, $email, $pass, $token, $config){
+    public function activateByAdmin($user, $email, $pass, $token, $config){
         $from    = "From: ".$user." <".$email.">";
         $subject = $config['SITE_NAME']." - User Account Activation!";
         $body    = "Hello Admin,\n\n"
@@ -79,7 +79,7 @@ class Mailer
      * adminActivated - Sends an e-mail to the user once
      * admin has activated the account.
      */
-    function adminActivated($user, $email, $config){
+    public function adminActivated($user, $email, $config){
         $from    = "From: ".$config['EMAIL_FROM_NAME']." <".$config['EMAIL_FROM_ADDR'].">";
         $subject = $config['SITE_NAME']." - Welcome!";
         $body    = $user.",\n\n"
@@ -98,7 +98,7 @@ class Mailer
      * sendWelcome - Sends an activation e-mail to the newly
      * registered user with a link to activate the account.
      */
-    function sendWelcome($user, $email, $pass, $config){
+    public function sendWelcome($user, $email, $pass, $config){
         $from    = "From: ".$config['EMAIL_FROM_NAME']." <".$config['EMAIL_FROM_ADDR'].">";
         $subject = $config['SITE_NAME']." - Welcome!";
         $body    = $user.",\n\n"
@@ -119,7 +119,7 @@ class Mailer
      * to the user's email address that was specified at
      * sign-up.
      */
-    function sendNewPass($user, $email, $pass, $config){
+    public function sendNewPass($user, $email, $pass, $config){
         $from    = "From: ".$config['EMAIL_FROM_NAME']." <".$config['EMAIL_FROM_ADDR'].">";
         $subject = $config['SITE_NAME']." - Your New Password!";
         $body    = $user.",\n\n"
@@ -140,5 +140,3 @@ class Mailer
 
 /* Initialize mailer object */
 $mailer = new Mailer;
- 
-?>

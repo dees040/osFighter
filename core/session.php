@@ -28,7 +28,7 @@ class Session
      */
 
     /* Class constructor */
-    function Session(){
+    function __construct(){
         $this->time = time();
         $this->startSession();
     }
@@ -40,7 +40,7 @@ class Session
      * accordingly. Also takes advantage of this page load to
      * update the active visitors tables.
      */
-    function startSession(){
+    private function startSession(){
         global $database;  //The database connection
         session_start();   //Tell PHP to start the session
 
@@ -83,7 +83,7 @@ class Session
      * If so, the database is queried to make sure of the user's
      * authenticity. Returns true if the user has logged in.
      */
-    function checkLogin(){
+    private function checkLogin(){
         global $database;  //The database connection
         /* Check if user has been remembered */
         if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
@@ -121,7 +121,7 @@ class Session
      * of that information in the database and creates the session.
      * Effectively logging in the user if all goes well.
      */
-    function login($subuser, $subpass, $subremember){
+    public function login($subuser, $subpass, $subremember){
         global $database, $form;  //The database and form object
 
         /* Username error checking */
@@ -206,7 +206,7 @@ class Session
      * computer as a result of him wanting to be remembered, and also
      * unsets session variables and demotes his user level to guest.
      */
-    function logout(){
+    public function logout(){
         global $database;  //The database connection
 
         /**
@@ -252,7 +252,7 @@ class Session
      * 1. If no errors were found, it registers the new user and
      * returns 0. Returns 2 if registration failed.
      */
-    function register($subuser, $subpass, $subconf_pass, $subemail, $subconf_email){
+    public function register($subuser, $subpass, $subconf_pass, $subemail, $subconf_email){
         global $database, $form, $mailer;  //The database, form and mailer object
         $token = $this->generateRandStr(16);
         $config = $database->getConfigs();
@@ -366,332 +366,13 @@ class Session
     }
 
     /**
-     * editConfigs - edits the site configurations in the database
-     */
-    function editConfigs($subsitename, $subsitedesc, $subemailfromname, $subadminemail, $subwebroot, $subhome_page, $subactivation, $submin_user_chars, $submax_user_chars, $submin_pass_chars, $submax_pass_chars, $subsend_welcome, $subenable_login_question, $sub_captcha, $sub_all_lowercase, $subuser_timeout, $subguest_timeout, $subcookie_expiry, $subcookie_path) {
-        global $database, $form;  //The database and form object
-
-        /* New Sitename entered */
-        if ($subsitename) {
-            /* Sitename error checking */
-            $field = "sitename";
-            if (!$subsitename) {
-                $form->setError($field, "* Sitename not entered");
-            } else if (strlen($subsitename) > 40) {
-                $form->setError($field, "* Sitename above 40 characters");
-            } else if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subsitename)) {
-                $form->setError($field, "* Sitename not alphanumeric");
-            }
-        }
-
-        /* New Site Description entered */
-        if($subsitename){
-            /* Site description error checking */
-            $field = "sitedesc";
-            if (!$subsitedesc) {
-                $form->setError($field, "* Site description not entered");
-            } else if (strlen($subsitedesc) > 60) {
-                $form->setError($field, "* Site description above 60 characters");
-            } else if (!preg_match("/^[a-z0-9]([0-9a-z_.-\s])+$/i", $subsitedesc)) {
-                $form->setError($field, "* Site description not alphanumeric");
-            }
-        }
-
-        /* New E-mail From Name */
-        if($subemailfromname){
-            /* Site Email From Name error checking */
-            $field = "emailfromname";
-            if (!$subemailfromname) {
-                $form->setError($field, "* Email From Name not entered");
-            } else if (strlen($subemailfromname) > 60) {
-                $form->setError($field, "* From Name above 60 characters");
-            } else if(!preg_match("/^[a-z0-9]([0-9a-z_.-\s])+$/i", $subemailfromname)) {
-                $form->setError($field, "* From Name not alphanumeric");
-            }
-        }
-
-        /* New Admin Email Address */
-        if($subadminemail){
-            /* Site Admin Email error checking */
-            $field = "adminemail";
-            if (!$subadminemail) {
-                $form->setError($field, "* Admin Email not entered");
-            }
-            /* Check if valid email address using PHPs filter_var */
-            else if (!filter_var($subadminemail, FILTER_VALIDATE_EMAIL)) {
-                $form->setError($field, "* Email invalid");
-            }
-        }
-
-        /* New Minimum Username Characters */
-        if($submin_user_chars){
-            /* Minimum Username Characters error checking */
-            $field = "min_user_chars";
-            if (!$submin_user_chars) {
-                $form->setError($field, "* No minimum username length entered");
-            } else if (!preg_match("/^([0-9])+$/i", ($submin_user_chars = trim($submin_user_chars)))){
-                $form->setError($field, "* Minimum username field not numerical");
-            } else if ($submin_user_chars < 3) {
-                $form->setError($field, "* Minimum username is below recommended level of 3");
-            } else if ($submin_user_chars > 20) {
-                $form->setError($field, "* Minimum username is above recommended level of 20");
-            }
-        }
-
-        /* New Maximum Username Characters */
-        if($submax_user_chars){
-            /* Maximum Username Characters error checking */
-            $field = "max_user_chars";
-            if (!$submax_user_chars) {
-                $form->setError($field, "* No maximum username length entered");
-            } else if (!preg_match("/^([0-9])+$/i", ($submax_user_chars = trim($submax_user_chars)))) {
-                $form->setError($field, "* Maximum username field not numerical");
-            } else if ($submax_user_chars < 6) {
-                $form->setError($field, "* Maximum username is below recommended level of 6");
-            } else if ($submax_user_chars > 40) {
-                $form->setError($field, "* Maximum username is above recommended level of 40");
-            }
-        }
-
-        /* New Minimum Password Characters */
-        if($submin_pass_chars){
-            /* Minimum Username Characters error checking */
-            $field = "min_pass_chars";
-            if (!$submin_pass_chars) {
-                $form->setError($field, "* No minimum username length entered");
-            } else if (!preg_match("/^([0-9])+$/i", ($submin_pass_chars = trim($submin_pass_chars)))) {
-                $form->setError($field, "* Minimum username field not numerical");
-            } else if ($submin_pass_chars < 4) {
-                $form->setError($field, "* Minimum password is below recommended level of 4");
-            } else if ($submin_pass_chars > 10) {
-                $form->setError($field, "* Minimum password is above recommended level of 10");
-            }
-        }
-
-        /* New Maximum Password Characters */
-        if($submax_pass_chars){
-            /* Maximum Username Characters error checking */
-            $field = "max_pass_chars";
-            if (!$submax_pass_chars) {
-                $form->setError($field, "* No maximum password length entered");
-            } else if (!preg_match("/^([0-9])+$/i", ($submax_pass_chars = trim($submax_pass_chars)))) {
-                $form->setError($field, "* Maximum password field not numerical");
-            } else if ($submax_pass_chars < 10) {
-                $form->setError($field, "* Maximum password is below recommended level of 10");
-            } else if ($submax_pass_chars > 110) {
-                $form->setError($field, "* Maximum password is above recommended level of 110");
-            }
-        }
-
-        /* Cookie expiry */
-        if($subcookie_expiry){
-            /* Check for number */
-            $field = "cookie_expiry";
-            if (!$subcookie_expiry) {
-                $form->setError($field, "* No cookie expiry number entered");
-            } else if (!filter_var($subcookie_expiry, FILTER_VALIDATE_INT, array("options" => array("max_range"=>366)))) {
-                $form->setError($field, "* Please enter a number between 0 and 365");
-            }
-        }
-
-        /* Errors exist, have user correct them */
-        if ($form->num_errors > 0) {
-            return false;  //Errors with form
-        }
-
-        /* Update site name since there were no errors */
-        if ($subsitename) {
-            $database->updateConfigs($subsitename,"SITE_NAME");
-        }
-
-        if ($subsitedesc) {
-            $database->updateConfigs($subsitedesc,"SITE_DESC");
-        }
-
-        if ($subemailfromname) {
-            $database->updateConfigs($subemailfromname,"EMAIL_FROM_NAME");
-        }
-
-        if ($subadminemail) {
-            $database->updateConfigs($subadminemail,"EMAIL_FROM_ADDR");
-        }
-
-        if ($subwebroot) {
-            $database->updateConfigs($subwebroot,"WEB_ROOT");
-        }
-
-        if ($subhome_page) {
-            $database->updateConfigs($subhome_page,"home_page");
-        }
-
-        if ($submin_user_chars) {
-            $database->updateConfigs($submin_user_chars,"min_user_chars");
-        }
-
-        if ($submax_user_chars) {
-            $database->updateConfigs($submax_user_chars,"max_user_chars");
-        }
-
-        if ($submin_pass_chars) {
-            $database->updateConfigs($submin_pass_chars,"min_pass_chars");
-        }
-
-        if ($submax_pass_chars) {
-            $database->updateConfigs($submax_pass_chars,"max_pass_chars");
-        }
-
-        // Check for the existance of 0 otherwise IF will return false and not update.
-        if ($subsend_welcome == 0 || 1) {
-            $database->updateConfigs($subsend_welcome,"EMAIL_WELCOME");
-        }
-
-        if($subenable_login_question  == 0 || 1){
-            $database->updateConfigs($subenable_login_question,"ENABLE_QUESTION");
-        }
-
-        if ($sub_captcha  == 0 || 1) {
-            $database->updateConfigs($sub_captcha,"ENABLE_CAPTCHA");
-        }
-
-        if (filter_var($subactivation, FILTER_VALIDATE_INT)) {
-            $database->updateConfigs($subactivation,"ACCOUNT_ACTIVATION");
-        }
-
-        if ($sub_all_lowercase == 0 || 1) {
-            $database->updateConfigs($sub_all_lowercase,"ALL_LOWERCASE");
-        }
-
-        if ($subuser_timeout) {
-            $database->updateConfigs($subuser_timeout,"USER_TIMEOUT");
-        }
-
-        if ($subguest_timeout) {
-            $database->updateConfigs($subguest_timeout,"GUEST_TIMEOUT");
-        }
-
-        if ($subcookie_expiry) {
-            $database->updateConfigs($subcookie_expiry,"COOKIE_EXPIRE");
-        }
-
-        if ($subcookie_path) {
-            $database->updateConfigs($subcookie_path,"COOKIE_PATH");
-        }
-
-
-        /* Success! */
-        return true;
-
-    }
-
-    /**
-     * adminEditAccount - function for admin to edit the user's account
-     * details.
-     */
-    function adminEditAccount($subusername, $subnewpass, $subconfnewpass, $subemail, $subuserlevel, $subusertoedit){
-        global $database, $form;  //The database and form object
-
-        $config = $database->getConfigs();
-
-        /* New password entered */
-        if($subnewpass){
-            /* New Password error checking */
-            $field = "newpass";  //Use field name for new password
-            /* Spruce up password and check length*/
-            $subnewpass = stripslashes($subnewpass);
-            if (strlen($subnewpass) < $config['min_pass_chars']) {
-                $form->setError($field, "* New Password too short");
-            }
-            /* Check if password is not alphanumeric */
-            else if (!preg_match("/^([0-9a-z])+$/i", ($subnewpass = trim($subnewpass)))) {
-                $form->setError($field, "* New Password not alphanumeric");
-            }
-            /* Check if passwords match */
-            else if ($subnewpass != $subconfnewpass) {
-                $form->setError($field, "* Passwords do not match");
-            }
-        }
-
-        /* New password entered */
-        if($subuserlevel){
-            /* User level error checking */
-            $field = "userlevel";  //Use field name for userlevel
-            if (!preg_match("/^([0-9])+$/i", ($subuserlevel = trim($subuserlevel)))) {
-                $form->setError($field, "* Userlevel not numerical");
-            }
-        }
-
-        /* New username entered */
-        if($subusername){
-            /* Username error checking */
-            $field = "username";  //Use field name for userlevel
-            if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subusername)) {
-                $form->setError($field, "* Username not alphanumeric");
-            }
-            /* Check if username is reserved */
-            else if (strcasecmp($subusername, GUEST_NAME) == 0) {
-                $form->setError($field, "* Username reserved word");
-            }
-            /* Check if username is already in use */
-            else if ($subusertoedit !== $subusername && $database->usernameTaken($subusername)) {
-                $form->setError($field, "* Username already in use");
-            }
-            /* Check if username is banned */
-            else if ($database->usernameBanned($subusername)) {
-                $form->setError($field, "* Username banned");
-            }
-        }
-
-        /* Email error checking */
-        $field = "email";  //Use field name for email
-        if($subemail && strlen($subemail = trim($subemail)) > 0){
-            /* Check if valid email address */
-            if (!filter_var($subemail, FILTER_VALIDATE_EMAIL)) {
-                $form->setError($field, "* Email invalid");
-            }
-            $subemail = stripslashes($subemail);
-        }
-
-        /* Errors exist, have user correct them */
-        if ($form->num_errors > 0) {
-            return false;  //Errors with form
-        }
-
-        /* Update userlevel since there were no errors */
-        if ($subuserlevel) {
-            $database->updateUserField($subusertoedit,"userlevel",$subuserlevel);
-        }
-
-        /* Update password since there were no errors */
-        if ($subnewpass) {
-            $usersalt = $this->generateRandStr(8);
-            $database->updateUserField($subusertoedit,"usersalt", $usersalt);
-            $database->updateUserField($subusertoedit,"password", sha1($usersalt.$subnewpass));
-        }
-
-        /* Change Email */
-        if ($subemail) {
-            $database->updateUserField($subusertoedit,"email",$subemail);
-        }
-
-        /* Update username - this MUST GO LAST otherwise the username
-        * will change and subsequent changes like e-mail will not be changed.
-        */
-        if ($subusername) {
-            $database->updateUserField($subusertoedit,"username",$subusername);
-        }
-
-        /* Success! */
-        return true;
-    }
-
-    /**
      * editAccount - Attempts to edit the user's account information
      * including the password, which it first makes sure is correct
      * if entered, if so and the new password is in the right
      * format, the change is made. All other fields are changed
      * automatically.
      */
-    function editAccount($subcurpass, $subnewpass, $subconfnewpass, $subemail){
+    public function editAccount($subcurpass, $subnewpass, $subconfnewpass, $subemail){
         global $database, $form;  //The database and form object
         /* New password entered */
         if($subnewpass){
@@ -772,32 +453,15 @@ class Session
      * isAdmin - Returns true if currently logged in user is
      * an administrator, false otherwise.
      */
-    function isAdmin(){
+    public function isAdmin(){
         return ($this->userlevel == ADMIN_LEVEL ||
             $this->username  == ADMIN_NAME);
     }
 
     /**
-     * isUserlevel - Returns true if currently logged in user is
-     * at a certain userlevel, false otherwise.
-     */
-    function isUserlevel($level){
-        return ($this->userlevel == $level);
-    }
-
-    /**
-     * overUserlevel - Returns true if currently logged in user is
-     * over a certain userlevel, false otherwise.
-     s*/
-    function overUserlevel($level){
-        if ($this->userlevel > $level) return true;
-        return false;
-    }
-
-    /**
      * isUserGroup - Returns true if uses is in the given Group
      */
-    function isUserGroup($groupID) {
+    public function isUserGroup($groupID) {
         if (!$this->logged_in) return false;
 
         $groups = unserialize($this->userinfo['groups']);
@@ -811,7 +475,7 @@ class Session
      * letters (lower and upper case) and digits and returns
      * the md5 hash of it to be used as a userid.
      */
-    function generateRandID(){
+    private function generateRandID(){
         return md5($this->generateRandStr(16));
     }
 
@@ -820,7 +484,7 @@ class Session
      * letters (lower and upper case) and digits, the length
      * is a specified parameter.
      */
-    function generateRandStr($length){
+    public function generateRandStr($length){
         $randstr = "";
         for($i=0; $i<$length; $i++) {
             $randnum = mt_rand(0,61);

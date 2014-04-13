@@ -12,14 +12,14 @@ include("constants.php");
       
 class MySQLDB
 {
-   public $connection;         //The MySQL database connection
+   private $connection;         //The MySQL database connection
    public $num_active_users;   //Number of active users viewing site
    public $num_active_guests;  //Number of active guests viewing site
    public $num_members;        //Number of signed-up users
    /* Note: call getNumMembers() to access $num_members! */
    
     /* Class constructor */
-    function MySQLDB(){
+    public function __construct() {
         /* Make connection to database */
         try {
             # MySQL with PDO_MYSQL
@@ -30,11 +30,15 @@ class MySQLDB
             echo "Error connecting to database.";
         }
 
+        $this->MySQLDB();
+    }
+
+    private function MySQLDB(){
         /**
-        * Only query database to find out number of members
-        * when getNumMembers() is called for the first time,
-        * until then, default value set.
-        */
+         * Only query database to find out number of members
+         * when getNumMembers() is called for the first time,
+         * until then, default value set.
+         */
         $this->num_members = -1;
         $config = $this->getConfigs();
         if($config['TRACK_VISITORS']){
@@ -46,9 +50,9 @@ class MySQLDB
     } // MySQLDB function
    
     /**
-    * Gather together the configs from the database configuration table.
-    */
-    function getConfigs(){
+     * Gather together the configs from the database configuration table.
+     */
+    public function getConfigs(){
         $config = array();
         $sql = $this->connection->query("SELECT * FROM ".TBL_CONFIGURATION);
         while($row = $sql->fetch()) {
@@ -58,22 +62,22 @@ class MySQLDB
     }
 
     /**
-    * Update Configs - updates the configuration table in the database
-    *
-    */
-    function updateConfigs($value,$configname){
+     * Update Configs - updates the configuration table in the database
+     *
+     */
+    public function updateConfigs($value,$configname){
         $query = "UPDATE ".TBL_CONFIGURATION." SET config_value = :value WHERE config_name = :configname";
         $stmt = $this->connection->prepare($query);
         return $stmt->execute(array(':value' => $value, ':configname' => $configname));
     }
 
     /**
-    * confirmUserPass - Checks whether or not the given username is in the database,
-    * if so it checks if the given password is the same password in the database
-    * for that user. If the user doesn't exist or if the passwords don't match up,
-    * it returns an error code (1 or 2). On success it returns 0.
-    */
-    function confirmUserPass($username, $password){
+     * confirmUserPass - Checks whether or not the given username is in the database,
+     * if so it checks if the given password is the same password in the database
+     * for that user. If the user doesn't exist or if the passwords don't match up,
+     * it returns an error code (1 or 2). On success it returns 0.
+     */
+    public function confirmUserPass($username, $password){
         /* Add slashes if necessary (for query) */
         if (!get_magic_quotes_gpc()) {
             $username = addslashes($username);
@@ -117,12 +121,12 @@ class MySQLDB
     }
 
     /**
-    * confirmUserID - Checks whether or not the given username is in the database,
-    * if so it checks if the given userid is the same userid in the database
-    * for that user. If the user doesn't exist or if the userids don't match up,
-    * it returns an error code (1 or 2). On success it returns 0.
-    */
-    function confirmUserID($username, $userid){
+     * confirmUserID - Checks whether or not the given username is in the database,
+     * if so it checks if the given userid is the same userid in the database
+     * for that user. If the user doesn't exist or if the userids don't match up,
+     * it returns an error code (1 or 2). On success it returns 0.
+     */
+    public function confirmUserID($username, $userid){
         /* Add slashes if necessary (for query) */
         if (!get_magic_quotes_gpc()) {
             $username = addslashes($username);
@@ -155,7 +159,7 @@ class MySQLDB
     /**
     * usernameTaken - Returns true if the username has been taken by another user, false otherwise.
     */
-    function usernameTaken($username){
+    public function usernameTaken($username){
         if (!get_magic_quotes_gpc()) {
             $username = addslashes($username);
         }
@@ -167,9 +171,9 @@ class MySQLDB
     }
 
     /**
-    * usernameBanned - Returns true if the username has been banned by the administrator.
-    */
-    function usernameBanned($username){
+     * usernameBanned - Returns true if the username has been banned by the administrator.
+     */
+    public function usernameBanned($username){
         if (!get_magic_quotes_gpc()) {
             $username = addslashes($username);
         }
@@ -181,10 +185,10 @@ class MySQLDB
     }
 
     /**
-    * addNewUser - Inserts the given (username, password, email) info into the database.
-    * Appropriate user level is set. Returns true on success, false otherwise.
-    */
-    function addNewUser($username, $password, $email, $token, $usersalt){
+     * addNewUser - Inserts the given (username, password, email) info into the database.
+     * Appropriate user level is set. Returns true on success, false otherwise.
+     */
+    public function addNewUser($username, $password, $email, $token, $usersalt){
         $time = time();
         $config = $this->getConfigs();
         /* If admin sign up, give admin user level */
@@ -208,21 +212,21 @@ class MySQLDB
     }
 
     /**
-    * updateUserField - Updates a field, specified by the field
-    * parameter, in the user's row of the database.
-    */
-    function updateUserField($username, $field, $value){
+     * updateUserField - Updates a field, specified by the field
+     * parameter, in the user's row of the database.
+     */
+    public function updateUserField($username, $field, $value){
         $query = "UPDATE ".TBL_USERS." SET ".$field." = :value WHERE username = :username";
         $stmt = $this->connection->prepare($query);
         return $stmt->execute(array(':username' => $username, ':value' => $value));
     }
 
     /**
-    * getUserInfo - Returns the result array from a mysql
-    * query asking for all information stored regarding
-    * the given username. If query fails, NULL is returned.
-    */
-    function getUserInfo($username){
+     * getUserInfo - Returns the result array from a mysql
+     * query asking for all information stored regarding
+     * the given username. If query fails, NULL is returned.
+     */
+    public function getUserInfo($username){
         $query = "SELECT * FROM ".TBL_USERS." WHERE username = :username";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(array(':username' => $username));
@@ -237,10 +241,10 @@ class MySQLDB
     }
 
     /**
-    * checkUserEmailMatch - Checks whether username
-    * and email match in forget password form.
-    */
-    function checkUserEmailMatch($username, $email){
+     * checkUserEmailMatch - Checks whether username
+     * and email match in forget password form.
+     */
+    public function checkUserEmailMatch($username, $email){
 
         $query = "SELECT username FROM ".TBL_USERS." WHERE username = :username AND email = :email";
         $stmt = $this->connection->prepare($query);
@@ -255,14 +259,14 @@ class MySQLDB
     }
 
     /**
-    * getNumMembers - Returns the number of signed-up users
-    * of the website, banned members not included. The first
-    * time the function is called on page load, the database
-    * is queried, on subsequent calls, the stored result
-    * is returned. This is to improve efficiency, effectively
-    * not querying the database when no call is made.
-    */
-    function getNumMembers(){
+     * getNumMembers - Returns the number of signed-up users
+     * of the website, banned members not included. The first
+     * time the function is called on page load, the database
+     * is queried, on subsequent calls, the stored result
+     * is returned. This is to improve efficiency, effectively
+     * not querying the database when no call is made.
+     */
+    public function getNumMembers(){
         if($this->num_members < 0){
             $result =  $this->connection->query("SELECT username FROM ".TBL_USERS);
             $this->num_members = $result->rowCount();
@@ -271,51 +275,51 @@ class MySQLDB
     }
 
     /**
-    * getLastUserRegistered - Returns the username of the last
-    * member to sign up and the date.
-    */
-    function getLastUserRegisteredName() {
+     * getLastUserRegistered - Returns the username of the last
+     * member to sign up and the date.
+     */
+    public function getLastUserRegisteredName() {
         $result = $this->connection->query("SELECT username, regdate FROM ".TBL_USERS." ORDER BY regdate DESC LIMIT 0,1");
         $this->lastuser_reg = $result->fetchColumn();
         return $this->lastuser_reg;
     }
 
     /**
-    * getLastUserRegistered - Returns the username of the last
-    * member to sign up and the date.
-    */
-    function getLastUserRegisteredDate() {
+     * getLastUserRegistered - Returns the username of the last
+     * member to sign up and the date.
+     */
+    public function getLastUserRegisteredDate() {
          $result = $this->connection->query("SELECT username, regdate FROM ".TBL_USERS." ORDER BY regdate DESC LIMIT 0,1");
          $this->lastuser_reg = $result->fetchColumn(1);
          return $this->lastuser_reg;
     }
 
     /**
-    * calcNumActiveUsers - Finds out how many active users
-    * are viewing site and sets class variable accordingly.
-    */
-    function calcNumActiveUsers(){
+     * calcNumActiveUsers - Finds out how many active users
+     * are viewing site and sets class variable accordingly.
+     */
+    private function calcNumActiveUsers(){
         /* Calculate number of USERS at site */
         $sql = $this->connection->query("SELECT * FROM ".TBL_ACTIVE_USERS);
         $this->num_active_users = $sql->rowCount();
     }
 
     /**
-    * calcNumActiveGuests - Finds out how many active guests
-    * are viewing site and sets class variable accordingly.
-    */
-    function calcNumActiveGuests(){
+     * calcNumActiveGuests - Finds out how many active guests
+     * are viewing site and sets class variable accordingly.
+     */
+    private function calcNumActiveGuests(){
         /* Calculate number of GUESTS at site */
         $sql = $this->connection->query("SELECT * FROM ".TBL_ACTIVE_GUESTS);
         $this->num_active_guests = $sql->rowCount();
     }
 
     /**
-    * addActiveUser - Updates username's last active timestamp
-    * in the database, and also adds him to the table of
-    * active users, or updates timestamp if already there.
-    */
-    function addActiveUser($username, $time){
+     * addActiveUser - Updates username's last active timestamp
+     * in the database, and also adds him to the table of
+     * active users, or updates timestamp if already there.
+     */
+    public function addActiveUser($username, $time){
         $config = $this->getConfigs();
 
         // new - this checks how long someone has been inactive and logs them off if neccessary unless
@@ -343,7 +347,7 @@ class MySQLDB
     }
 
     /* addActiveGuest - Adds guest to active guests table */
-    function addActiveGuest($ip, $time){
+    public function addActiveGuest($ip, $time){
         $config = $this->getConfigs();
         if(!$config['TRACK_VISITORS']) return;
         $sql =  $this->connection->prepare("REPLACE INTO ".TBL_ACTIVE_GUESTS." VALUES ('$ip', '$time')");
@@ -354,7 +358,7 @@ class MySQLDB
     /* These functions are self explanatory, no need for comments */
 
     /* removeActiveUser */
-    function removeActiveUser($username){
+    public function removeActiveUser($username){
         $config = $this->getConfigs();
         if (!$config['TRACK_VISITORS']) return;
         $sql = $this->connection->prepare("DELETE FROM ".TBL_ACTIVE_USERS." WHERE username = '$username'");
@@ -363,7 +367,7 @@ class MySQLDB
     }
 
     /* removeActiveGuest */
-    function removeActiveGuest($ip){
+    public function removeActiveGuest($ip){
         $config = $this->getConfigs();
         if (!$config['TRACK_VISITORS']) return;
         $sql = $this->connection->prepare("DELETE FROM ".TBL_ACTIVE_GUESTS." WHERE ip = '$ip'");
@@ -372,7 +376,7 @@ class MySQLDB
     }
 
     /* removeInactiveUsers */
-    function removeInactiveUsers(){
+    public function removeInactiveUsers(){
         $config = $this->getConfigs();
         if (!$config['TRACK_VISITORS']) return;
         $timeout = time()-$config['USER_TIMEOUT']*60;
@@ -382,7 +386,7 @@ class MySQLDB
     }
 
     /* removeInactiveGuests */
-    function removeInactiveGuests(){
+    public function removeInactiveGuests(){
         $config = $this->getConfigs();
         if (!$config['TRACK_VISITORS']) return;
         $timeout = time()-$config['GUEST_TIMEOUT']*60;
@@ -398,7 +402,7 @@ class MySQLDB
      * @param-2: The placeholders (Default = empty array)
      * @return:  Query result
      */
-    function select($query, $items = array()) {
+    public function select($query, $items = array()) {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($items);
@@ -415,7 +419,7 @@ class MySQLDB
      * @param-1: The query that has to be executed
      * @param-2: The placeholders (Default = empty array)
      */
-    function update($query, $items = array()) {
+    public function update($query, $items = array()) {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($items);
@@ -430,7 +434,7 @@ class MySQLDB
      * @param-1: The query that has to be executed
      * @param-2: The placeholders (Default = empty array)
      */
-    function insert($query, $items = array()) {
+    public function insert($query, $items = array()) {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($items);
@@ -445,7 +449,7 @@ class MySQLDB
      * @param-1: The query that has to be executed
      * @param-2: The placeholders (Default = empty array)
      */
-    function delete($query, $items = array()) {
+    public function delete($query, $items = array()) {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($items);
@@ -458,5 +462,3 @@ class MySQLDB
 
 /* Create database connection */
 $database = new MySQLDB;
-
-?>

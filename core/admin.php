@@ -2,10 +2,13 @@
 
 class admin
 {
-    var $errorArray;
-    var $reportArray;
+    public $errorArray;
+    public $reportArray;
 
-    function admin() {
+    /**
+     * Class constructer
+     */
+    function __construct() {
         $this->errorArray  = array();
         $this->reportArray = array();
     }
@@ -15,7 +18,7 @@ class admin
      * @param $info
      * @return array returns array with error's, returns empty array when 0 errors
      */
-    function fileSystemCreateForm($info) {
+    public function fileSystemCreateForm($info) {
         global $database;
 
         $this->checkFileSystemForm($info['title'], $info['link'], $info['file'], $info['category'], true);
@@ -27,9 +30,9 @@ class admin
         $groupsArray = $this->updateArray($info);
 
         $items = array(
-            ':title' => $info['title'],
-            ':link' => $info['link'],
-            ':file' => "ingame/".$info['category']."/".$info['file'],
+            ':title'  => $info['title'],
+            ':link'   => $info['link'],
+            ':file'   => $info['file'],
             ':groups' => serialize($groupsArray)
         );
         $database->insert("INSERT INTO ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups", $items);
@@ -49,7 +52,7 @@ class admin
      * @param $info
      * @return array returns array with error's, returns empty array when 0 errors
      */
-    function fileSystemEditForm($info) {
+    public function fileSystemEditForm($info) {
         global $database;
 
         $this->checkFileSystemForm($info['title'], $info['link'], $info['file'], $info['category'], false);
@@ -61,10 +64,10 @@ class admin
         $groupsArray = $this->updateArray($info);
 
         $items = array(
-            ':title' => $info['title'],
-            ':link' => $info['link'],
-            ':file' => "ingame/".$info['category']."/".$info['file'],
-            'id' => $_SESSION['get-page-id'],
+            ':title'  => $info['title'],
+            ':link'   => $info['link'],
+            ':file'   => $info['file'],
+            'id'      => $_SESSION['get-page-id'],
             ':groups' => serialize($groupsArray)
         );
         $database->insert("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups WHERE id = :id", $items);
@@ -85,7 +88,7 @@ class admin
      * @param $category
      * @param $createPage returns array with error's, returns empty array when 0 errors
      */
-    function checkFileSystemForm($title, $link, $file, $category, $createPage) {
+    private function checkFileSystemForm($title, $link, $file, $category, $createPage) {
         global $database;
 
         // Error checking for title

@@ -11,7 +11,7 @@ include("session.php");
 class Process
 {
     /* Class constructor */
-    function Process(){
+    public function Process(){
         global $session;
         /* User submitted login form */
         if (isset($_POST['sublogin'])) {
@@ -51,7 +51,7 @@ class Process
     * are found, the user is redirected to correct the information,
     * if not, the user is effectively logged in to the system.
     */
-    function procLogin(){
+    private function procLogin(){
         global $session, $form;
         /* Login attempt */
         $retval = $session->login($_POST['user'], $_POST['pass'], isset($_POST['remember']));
@@ -72,7 +72,7 @@ class Process
     * procLogout - Simply attempts to log the user out of the system
     * given that there is no logout form to process.
     */
-    function procLogout(){
+    private function procLogout(){
         global $database, $session;
         $config = $database->getConfigs();
         $retval = $session->logout();
@@ -86,7 +86,7 @@ class Process
     * the system and an email is (optionally) sent to the newly
     * created user.
     */
-    function procRegister(){
+    private function procRegister(){
         global $database, $session, $form;
         $config = $database->getConfigs();
 
@@ -152,7 +152,7 @@ class Process
     * everything is fine, a new password is generated and
     * emailed to the address the user gave on sign up.
     */
-    function procForgotPass(){
+    private function procForgotPass(){
         global $database, $session, $mailer, $form;
         $config = $database->getConfigs();
         /* Username error checking */
@@ -210,7 +210,7 @@ class Process
     * information, including the password, which must be verified
     * before a change is made.
     */
-    function procEditAccount(){
+    private function procEditAccount(){
         global $session, $form;
         /* Account edit attempt */
         $retval = $session->editAccount($_POST['curpass'], $_POST['newpass'], $_POST['conf_newpass'], $_POST['email']);

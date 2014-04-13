@@ -4,21 +4,26 @@ include("session.php");
 
 class initialize
 {
-    var $url;
-    var $home_dir;
-    var $link_info;
-    var $base;
-    var $info = array();
+    private $url;
+    private $home_dir;
+    private $link_info;
+    private $base;
+    public  $info = array();
 
     /**
      * Class constructor
-     * Check if the given url exsits and the user has permission to see it.
-     * @param $infoSets: url and path info
      */
-    function initialize($infoSets) {
+    public function __construct($infoSets) {
         $this->url      = $infoSets['url'];
         $this->home_dir = $infoSets['path'];
         $this->base     = $infoSets['base'];
+        $this->initialize();
+    }
+
+    /**
+     * Check if the given url exsits and the user has permission to see it.
+     */
+    private function initialize() {
 
         if (is_object($this->link_info = $this->pageExists())) {
             if ($this->hasPermissions($this->link_info->groups)) {
@@ -37,7 +42,7 @@ class initialize
      * Functions to check if page exsits
      * @return bool|object
      */
-    function pageExists() {
+    private function pageExists() {
         global $database;
 
         if (substr($this->url, -1) == "/") {
@@ -59,7 +64,7 @@ class initialize
      * @param $groups serialized array of groups
      * @return bool
      */
-    function hasPermissions($groups) {
+    private function hasPermissions($groups) {
         global $session;
 
         $groupsArray = unserialize($groups);
@@ -79,7 +84,7 @@ class initialize
      * @param $path path to file which need to be checked
      * @return bool
      */
-    function checkFileExsits($category, $path) {
+    private function checkFileExsits($category, $path) {
         global $session;
 
         if ($session->logged_in && file_exists("files/ingame/".$category."/".$path)) {
@@ -95,7 +100,7 @@ class initialize
      * Function that return theme file by user loggin_in status
      * @return string
      */
-    function getThemeFile() {
+    private function getThemeFile() {
         global $session;
 
         if ($session->logged_in) return "ingame.php";
@@ -109,7 +114,7 @@ class initialize
      * that menu link goes to
      * @return array
      */
-    function getMenus() {
+    private function getMenus() {
         global $database;
 
         $menuItems = array();
@@ -135,7 +140,7 @@ class initialize
      * Function that returns all page info needed for rendering a page
      * @return array with (page) info
      */
-    function getInfoArray() {
+    private function getInfoArray() {
         global $database;
         $configs = $database->getConfigs();
 
@@ -152,5 +157,6 @@ class initialize
 
 $initialize = new initialize($init);
 
+/* Create info array for template */
 $info = $initialize->info;
 include($info['file_to_load']);
