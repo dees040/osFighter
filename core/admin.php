@@ -142,7 +142,7 @@ class admin
         }
     }
 
-    function updateArray($array) {
+    private function updateArray($array) {
         array_shift($array);
         array_shift($array);
         array_shift($array);
@@ -155,7 +155,7 @@ class admin
     /**
      * @param $menuItems
      */
-    function saveMenuItems($menuItems) {
+    public function saveMenuItems($menuItems) {
         global $database;
 
         $weight = 0;
@@ -164,5 +164,26 @@ class admin
             $database->update("UPDATE ".TBL_MENUS." SET weight = :weight WHERE id = :id", $items);
             $weight++;
         }
+    }
+
+    /**
+     * Function that save settings
+     * @param $items array of setting items
+     * @return bool
+     */
+    public function saveSettings($items) {
+        global $database;
+
+        foreach($items as $key => $item) {
+            if (!$item) $this->errorArray[] = " - ".$key." may not be empty!";
+        }
+
+        if (!empty($this->errorArray)) return false;
+
+        foreach($items as $key => $val) {
+            $database->updateConfigs($val, $key);
+        }
+
+        return true;
     }
 }

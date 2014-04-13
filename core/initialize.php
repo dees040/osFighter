@@ -1,10 +1,23 @@
 <?php
+/**
+ * initialize.php
+ *
+ * This initialize class is used to load a template file
+ * and checks if user has permission to view it.
+ */
 
+/**
+ * osFighter_autoloader
+ *
+ * Custom function to load classes
+ *
+ * @param $class
+ */
 function osFighter_autoloader($class) {
-    include 'core/' . strtolower($class) . '.php';
+    include 'core/'.strtolower($class).'.php';
 }
 
-spl_autoload_register('osFighter_autoloader');
+spl_autoload_register('osFighter_autoloader'); // Register function
 $database = new Database;
 $mailer   = new Mailer;
 $session  = new Session;
@@ -155,12 +168,12 @@ class initialize
         $configs = $database->getConfigs();
 
         return array(
-            'link'     => $this->link_info,
-            'theme'    => $configs['ACTIVE_THEME'],
-            'title'    => $configs['SITE_NAME'],
-            'file'     => $this->getThemeFile(),
-            'menu'     => $this->getMenus(),
-            'base'     => $this->base
+            'link'   => $this->link_info,
+            'theme'  => $configs['ACTIVE_THEME'],
+            'title'  => $configs['SITE_NAME'],
+            'file'   => $this->getThemeFile(),
+            'menu'   => $this->getMenus(),
+            'base'   => $this->base
         );
     }
 }
