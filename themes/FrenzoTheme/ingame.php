@@ -38,7 +38,7 @@
 
                     <tr>
                         <td class="first">Rank</td>
-                        <td>Groentje</td>
+                        <td><?=$info['ranks'][$user->stats->rank]; ?></td>
                     </tr>
 
                     <tr>

@@ -171,6 +171,7 @@ class initialize
             'link'   => $this->link_info,
             'theme'  => $configs['ACTIVE_THEME'],
             'title'  => $configs['SITE_NAME'],
+            'ranks'  => unserialize($configs['RANKS']),
             'file'   => $this->getThemeFile(),
             'menu'   => $this->getMenus(),
             'base'   => $this->base

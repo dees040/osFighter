@@ -186,4 +186,24 @@ class admin
 
         return true;
     }
+
+    /**
+     * Function that updates ranks
+     * @param $ranks array of new ranks
+     */
+    public function saveRanks($ranks) {
+        global $database;
+
+        $newRanks   = array();
+        $rankNumber = 0;
+
+        foreach($ranks as $rank) {
+            if (empty($rank) || !$rank) continue;
+
+            $newRanks[$rankNumber] = $rank;
+            $rankNumber++;
+        }
+
+        $database->updateConfigs(serialize($newRanks), 'RANKS');
+    }
 }

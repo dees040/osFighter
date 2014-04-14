@@ -14,7 +14,7 @@ class User
 
         $items = array(':uid' => $session->username);
         $this->info  = (object)$session->userinfo;
-        $this->stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :uid", $items);
-        $this->time  = $database->select("SELECT * FROM ".TBL_TIME." WHERE uid = :uid", $items);
+        $this->stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject();
+        $this->time  = $database->select("SELECT * FROM ".TBL_TIME." WHERE uid = :uid", $items)->fetchObject();
     }
 }
