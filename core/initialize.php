@@ -114,6 +114,8 @@ class initialize
             return true;
         } else if (file_exists("files/outgame/".$path)) {
             return true;
+        } else if (!$session->logged_in && file_exists("files/ingame/".$category."/".$path)) {
+            return true;
         }
 
         return false;
@@ -168,13 +170,14 @@ class initialize
         $configs = $database->getConfigs();
 
         return array(
-            'link'   => $this->link_info,
-            'theme'  => $configs['ACTIVE_THEME'],
-            'title'  => $configs['SITE_NAME'],
-            'ranks'  => unserialize($configs['RANKS']),
-            'file'   => $this->getThemeFile(),
-            'menu'   => $this->getMenus(),
-            'base'   => $this->base
+            'link'    => $this->link_info,
+            'theme'   => $configs['ACTIVE_THEME'],
+            'title'   => $configs['SITE_NAME'],
+            'ranks'   => unserialize($configs['RANKS']),
+            'cities'  => unserialize($configs['CITIES']),
+            'file'    => $this->getThemeFile(),
+            'menu'    => $this->getMenus(),
+            'base'    => $this->base
         );
     }
 }

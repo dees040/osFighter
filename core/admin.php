@@ -188,22 +188,24 @@ class admin
     }
 
     /**
-     * Function that updates ranks
-     * @param $ranks array of new ranks
+     * Function that updates ranks or cities
+     * @param $items
+     * @param $field
+     * @internal param array $ranks of new ranks
      */
-    public function saveRanks($ranks) {
+    public function saveRanksCities($items, $field) {
         global $database;
 
-        $newRanks   = array();
-        $rankNumber = 0;
+        $newItems   = array();
+        $itemNumber = 0;
 
-        foreach($ranks as $rank) {
-            if (empty($rank) || !$rank) continue;
+        foreach($items as $item) {
+            if (empty($item) || !$item) continue;
 
-            $newRanks[$rankNumber] = $rank;
-            $rankNumber++;
+            $newItems[$itemNumber] = $item;
+            $itemNumber++;
         }
 
-        $database->updateConfigs(serialize($newRanks), 'RANKS');
+        $database->updateConfigs(serialize($newItems), $field);
     }
 }

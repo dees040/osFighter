@@ -18,8 +18,8 @@
                         <td width="35%" class="first">Leven</td>
                         <td>
                             <div class="bar">
-                                <div class="bar" style="width: 70%; background: #dd5252;">
-                                    70%
+                                <div class="bar" style="width: <?=$user->stats->health; ?>%; background: #dd5252; color: #3c2a23;">
+                                    <?=$user->stats->health; ?>%
                                 </div>
                             </div>
                         </td>
@@ -29,8 +29,8 @@
                         <td class="first">power</td>
                         <td>
                             <div class="bar">
-                                <div class="bar" style="width: 50%; background: #0097a9;">
-                                    50%
+                                <div class="bar" style="width: <?=$user->stats->rank_process; ?>%; background: #0097a9; color: #3c2a23;">
+                                    <?=$user->stats->rank_process; ?>%
                                 </div>
                             </div>
                         </td>
@@ -42,8 +42,8 @@
                     </tr>
 
                     <tr>
-                        <td class="first">Land</td>
-                        <td>New York</td>
+                        <td class="first">Country</td>
+                        <td><?=$info['cities'][$user->stats->city]; ?></td>
                     </tr>
                 </table>
             </div>

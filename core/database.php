@@ -208,7 +208,12 @@ class Database
 
         $query = "INSERT INTO ".TBL_USERS." SET username = :username, password = :password, usersalt = :usersalt, userid = 0, userlevel = $ulevel, email = :email, timestamp = $time, actkey = :token, ip = '$userip', regdate = $time";
         $stmt = $this->connection->prepare($query);
-        return $stmt->execute(array(':username' => $username, ':password' => $password, ':usersalt' => $usersalt, ':email' => $email, ':token' => $token));
+        if ($stmt->execute(array(':username' => $username, ':password' => $password, ':usersalt' => $usersalt, ':email' => $email, ':token' => $token))) {
+            $items = array(':user' => $this->getLastUserRegisteredName());
+            $this->insert("INSERT INTO ".TBL_INFO." SET uid = :user", $items);
+        }
+
+        return false;
     }
 
     /**

@@ -1,7 +1,7 @@
 <ul class="tabs" id="tab"  data-persist="true">
     <li><a href="#tab1">Main Settings</a></li>
     <li><a href="#tab2">Ranks</a></li>
-    <li><a href="#tab3">Edit</a></li>
+    <li><a href="#tab3">City's</a></li>
 </ul>
 
 <div class="tabcontents inhoud">
@@ -82,11 +82,12 @@
             if (isset($_POST['save-ranks-form'])) {
                 array_pop($_POST);
 
-                $admin->saveRanks($_POST);
+                $admin->saveRanksCities($_POST, 'RANKS');
             }
 
             $configs = $database->getConfigs();
         ?>
+        Leave empty if rank needs to be deleted!
         <form method="post">
             <table>
                 <?php
@@ -111,4 +112,42 @@
             </table>
         </form>
     </div>
+
+    <!-- settings page tab3: City's Settings-->
+    <div id="tab3">
+        <?php
+        if (isset($_POST['save-cities-form'])) {
+            array_pop($_POST);
+
+            $admin->saveRanksCities($_POST, 'CITIES');
+        }
+
+        $configs = $database->getConfigs();
+        ?>
+        Leave empty if city needs to be deleted!
+        <form method="post">
+            <table>
+                <?php
+                foreach(unserialize($configs['CITIES']) as $key => $rank) {
+                    echo '<tr>';
+                    echo '<td>'.$key.': </td>';
+                    echo '<td><input type="text" name="'.$key.'" value="'.$rank.'"></td>';
+                    echo '</tr>';
+                }
+                ?>
+                <tr>
+                    <td>
+                        <?=count(unserialize($configs['RANKS'])) ;?>:
+                    </td>
+                    <td>
+                        <input type="text" placeholder="New city" name="new-city">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Save cities!" name="save-cities-form"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
 </div>
