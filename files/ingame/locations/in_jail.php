@@ -1,0 +1,1 @@
+Your in jail for <?=$user->time->jail - time(); ?> seconds.

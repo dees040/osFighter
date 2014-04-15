@@ -53,6 +53,8 @@ class initialize
                 $this->info = $this->getInfoArray();
 
                 $this->info['file_to_load'] = 'themes/'.$this->info['theme'].'/'.$this->info['file'];
+
+                $this->checkJail();
             } else {
                 $this->info['file_to_load'] =  'files/http/403.php';
             }
@@ -179,6 +181,15 @@ class initialize
             'menu'    => $this->getMenus(),
             'base'    => $this->base
         );
+    }
+
+    private function checkJail() {
+        global $user;
+
+        if ($user->in_jail && (int)$this->info['link']->jail) {
+            $this->info['link']->file = "in_jail.php";
+            $this->info['link']->menu = "locations";
+        }
     }
 }
 
