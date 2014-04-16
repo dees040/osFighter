@@ -1,89 +1,76 @@
 html {
-    background: url('../images/layout/ingame/bg.png');
-}
+  background: url("../images/layout/ingame/bg.png"); }
 
 body {
-    width: 1008px;
-    margin: 0px auto;
-    font-size: 12px;
-    font-family: Arial;
-    color: #f2ede0;
-    font-weight: normal;
-}
+  width: 1008px;
+  margin: 0px auto;
+  font-size: 12px;
+  font-family: Arial;
+  color: #f2ede0;
+  font-weight: normal; }
 
 #frame {
-    width: 1008px;
-    height: auto;
-    background: #e6deca;
-    border-radius: 10px;
-    margin-top: 10px;
-    border: 3px solid #e6deca;
-}
+  width: 1008px;
+  height: auto;
+  background: #e6deca;
+  border-radius: 10px;
+  margin-top: 10px;
+  border: 3px solid #e6deca; }
 
 #frame-bg {
-    width: 1008px;
-    height: 644px;
-    background: url('../images/layout/outgame/bg.png') no-repeat center center fixed;
+  width: 1008px;
+  height: 644px;
+  background: url("../images/layout/outgame/bg.png") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-
-    border-radius: 10px;
-}
+  border-radius: 10px; }
 
 #header {
-    background: url('../images/layout/outgame/top.png');
-    width: 1008px;
-    height: 239px;
-    overflow: hidden;
-}
+  background: url("../images/layout/outgame/top.png");
+  width: 1008px;
+  height: 239px;
+  overflow: hidden; }
 
 #logo {
-    width: 191px;
-    height: 21px;
-    float: left;
-    margin-top: 70px;
-    margin-left: 30px; /* logo goede positie geven */
-    text-align: center;
-    border: 0;
-}
+  width: 191px;
+  height: 21px;
+  float: left;
+  margin-top: 70px;
+  margin-left: 30px;
+  /* logo goede positie geven */
+  text-align: center;
+  border: 0; }
 
 ul#menu {
-    float: left;
-    list-style: none;
-    margin-left: -110px;
-    z-index: 2;
-    position: relative;
-}
-
-ul#menu li {
+  float: left;
+  list-style: none;
+  margin-left: -110px;
+  z-index: 2;
+  position: relative; }
+  ul#menu li {
     width: 236px;
     height: 42px;
-    background: url('../images/layout/outgame/menu-titel.png');
+    background: url("../images/layout/outgame/menu-titel.png");
     padding-top: 23px;
-    margin-top: -10px;
-}
-
-ul#menu li a {
-    padding-left: 67px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
+    margin-top: -10px; }
+    ul#menu li a {
+      padding-left: 67px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold; }
 
 #content {
-    background: url('../images/layout/outgame/content.png');
-    width: 583px;
-    height: 428px;
-    margin-top: -35px;
-    overflow: hidden;
-    float: left;
-    z-index: 3;
-    position: relative;
-}
-
-#content #inhoud {
+  background: url("../images/layout/outgame/content.png");
+  width: 583px;
+  height: 428px;
+  margin-top: -35px;
+  overflow: hidden;
+  float: left;
+  z-index: 3;
+  position: relative; }
+  #content #inhoud {
     width: 480px;
     height: 320px;
     margin-left: 40px;
@@ -92,127 +79,95 @@ ul#menu li a {
     color: #fff;
     overflow: auto;
     line-height: 24px;
-    text-align: justify;
-}
-::-webkit-scrollbar {
-    width: 5px;
-    background-color: #000;
-}
-::-webkit-scrollbar-thumb {
-    background-color: #3f3d3d;
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-background-color: #BF4649;
-border:1px solid #333333;
-}
-::-webkit-scrollbar-thumb:active {
-    background-color: #A6393D;
-    border: 1px solid #333333;
-}
-
-#content #inhoud h1 {
-    font-size: 15px;
-    font-weight: normal;
-    font-family: Arial;
-    color: #fff;
-    letter-spacing:-1px;
-}
+    text-align: justify; }
+    #content #inhoud h1 {
+      font-size: 15px;
+      font-weight: normal;
+      font-family: Arial;
+      color: #fff;
+      letter-spacing: -1px; }
 
 #aanmelden {
-    margin-top: -10px;
-    margin-left: -10px;
-}
+  margin-top: -10px;
+  margin-left: -10px; }
 
 #login {
-    float: right;
-    width: 200px;
-    height: 200px;
-    margin-top: 30px;
-    padding-right: 10px;
-}
+  float: right;
+  width: 200px;
+  height: 200px;
+  margin-top: 30px;
+  padding-right: 10px; }
 
 .input-outgame {
-    width: 170px;
-    height: 30px;
-    border: 0;
-    padding: 10px;
-    background: url('../images/layout/outgame/inputtext.png') no-repeat ;
-    color: grey;
-    margin-bottom: 10px;
-}
+  width: 170px;
+  height: 30px;
+  border: 0;
+  padding: 10px;
+  background: url("../images/layout/outgame/inputtext.png") no-repeat;
+  color: grey;
+  margin-bottom: 10px; }
 
 .submit-outgame {
-    width: 110px;
-    height: 52px;
-    border: 0;
-    background: url('../images/layout/outgame/submit.png') no-repeat ;
-    color: grey;
-    margin-right:15px;
-    padding: 10px;
-    float: right;
-}
+  width: 110px;
+  height: 52px;
+  border: 0;
+  background: url("../images/layout/outgame/submit.png") no-repeat;
+  color: grey;
+  margin-right: 15px;
+  padding: 10px;
+  float: right; }
 
 .submit {
-    background: url('../images/layout/ingame/submit.png');
-    padding: 5px;
-    color: #fff;
-    border: 2px solid #8e3225;
-    border-radius: 5px;
-}
+  background: url("../images/layout/ingame/submit.png");
+  padding: 5px;
+  color: #fff;
+  border: 2px solid #8e3225;
+  border-radius: 5px; }
 
 input {
-    background: #e5dcc4;
-    padding: 5px;
-    color: #000;
-    border: 2px solid #cdc2a6;
-    border-radius: 5px;
-}
+  background: #e5dcc4;
+  padding: 5px;
+  color: #000;
+  border: 2px solid #cdc2a6;
+  border-radius: 5px; }
 
 #footer {
-    text-align: center;
-    padding-top: 10px;
-}
+  text-align: center;
+  padding-top: 10px; }
 
 table {
-    width: 100%;
-}
+  width: 100%; }
 
 td.first {
-    background: #c05645;
-    border-radius: 2px;
-    color: #f1ede0;
-    padding-left: 5px;
-    border: 1px solid white;
-}
+  background: #c05645;
+  border-radius: 2px;
+  color: #f1ede0;
+  padding-left: 5px;
+  border: 1px solid white; }
 
 td {
-    background: #fff;
-    border-radius: 2px;
-    color: #443c2f;
-    padding-left: 5px;
-    border: 1px solid #c05645;
-}
+  background: #fff;
+  border-radius: 2px;
+  color: #443c2f;
+  padding-left: 5px;
+  border: 1px solid #c05645; }
 
 a {
-    color: #a34639;
-    text-decoration: none;
-}
+  color: #a34639;
+  text-decoration: none; }
 
 a:hover {
-    text-decoration: underline;
-}
+  text-decoration: underline; }
 
 .notifi {
-    width: 300px;
-    height: auto;
-    background: white;
-    border: 3px solid;
-    margin: 0px auto;
-    text-align: center;
-    color: #000;
-    font-weight: bold;
-    padding: 50px;
-    line-height: 24px;
-    margin-top: 60px;
-}
+  width: 300px;
+  height: auto;
+  background: white;
+  border: 3px solid;
+  margin: 0px auto;
+  text-align: center;
+  color: #000;
+  font-weight: bold;
+  padding: 50px;
+  line-height: 24px;
+  margin-top: 60px; }

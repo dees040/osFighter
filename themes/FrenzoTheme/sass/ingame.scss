@@ -3,19 +3,22 @@ html {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover; }
+  background-size: cover;
+}
 
 body {
   width: 980px;
   margin: 0px auto;
   font-family: Calibri;
   font-size: 12px;
-  color: #3c2a23; }
+  color: #3c2a23;
+}
 
 #header {
   background: url(../images/layout/header.png);
   width: 980px;
-  height: 142px; }
+  height: 142px;
+}
 
 #faux {
   clear: both;
@@ -23,43 +26,55 @@ body {
   width: 979px;
   height: auto;
   min-height: 400px;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 #footer {
   background: url(../images/layout/footer.png);
   width: 980px;
-  height: 63px; }
+  height: 63px;
+}
 
 #logo {
   background: url(../images/layout/logo.png);
   width: 218px;
   height: 45px;
   float: left;
-  margin-top: 40px; }
+  margin-top: 40px;
+}
 
-#status {
+#status{
   width: 189px;
   height: 95px;
   float: right;
   margin-top: 45px;
-  color: #fff; }
-  #status table {
-    margin: 0px auto; }
-    #status table tr {
-      height: 20px; }
-      #status table tr td.first {
-        text-transform: uppercase; }
+  color: #fff;
+
+  table{
+    margin: 0px auto;
+
+    tr{
+      height: 20px;
+
+      td.first{
+        text-transform: uppercase;
+      }
+    }
+  }
+}
 
 .bar {
   width: 102px;
   height: 14px;
   background: #fff;
-  font-size: 10px; }
+  font-size: 10px;
+}
 
 .menus {
   width: 176px;
   padding: 5px;
-  margin-top: -5px; }
+  margin-top: -5px;
+}
 
 ul.menu {
   background: #301d17;
@@ -68,47 +83,61 @@ ul.menu {
   padding: 0;
   height: auto;
   margin-top: -7px;
-  padding-bottom: 3px; }
-  ul.menu h1 {
+  padding-bottom: 3px;
+
+  h1 {
     color: #fff;
     font-size: 18px;
     text-transform: uppercase;
     font-weight: bold;
     overflow: hidden;
     padding-top: 10px;
-    padding-left: 10px; }
+    padding-left: 10px;
+  }
+}
 
-.menu-icon {
+.menu-icon{
   float: right;
   margin-top: -35px;
-  margin-right: 5px; }
+  margin-right: 5px;
+}
 
-ul.menu li {
+ul.menu li{
   list-style: none;
   height: 20px;
   border-bottom: 1px solid #3f2d27;
-  padding-top: 7px; }
-  ul.menu li:hover {
-    background: url(../images/layout/hovermenu.png); }
-  ul.menu li:last-child {
-    border: 0; }
-  ul.menu li a {
+  padding-top: 7px;
+
+  &:hover {
+    background: url(../images/layout/hovermenu.png);
+  }
+
+  &:last-child {
+    border: 0;
+  }
+
+  a {
     padding-left: 20px;
     color: #fff;
     text-decoration: none;
     font-weight: normal;
     margin-top: -5px;
     display: block;
-    line-height: 24px; }
-    ul.menu li a:hover {
-      color: #f0e6d0; }
+    line-height: 24px;
 
-#content {
+    &:hover{
+      color: #f0e6d0;
+    }
+  }
+}
+
+#content{
   width: 605px;
   float: left;
-  height: auto; }
+  height: auto;
+}
 
-.content-titel {
+.content-titel{
   background: url(../images/layout/content-titel.png);
   width: 575px;
   height: 30px;
@@ -117,9 +146,10 @@ ul.menu li {
   font-weight: bold;
   color: #fff;
   font-size: 15px;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+}
 
-.content-inhoud {
+.content-inhoud{
   background: #f0e6d0;
   width: 569px;
   margin: 0px auto;
@@ -127,15 +157,17 @@ ul.menu li {
   overflow: hidden;
   text-align: justify;
   line-height: 19px;
-  clear: both; }
+  clear: both;
+}
 
-.content-footer {
+.content-footer{
   background: url(../images/layout/content-footer.png);
   width: 589px;
   height: 12px;
-  margin: 0px auto; }
+  margin: 0px auto;
+}
 
-ul.tabs {
+ul.tabs{
   background: url(../images/layout/tabbg.png) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -144,12 +176,14 @@ ul.tabs {
   width: 589px;
   height: auto;
   margin: 0px auto;
-  overflow: hidden; }
-  ul.tabs li {
+  overflow: hidden;
+
+  li {
     list-style: none;
     margin-left: 10px;
-    overflow: hidden; }
-    ul.tabs li a {
+    overflow: hidden;
+
+    a {
       border-radius: 10px;
       background: url(../images/layout/tab.png);
       height: 10px;
@@ -162,32 +196,49 @@ ul.tabs {
       margin-left: 7px;
       border: 1px solid white;
       font-weight: bold;
-      position: relative; }
+      position: relative;
+    }
+  }
+}
 
 strong {
   padding: 10px;
-  padding-bottom: 15px; }
+  padding-bottom: 15px;
+}
 
-.content-inhoud table tr td {
-  background: #fff;
-  padding: 5px; }
+.content-inhoud table{
+  tr {
+    td {
+      background: #fff;
+      padding: 5px;
+    }
+  }
+}
 
-input {
+input{
   border: 1px solid #bb3838;
-  padding: 5px; }
-  input[type="submit"] {
+  padding: 5px;
+
+  &[type="submit"] {
     background: #bb3838;
-    color: #fff; }
-    input[type="submit"]:hover {
-      background: #E54545; }
-    input[type="submit"]:active {
-      background: #7F2626; }
+    color: #fff;
+
+    &:hover {
+      background: #E54545;
+    }
+
+    &:active {
+      background: #7F2626;
+    }
+  }
+}
 
 textarea {
   border: 1px solid #bb3838;
-  padding: 5px; }
+  padding: 5px;
+}
 
-.notifi, .notifi-small {
+.notifi {
   width: 300px;
   height: auto;
   background: white;
@@ -199,9 +250,12 @@ textarea {
   padding: 50px;
   line-height: 24px;
   font-size: 14px;
-  border-radius: 10px; }
+  border-radius: 10px;
+}
 
 .notifi-small {
+  @extend .notifi;
   width: 95%;
   border: 1px solid;
-  padding: 5px; }
+  padding: 5px;
+}

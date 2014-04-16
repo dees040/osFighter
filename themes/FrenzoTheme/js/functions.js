@@ -1,3 +1,4 @@
+var countDownInterval;
 var seconds;
 
 var init = {
@@ -10,11 +11,12 @@ var functions = {
     countDown: function() {
         seconds -= 1;
         $('.timer').text(seconds);
+        if (seconds == 0) clearInterval(countDownInterval);
     }
 }
 
 
 $(document).ready(function() {
     init.timer();
-    setInterval(functions.countDown, 1000);
+    countDownInterval = setInterval(functions.countDown, 1000);
 });
