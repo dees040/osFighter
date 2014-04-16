@@ -107,7 +107,7 @@
 
             if (isset($_POST['submit-get-page'])) {
                 $items = array(':id' => $_POST['page']);
-                $query = $database->select("SELECT * FROM ".TBL_PAGES." WHERE id = :id", $items);
+                $query = $database->select("SELECT pages.*, menus.menu FROM ".TBL_PAGES." INNER JOIN menus ON menus.pid = pages.id WHERE pages.id = :id", $items);
                 $page  = $query->fetchObject();
                 $page->groups = unserialize($page->groups);
 
@@ -169,14 +169,24 @@
                         </td>
                         <td>
                             <select name="category" class="category">
-                                <option value="personal">Personal</option>
-                                <option value="call-credits">Call Credits</option>
-                                <option value="family">Family</option>
-                                <option value="extra">Extra</option>
-                                <option value="crime">Crime</option>
-                                <option value="locations">Locations</option>
-                                <option value="casino">Casino</option>
-                                <option value="admin">Admin</option>
+                                <?php
+                                    $cats = array(
+                                        'personal' => 'Personal',
+                                        'call-credits' => 'Call Credits',
+                                        'family' => 'Family',
+                                        'extra' => 'Extra',
+                                        'crime' => 'Crime',
+                                        'locations' => 'Locations',
+                                        'casino' => 'Casino',
+                                        'admin' => 'Admin',
+                                    );
+
+                                    foreach($cats as $key => $cat) {
+                                        $active = "";
+                                        if ($page->menu == $key) $active = 'selected';
+                                        echo '<option value="'.$key.'" '.$active.'>'.$cat.'</option>';
+                                    }
+                                ?>
                             </select>
                         </td>
                     </tr>

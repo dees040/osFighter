@@ -37,6 +37,10 @@ class Process
         else if (isset($_POST['subedit'])) {
             $this->procEditAccount();
         }
+        /* Admin submitted configuration changes */
+        else if(isset($_POST['configedit'])){
+            $this->procConfigEdit();
+        }
         /**
         * The only other reason user should be directed here
         * is if he wants to logout, which means user is
@@ -233,6 +237,33 @@ class Process
             $_SESSION['value_array'] = $_POST;
             $_SESSION['error_array'] = $form->getErrorArray();
             header("Location: ../edit-account");
+        }
+    }
+
+    /**
+     * configEdit - function for updating the website configurations in the
+     * configuration table in the database.
+     */
+    private function procConfigEdit(){
+        global $session, $form;
+        /* Account edit attempt */
+        $retval = $session->editConfigs($_POST['sitename'], $_POST['sitedesc'], $_POST['emailfromname'],
+            $_POST['adminemail'], $_POST['webroot'], $_POST['home_page'], $_POST['activation'],
+            $_POST['min_user_chars'], $_POST['max_user_chars'], $_POST['min_pass_chars'],
+            $_POST['max_pass_chars'], $_POST['send_welcome'], $_POST['enable_login_question'],
+            $_POST['enable_capthca'], $_POST['all_lowercase'], $_POST['user_timeout'], $_POST['guest_timeout'],
+            $_POST['cookie_expiry'], $_POST['cookie_path']);
+
+        /* Account edit successful */
+        if($retval){
+            $_SESSION['configedit'] = true;
+            header("Location: ../admin/settings");
+        }
+        /* Error found with form */
+        else{
+            $_SESSION['value_array'] = $_POST;
+            $_SESSION['error_array'] = $form->getErrorArray();
+            header("Location: ../admin/settings");
         }
     }
 };
