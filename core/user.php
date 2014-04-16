@@ -23,7 +23,14 @@ class User
     }
 
     private function init() {
+        $this->check();
         $this->in_jail = $this->checkJail();
+    }
+
+    private function check() {
+        if ($this->stats->rank_process >= 100) {
+            $this->updateRank();
+        }
     }
 
     private function checkJail() {
@@ -33,5 +40,23 @@ class User
         if ($jail_time < time()) return false;
 
         return true;
+    }
+
+    public function updateRank() {
+        global $database, $session;
+
+        $ranks = $database->getRanks();
+        $rank = 1 + (int)$this->stats->rank;
+        $rank_process = 1;
+
+        if ($rank >= count($ranks)) {
+            $rank = (int)$this->stats->rank;
+            $rank_process = 100;
+        }
+
+        $items = array(':rank' => $rank, ':process' => $rank_process, ':name' => $session->username);
+        $database->update("UPDATE ".TBL_INFO." SET rank = :rank, rank_process = :process WHERE uid = :name", $items);
+        $this->stats->rank = $rank;
+        $this->stats->rank_process = $rank_process;
     }
 }

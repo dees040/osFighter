@@ -8,6 +8,7 @@
         <script src="files/js/jquery.min.js"></script>
         <script src="files/js/jquery-ui.min.js"></script>
         <script src="themes/FrenzoTheme/js/tabs/tabcontent.js"></script>
+        <script src="themes/FrenzoTheme/js/functions.js"></script>
     </head>
     <body>
         <div id="header">

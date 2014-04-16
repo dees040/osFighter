@@ -299,6 +299,11 @@ class Database
          return $this->lastuser_reg;
     }
 
+    public function getRanks() {
+        $ranks = $this->getConfigs();
+        return unserialize($ranks['RANKS']);
+    }
+
     /**
      * calcNumActiveUsers - Finds out how many active users
      * are viewing site and sets class variable accordingly.

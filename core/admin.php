@@ -139,7 +139,7 @@ class admin
             } else {
                 if (!file_exists("files/ingame/".$category."/".$file)) {
                     $this->reportArray[] = " - Because the file not exists yet, i created it for you.";
-                    //touch("files/ingame/".$category."/".$file);
+                    touch("files/ingame/".$category."/".$file);
                 }
             }
         }

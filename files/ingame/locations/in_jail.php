@@ -1,1 +1,2 @@
-Your in jail for <?=$user->time->jail - time(); ?> seconds.
+<?php
+    echo $error->errorBig("Your in jail for <time class='timer'>".($user->time->jail - time())."</time> seconds.");

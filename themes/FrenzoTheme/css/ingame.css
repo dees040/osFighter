@@ -248,13 +248,50 @@ input{
 	
 }
 
-submit{
+input[type="submit"] {
 	background: #bb3838;
 	color: #fff;
-	
+}
+
+input[type="submit"]:hover {
+    background: #E54545;
+}
+
+input[type="submit"]:active {
+    background: #7F2626;
 }
 
 textarea{
 	border: 1px solid #bb3838;
 	padding: 5px;
+}
+
+.notifi{
+    width: 300px;
+    height: auto;
+    background: white;
+    border: 3px solid;
+    margin: 0px auto;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    padding: 50px;
+    line-height: 24px;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.notifi-small{
+    width: 95%;
+    height: auto;
+    background: white;
+    border: 1px solid;
+    margin: 0px auto;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    padding: 5px;
+    line-height: 24px;
+    font-size: 12px;
+    border-radius: 10px;
 }

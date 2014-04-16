@@ -20,6 +20,7 @@ function osFighter_autoloader($class) {
 spl_autoload_register('osFighter_autoloader'); // Register function
 $database = new Database;
 $mailer   = new Mailer;
+$error    = new Error;
 $session  = new Session;
 $form     = new Form;
 $user     = new User;

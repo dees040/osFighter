@@ -122,13 +122,13 @@
                 $admin->saveRanksCities($_POST, 'RANKS');
             }
 
-            $configs = $database->getConfigs();
+            $ranks = $database->getRanks();
         ?>
         Leave empty if rank needs to be deleted!
         <form method="post">
             <table>
                 <?php
-                    foreach(unserialize($configs['RANKS']) as $key => $rank) {
+                    foreach($ranks as $key => $rank) {
                         echo '<tr>';
                         echo '<td>'.$key.': </td>';
                         echo '<td><input type="text" name="'.$key.'" value="'.$rank.'"></td>';
@@ -137,7 +137,7 @@
                 ?>
                 <tr>
                     <td>
-                        <?=count(unserialize($configs['RANKS'])) ;?>:
+                        <?=count($ranks) ;?>:
                     </td>
                     <td>
                         <input type="text" placeholder="New rank" name="new-rank">
