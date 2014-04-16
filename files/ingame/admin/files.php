@@ -84,6 +84,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td title="Select this checkbox when user may view this page when in jail">
+                        Jail:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="jail" value="1">
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         <input type="submit" value="Create page" style="float: right" name="submit-create-page">
                     </td>
@@ -188,6 +196,12 @@
                             ?>
                         </td>
                     </tr>
+                    <td title="Select this checkbox when user may view this page when in jail">
+                        Jail:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="jail" value="1" <?php if(!$page->jail) echo "checked"; ?>>
+                    </td>
                     <tr>
                         <td colspan="2">
                             <input type="submit" value="Edit page" style="float: right" name="submit-edit-page">

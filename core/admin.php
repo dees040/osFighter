@@ -33,9 +33,11 @@ class admin
             ':title'  => $info['title'],
             ':link'   => $info['link'],
             ':file'   => $info['file'],
-            ':groups' => serialize($groupsArray)
+            ':groups' => serialize($groupsArray),
+            ':jail'   => isset($_POST['jail']) ? '0' : '1'
         );
-        $database->insert("INSERT INTO ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups", $items);
+
+        $database->insert("INSERT INTO ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups, jail = :jail", $items);
 
         $items = array(':link' => $info['link']);
         $query = $database->select("SELECT id FROM ".TBL_PAGES." WHERE link = :link", $items);
@@ -68,12 +70,13 @@ class admin
             ':link'   => $info['link'],
             ':file'   => $info['file'],
             'id'      => $_SESSION['get-page-id'],
-            ':groups' => serialize($groupsArray)
+            ':groups' => serialize($groupsArray),
+            ':jail'   => isset($_POST['jail']) ? '0' : '1'
         );
-        $database->insert("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups WHERE id = :id", $items);
+        $database->update("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups, jail = :jail WHERE id = :id", $items);
 
         $items = array(':pid' => $_SESSION['get-page-id'], ':link' => $info['link'], ':menu' => $info['category']);
-        $database->insert("UPDATE ".TBL_MENUS." SET link = :link, menu = :menu WHERE pid = :pid", $items);
+        $database->update("UPDATE ".TBL_MENUS." SET link = :link, menu = :menu WHERE pid = :pid", $items);
 
         unset($_SESSION['get-page-id']);
 
@@ -148,6 +151,7 @@ class admin
         array_shift($array);
         array_shift($array);
         array_pop($array);
+        if (isset($_POST['jail'])) array_pop($array);
 
         return $array;
     }
