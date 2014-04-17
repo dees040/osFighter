@@ -51,12 +51,11 @@ ul.tabs li.selected a:hover, ul.tabs li.selected a:hover
 div.tabcontents
 {
     background: url('images/content-info.png') no-repeat #f4f0e9;
-    width: 600px;
+    width: 549px;
     height: auto;
     color: #504b3e;
     font-size: 12px;
     font-weight: normal;
-    margin-left: 11px;
     padding: 10px;
     text-align: justify;
     line-height: 24px;

@@ -212,4 +212,45 @@ class admin
 
         $database->updateConfigs(serialize($newItems), $field);
     }
+
+    public function updateCrime($info) {
+        global $database;
+
+        $this->checkCrimeForm($info);
+
+        if (!empty($this->errorArray)) return true;
+
+        $items = array(':id' => $_SESSION['get-crime-id'], ':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':ch' => $info['change']);
+        $database->update("UPDATE ".TBL_CRIMES." SET `name` = :name, `min_payout` = :min_p, `max_payout` = :max_p, `change` = :ch WHERE `id` = :id", $items);
+
+        unset($_SESSION['get-crime-id']);
+    }
+
+    private function checkCrimeForm($info) {
+        if (empty($info['name'])) {
+            $this->errorArray[] = " - Please fill in a name.";
+        }
+
+        if (empty($info['min-payout'])) {
+            $this->errorArray[] = " - Please fill in a minimum payout.";
+        } else if((int)$info['min-payout'] < 1) {
+            $this->errorArray[] = " - Minimum payout may not be under the 1.";
+        }
+
+        if (empty($info['max-payout'])) {
+            $this->errorArray[] = " - Please fill in a maximum payout.";
+        } else if((int)$info['max-payout'] < 2) {
+            $this->errorArray[] = " - Maximum payout may not be under the 2.";
+        }
+
+        if ((int)$info['min-payout'] > (int)$info['max-payout']) {
+            $this->errorArray[] = " - Minimum payout may not be above maximum payout.";
+        }
+
+        if (empty($info['change'])) {
+            $this->errorArray[] = " - Please fill in a change.";
+        } else if((int)$info['change'] < 1) {
+            $this->errorArray[] = " - Change may not be under the 1.";
+        }
+    }
 }
