@@ -7,9 +7,9 @@
  */
 
 define("DB_SERVER", "localhost");
-define("DB_USER", "deb65120n5_os");
-define("DB_PASS", "osFighter1234!");
-define("DB_NAME", "deb65120n5_osf");
+define("DB_USER", "");
+define("DB_PASS", "");
+define("DB_NAME", "");
 
 /**
  * Database Table Constants - these constants
@@ -26,6 +26,7 @@ define("TBL_MENUS", "menus");
 define("TBL_INFO", "users_info");
 define("TBL_TIME", "users_time");
 define("TBL_GROUPS", "groups");
+define("TBL_CRIMES", "crimes");
 
 
 /**
