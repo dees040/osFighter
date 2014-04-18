@@ -7,9 +7,9 @@
  */
 
 define("DB_SERVER", "localhost");
-define("DB_USER", "");
-define("DB_PASS", "");
-define("DB_NAME", "");
+define("DB_USER", "deb65120n5_du");
+define("DB_PASS", "osFighter123!");
+define("DB_NAME", "deb65120n5_dn");
 
 /**
  * Database Table Constants - these constants

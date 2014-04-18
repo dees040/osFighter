@@ -213,6 +213,17 @@ class admin
         $database->updateConfigs(serialize($newItems), $field);
     }
 
+    public function createCrime($info) {
+        global $database;
+
+        $this->checkCrimeForm($info);
+
+        if (!empty($this->errorArray)) return true;
+
+        $items = array(':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':change' => $info['change']);
+        $database->update("INSERT INTO ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :change", $items);
+    }
+
     public function updateCrime($info) {
         global $database;
 
@@ -221,7 +232,7 @@ class admin
         if (!empty($this->errorArray)) return true;
 
         $items = array(':id' => $_SESSION['get-crime-id'], ':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':ch' => $info['change']);
-        $database->update("UPDATE ".TBL_CRIMES." SET `name` = :name, `min_payout` = :min_p, `max_payout` = :max_p, `change` = :ch WHERE `id` = :id", $items);
+        $database->update("UPDATE ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :ch WHERE id = :id", $items);
 
         unset($_SESSION['get-crime-id']);
     }

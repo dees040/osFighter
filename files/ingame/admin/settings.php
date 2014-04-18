@@ -174,7 +174,7 @@
                 ?>
                 <tr>
                     <td>
-                        <?=count(unserialize($configs['RANKS'])) ;?>:
+                        <?=count(unserialize($configs['CITIES'])) ;?>:
                     </td>
                     <td>
                         <input type="text" placeholder="New city" name="new-city">

@@ -4,6 +4,9 @@ var seconds;
 var init = {
     timer: function() {
         seconds = parseInt($('.timer').text());
+    },
+    change: function() {
+        $('.crime-change-output').text($('.input-change').val());
     }
 }
 
@@ -19,4 +22,6 @@ var functions = {
 $(document).ready(function() {
     init.timer();
     countDownInterval = setInterval(functions.countDown, 1000);
+
+    $('.input-change').change(init.change);
 });

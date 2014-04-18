@@ -10,8 +10,7 @@
  * osFighter_autoloader
  *
  * Custom function to load classes
- *
- * @param $class
+ * @param $class name
  */
 function osFighter_autoloader($class) {
     include 'core/'.strtolower($class).'.php';

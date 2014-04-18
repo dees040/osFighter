@@ -47,7 +47,7 @@
             <table>
                 <tr>
                     <td>
-                        Name
+                        Name:
                     </td>
                     <td>
                         <input type="text" name="name" value="<?=$crime->name; ?>" placeholder="Crime name">
@@ -74,7 +74,7 @@
                         Change(?):
                     </td>
                     <td>
-                        <input type="number" name="change" value="<?=$crime->change; ?>">
+                        <input type="range" name="change" min="1" max="200" value="<?=$crime->change; ?>" class="input-change" title="Click and/or use arrow keys"> <em class="crime-change-output"></em>
                     </td>
                 </tr>
                 <tr>
@@ -92,6 +92,61 @@
 
     <!-- manage crimes page tab2: Create-->
     <div id="tab2">
+        <?php
+            if (isset($_POST['create-crime-form'])) {
+                array_pop($_POST);
+                $retval = $admin->createCrime($_POST);
 
+                if ($retval) {
+                    foreach($admin->errorArray as $error) {
+                        echo $error."<br>";
+                    }
+                } else {
+                    echo "<strong>Crime created!</strong><br>";
+                    if (!empty($admin->reportArray)) foreach($admin->reportArray as $error) echo $error."<br>";
+                }
+            }
+        ?>
+        <form method="post">
+            <table width="100%">
+                <tr>
+                    <td>
+                        Name:
+                    </td>
+                    <td>
+                        <input type="text" name="name" placeholder="Crime name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Min payout:
+                    </td>
+                    <td>
+                        <input type="number" name="min-payout">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Max payout:
+                    </td>
+                    <td>
+                        <input type="number" name="max-payout">
+                    </td>
+                </tr>
+                <tr>
+                    <td title="Change = level / change">
+                        Change(?):
+                    </td>
+                    <td>
+                        <input type="range" name="change" min="1" max="200" class="input-change" title="Click and/or use arrow keys"> <em class="crime-change-output"></em>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Create crime" name="create-crime-form">
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </div>
