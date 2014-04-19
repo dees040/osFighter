@@ -26,7 +26,7 @@
         <?php
             if (isset($_POST['change-crime-form'])) {
                 array_pop($_POST);
-                $retval = $admin->updateCrime($_POST);
+                $retval = $admin->updateCrime($_POST, $_FILES);
 
                 if ($retval) {
                     foreach($admin->errorArray as $error) {
@@ -43,7 +43,7 @@
                 $crime = $database->select("SELECT * FROM ".TBL_CRIMES." WHERE id = :id", $items)->fetchObject();
         ?>
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>
@@ -78,6 +78,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        Image:
+                    </td>
+                    <td>
+                        <input type="file" name="file" id="file">
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         <input type="submit" value="Save changes!" name="change-crime-form">
                     </td>
@@ -95,7 +103,7 @@
         <?php
             if (isset($_POST['create-crime-form'])) {
                 array_pop($_POST);
-                $retval = $admin->createCrime($_POST);
+                $retval = $admin->createCrime($_POST, $_FILES);
 
                 if ($retval) {
                     foreach($admin->errorArray as $error) {
@@ -107,7 +115,7 @@
                 }
             }
         ?>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <table width="100%">
                 <tr>
                     <td>
@@ -139,6 +147,14 @@
                     </td>
                     <td>
                         <input type="range" name="change" min="1" max="200" class="input-change" title="Click and/or use arrow keys"> <em class="crime-change-output"></em>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Image:
+                    </td>
+                    <td>
+                        <input type="file" name="file" id="file">
                     </td>
                 </tr>
                 <tr>

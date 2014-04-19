@@ -24,7 +24,7 @@
                 <input type="radio" name="crime" value="<?=$crime['id']; ?>" onclick="document.getElementById('sel').value = 'true'">
             </td>
             <td rowspan="4" width="100">
-                <img src="files/images/crimes/<?=$crime['icon']; ?>" alt="Snoep stelen van een kind" title="Snoep stelen van een kind">
+                <img src="files/images/crimes/<?=$crime['icon']; ?>" alt="Crime ICON" width="100%">
             </td>
             <td colspan="2">
                 <strong><?=$crime['name']; ?></strong>

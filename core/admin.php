@@ -213,31 +213,40 @@ class admin
         $database->updateConfigs(serialize($newItems), $field);
     }
 
-    public function createCrime($info) {
+    public function createCrime($info, $file) {
         global $database;
 
-        $this->checkCrimeForm($info);
+        $this->checkCrimeForm($info, $file);
 
         if (!empty($this->errorArray)) return true;
 
-        $items = array(':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':change' => $info['change']);
-        $database->update("INSERT INTO ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :change", $items);
+        $items = array(':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':change' => $info['change'], ':icon' => $file["file"]["name"]);
+        $database->update("INSERT INTO ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :change, icon = :icon", $items);
     }
 
-    public function updateCrime($info) {
+    public function updateCrime($info, $file) {
         global $database;
 
-        $this->checkCrimeForm($info);
+        var_dump($file);
+
+        if (empty($file['file']['name'])) $file = false;
+
+        $this->checkCrimeForm($info, $file);
 
         if (!empty($this->errorArray)) return true;
 
         $items = array(':id' => $_SESSION['get-crime-id'], ':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':ch' => $info['change']);
         $database->update("UPDATE ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :ch WHERE id = :id", $items);
 
+        if (empty($file['file']['name'])) {
+            $items = array(':id' => $_SESSION['get-crime-id'], ':icon' => $file["file"]["name"]);
+            $database->update("UPDATE ".TBL_CRIMES." SET icon = :icon WHERE id = :id", $items);
+        }
+
         unset($_SESSION['get-crime-id']);
     }
 
-    private function checkCrimeForm($info) {
+    private function checkCrimeForm($info, $file) {
         if (empty($info['name'])) {
             $this->errorArray[] = " - Please fill in a name.";
         }
@@ -262,6 +271,43 @@ class admin
             $this->errorArray[] = " - Please fill in a change.";
         } else if((int)$info['change'] < 1) {
             $this->errorArray[] = " - Change may not be under the 1.";
+        }
+
+        if ($file != false) {
+            $allowedExts = array("gif", "jpeg", "jpg", "png");
+            $temp = explode(".", $file["file"]["name"]);
+            $extension = end($temp);
+            if ((($file["file"]["type"] == "image/gif")
+                    || ($_FILES["file"]["type"] == "image/jpeg")
+                    || ($_FILES["file"]["type"] == "image/jpg")
+                    || ($_FILES["file"]["type"] == "image/pjpeg")
+                    || ($_FILES["file"]["type"] == "image/x-png")
+                    || ($_FILES["file"]["type"] == "image/png"))
+                && ($file["file"]["size"] < 2000000)
+                && in_array($extension, $allowedExts))
+            {
+                if ($_FILES["file"]["error"] > 0)
+                {
+                    $this->errorArray[] = " - Return Code: " . $file["file"]["error"];
+                }
+                else
+                {
+
+                    if (file_exists("files/images/crimes/" . $file["file"]["name"]))
+                    {
+                        $this->errorArray[] = $file["file"]["name"] . " already exists. ";
+                    }
+                    else
+                    {
+                        move_uploaded_file($file["file"]["tmp_name"],
+                            "files/images/crimes/" . $file["file"]["name"]);
+                    }
+                }
+            }
+            else
+            {
+                $this->errorArray[] = " - Invalid file";
+            }
         }
     }
 }
