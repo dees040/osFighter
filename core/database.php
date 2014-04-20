@@ -211,6 +211,7 @@ class Database
         if ($stmt->execute(array(':username' => $username, ':password' => $password, ':usersalt' => $usersalt, ':email' => $email, ':token' => $token))) {
             $items = array(':user' => $this->getLastUserRegisteredName());
             $this->insert("INSERT INTO ".TBL_INFO." SET uid = :user", $items);
+            $this->insert("INSERT INTO ".TBL_CRIMES." SET uid = :user", $items);
         }
 
         return false;
