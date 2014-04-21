@@ -1,0 +1,258 @@
+/* 
+    Document   : style
+    Created on : Feb 8, 2012, 9:44:27 AM
+    Author     : Patrick
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    margin: 0 auto;
+    background: url('../images/bg.jpg');
+    
+    color: #ffffff;
+    font-family: Verdana;
+    font-size: 10px;
+}
+
+a { 
+    text-decoration: none;
+    color: #ffffff;
+}
+
+ul {
+    list-style-type: none;
+    display: inline;
+}
+
+.menu ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+p {
+    padding: 0px;
+    margin: 0px;
+}
+
+img {
+    border: none;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.container {
+    width: 1074px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.header {
+    height: 179px;
+    overflow: hidden;
+}
+
+.header .logo {
+    height: 179px;
+    float: left;
+    
+    margin-left: 20px;
+}
+
+.header .infoBox {
+    width: 570px;
+    float: right;
+    
+    background: #1e1e1e;
+    margin-top: 50px;
+    
+    -moz-box-shadow: inset 0 0 5px 5px #1a1a1a;
+    -webkit-box-shadow: inset 0 0 5px 5px #1a1a1a;
+    box-shadow: inset 0 0 5px 5px #1a1a1a;
+}
+
+.header .infoBox .item {
+    margin: 10px 5px;
+    width: 180px;
+    
+    overflow: hidden;
+}
+
+.header .infoBox .itemImg {
+    width: 30px;
+    float: left;
+}
+
+.header .infoBox .itemText {
+    float: right;
+    width: 150px;
+}
+
+.navigation {
+    background: url('../images/navbg.png') no-repeat;
+    height: 39px;
+    width: 1073px;
+    padding-top: 10px;
+}
+
+.navigation li {
+    display: inline;
+    font-size: 14px;
+    
+    font-family: calibri;
+}
+
+.navigation li a {
+    margin-right: 20px;
+    text-shadow: 1px 1px #000000;
+}
+
+.navigation li a:hover {
+    text-shadow: none;
+}
+
+.content {
+    width: 1074px;
+}
+
+.menu {
+    width: 195px;
+    font-family: calibri;
+    
+    margin-bottom: 20px;
+}
+
+.menu .menuHeader {
+    background: url('../images/menubg.png') repeat-x;
+    height: 34px;
+    
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    
+    font-size: 14px;
+}
+
+.menu .menuHeader p {
+    padding: 8px 0px 0px 10px;
+    text-shadow: 1px 1px #000000;
+}
+
+.menu li {
+    background: #a57646;
+    
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    
+    font-size: 12px;
+    
+    padding: 5px 20px;
+}
+
+.menu li.uneven {
+    background: #a17141;
+}
+
+.menu li.last {
+    border-bottom: 1px solid #000000;
+}
+
+.menu li a:hover {
+    text-decoration: underline;
+}
+
+.box {
+    width: 645px;
+    margin: 0px 0px 18px 18px;
+}
+
+.box .boxHeader {
+    background: url('../images/menubg.png') repeat-x;
+    height: 34px;
+    
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    
+    font-size: 14px;    
+}
+
+.box .boxHeader p {
+    padding: 8px 0px 0px 10px;
+    text-shadow: 1px 1px #000000;
+    float: left;
+}
+
+.box .boxHeader .description {
+    float: left;
+    font-size: 10px;
+    padding: 12px 0px 0px 20px;
+    color: #e1cfbe;
+    
+    font-family: arial;
+}
+
+.box .boxContent {
+    background: #ae7c48;
+    
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    
+    text-align: center;
+}
+
+.box .boxContent.wietBg {
+    background: url('../images/wietbg.png') #ae7c48 right no-repeat;
+}
+
+.box .boxContent p {
+    padding: 5px 10px 5px 10px;
+    text-align: left;
+}
+
+.box .boxContent .withBg {
+    background: url('../images/linebg.png');
+    text-align: left;
+    overflow: hidden;
+}
+
+.box .boxContent .withoutBg {
+    text-align: left;
+    overflow: hidden;
+}
+
+.box .boxContent .list {
+    width: 100px;
+}
+
+.box .boxContent .flist {
+    width: 30px;
+}
+
+.box .boxContent .advert {
+    padding: 30px 0px;
+}
+
+.button {
+    background: url('../images/button.png') no-repeat;
+    height: 32px;
+    width: 91px;
+    
+    border: none;
+    font-size: 11px;
+}
+
+.footer {
+    float: left;
+    text-align: center;
+    width: 1074px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
