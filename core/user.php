@@ -7,6 +7,7 @@ class User
     public $time;
 
     public $in_jail;
+    public $family;
 
     /**
      * Class constructor
@@ -24,6 +25,7 @@ class User
 
     private function init() {
         $this->check();
+        $this->setFamily();
         $this->in_jail = $this->checkJail();
     }
 
@@ -31,6 +33,22 @@ class User
         if ($this->stats->rank_process >= 100) {
             $this->updateRank();
         }
+    }
+
+    private function setFamily() {
+        global $database;
+
+        $items = array(":fid" => $this->stats->fid);
+        $family = $database->select("SELECT * FROM ".TBL_FAMILY." WHERE id = :fid", $items)->fetchObject();
+
+        if ($family == false) {
+            $this->family->id = 0;
+            $this->family->name = "none";
+        } else {
+            $this->family->id = $family->id;
+            $this->family->name = $family->name;
+        }
+
     }
 
     private function checkJail() {
