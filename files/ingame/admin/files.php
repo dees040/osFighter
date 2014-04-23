@@ -67,6 +67,7 @@
                             <option value="crime">Crime</option>
                             <option value="locations">Locations</option>
                             <option value="casino">Casino</option>
+                            <option value="statistics">Statistics</option>
                             <option value="admin">Admin</option>
                         </select>
                     </td>
@@ -179,6 +180,7 @@
                                         'locations' => 'Locations',
                                         'casino' => 'Casino',
                                         'admin' => 'Admin',
+                                        'statistics' => 'Statistics'
                                     );
 
                                     foreach($cats as $key => $cat) {

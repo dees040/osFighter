@@ -155,8 +155,7 @@
 
                     <li><a href="#">Server time: <?php echo date("H:i:s"); ?></a></li>
                     <li><a href="#">Gangsters: <?php echo $database->getNumMembers(); ?></a></li>
-                    <li><a href="#">Ziekenhuis</a></li>
-                    <li><a href="#">Online: <?php echo $database->num_active_users; ?></a></li>
+                    <li><a href="online">Online: <?php echo $database->num_active_users; ?></a></li>
                     <li style="border: 0;"><a href="#">Meer statistieken</a></li>
                 </ul>
 

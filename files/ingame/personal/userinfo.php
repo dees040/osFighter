@@ -11,38 +11,127 @@
        !$database->usernameTaken($req_user)) {
        echo "Username not registered";
     } else {
-
-        /* Logged in user viewing own account */
-        if (strcmp($session->username,$req_user) == 0) {
-           echo "<h1>My Account</h1>";
-        } else { /* Visitor not viewing own account */
-           echo "<h1>User Info</h1>";
-        }
-
         /* Display requested user information - add/delete as applicable */
-        $req_user_info = $database->getUserInfo($req_user);
+        $user_info = (object)$database->getUserInfo($req_user);
+        $items = array(':user' => $user_info->username);
+        $stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :user", $items)->fetchObject();
+?>
+        <img src="files/images/icons/bomb.png"> <a href="attack?target=<?=$user_info->username; ?>"><b>Aanvallen</b></a>
+        <img src="files/images/icons/vcard.png" style="margin-left:30px;"> <a href="messages?box=new&to=<?=$user_info->username; ?>"><b>PB sturen</b></a>
+        <img src="files/images/icons/key.png" style="margin-left:30px;"> <a href="click?to=<?=$user_info->username; ?>" target="_blank"><b>Secret link</b></a>
+        <img src="files/images/icons/ruby_add.png" style="margin-left:30px;"> <a href="respect?to=<?=$user_info->username; ?>"><b>Respect</b></a>
+        <img src="files/images/icons/group_link.png" style="margin-left:30px;"><a href="friends-enemies?add=<?=$user_info->username; ?>"><b>Vriend</b></a>
 
-        /* Username */
-        echo "<b>Username: ".$req_user_info['username']."</b><br>";
 
-        /* Email */
-        echo "<b>Email:</b> ".$req_user_info['email']."<br>";
+        <table width="100%" border="0" cellspacing="2" cellpadding="2" class="mod_list">
+            <tr>
+                <td width="35%" class="first">Username:</td>
+                <?php
+                    $status = "status_offline.png";
 
-        /**
-         * Note: when you add your own fields to the users table
-         * to hold more information, like homepage, location, etc.
-         * they can be easily accessed by the user info array.
-         *
-         * $session->user_info['location']; (for logged in users)
-         *
-         * $req_user_info['location']; (for any user)
-         */
-
-        /* If logged in user viewing own account, give link to edit */
-        if (strcmp($session->username,$req_user) == 0) {
-           echo '<br><a href="edit-account">Edit Account Information</a><br>';
-        }
-
-        /* Link back to main */
-        echo "<br>Back To [<a href='home'>Home</a>]<br>";
+                    if ($database->select("SELECT username FROM ".TBL_ACTIVE_USERS." WHERE username = :user", $items)->rowCount()) {
+                        $status = "status_online.png";
+                    }
+                ?>
+                <td width="6%" align=center><img src="files/images/icons/<?=$status; ?>" title="Online"></td>
+                <td width="69%"><?=$user_info->username; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Health:</td>
+                <td width="6%" align=center><img src="files/images/icons/heart.png" border="0px"></td>
+                <td width="69%"><?=$stats->health; ?>%</td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Power:</td>
+                <td width="6%" align=center><img src="files/images/icons/star.png" border="0px"></td>
+                <td width="69%"><? echo $power_profiel; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Family power:</td>
+                <td width="6%" align=center><img src="files/images/icons/star.png" border="0px"></td>
+                <td width="69%"><? echo $powerfamilie_profiel; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Power total:</td>
+                <td width="6%" align=center><img src="files/images/icons/star.png" border="0px"></td>
+                <td width="69%"><? echo $power_totaal; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Respect:</td>
+                <td width="6%" align=center><img src="files/images/icons/ruby.png" border="0px"></td>
+                <td width="69%"><? echo $stats->respect; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Home:</td>
+                <td width="6%" align=center><img src="files/images/icons/woning-icon.png" border="0px"></td>
+                <td width="69%"><? echo $stats->woning?>
+                </td>
+            <tr>
+                <td width="35%" class="first">City:</td>
+                <td width="6%" align=center><img src="files/images/icons/world.png" border="0px"></td>
+                <td width="69%"></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Safe:</td>
+                <td width="6%" align=center><img src="files/images/icons/shield.png" border="0px"></td>
+                <td width="69%"><? echo $stats->safe; ?> uur</td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Protection:</td>
+                <td width="6%" align=center><img src="files/images/icons/shield.png" border="0px"></td>
+                <td width="69%"><? echo $stats->maffia; ?> uur</td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Penalties:</td>
+                <td width="6%" align=center><img src="files/images/icons/warning.png" border="0px"></td>
+                <td width="69%"></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Money (cash):</td>
+                <td width="6%" align=center><img src="files/images/icons/money.png" border="0px"></td>
+                <td width="69%">&euro; <?=$stats->money; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Money (bank):</td>
+                <td width="6%" align=center><img src="files/images/icons/bank.png" border="0px"></td>
+                <td width="69%">&euro; <?=$stats->bank; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Family:</td>
+                <td width="6%" align=center><img src="files/images/icons/group.png" border="0px"></td>
+                <td width="69%"></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Rank:</td>
+                <td width="6%" align=center><img src="files/images/icons/lightning.png" border="0px"></td>
+                <td width="69%"><?=$info['ranks'][$stats->rank]; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Rank process:</td>
+                <td width="6%" align=center><img src="files/images/icons/wand.png" border="0px"></td>
+                <td width="69%"><?=$stats->rank_process; ?>%</td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Trained killers:</td>
+                <td width="6%" align=center><img src="files/images/icons/bricks.png" border="0px"></td>
+                <td width="69%"><?=$stats->killers; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Attack coins:</td>
+                <td width="6%" align=center><img src="files/images/icons/brick.png" border="0px"></td>
+                <td width="69%"><?=$stats->kogels; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Attack wins:</td>
+                <td width="6%" align=center><img src="files/images/icons/brick_add.png" border="0px"></td>
+                <td width="69%"><?=$stats->attwins; ?></td>
+            </tr>
+            <tr>
+                <td width="35%" class="first">Attack losses:</td>
+                <td width="6%" align=center><img src="files/images/icons/brick_delete.png" border="0px"></td>
+                <td width="69%"><?=$stats->attlost; ?></td>
+            </tr>
+        </table>
+<?php
     }
+?>

@@ -7,6 +7,7 @@ class User
     public $time;
 
     public $in_jail;
+    public $in_family;
     public $family;
 
     /**
@@ -44,9 +45,11 @@ class User
         if ($family == false) {
             $this->family->id = 0;
             $this->family->name = "none";
+            $this->in_family = false;
         } else {
             $this->family->id = $family->id;
             $this->family->name = $family->name;
+            $this->in_family = true;
         }
 
     }

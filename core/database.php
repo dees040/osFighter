@@ -211,7 +211,8 @@ class Database
         if ($stmt->execute(array(':username' => $username, ':password' => $password, ':usersalt' => $usersalt, ':email' => $email, ':token' => $token))) {
             $items = array(':user' => $this->getLastUserRegisteredName());
             $this->insert("INSERT INTO ".TBL_INFO." SET uid = :user", $items);
-            $this->insert("INSERT INTO ".TBL_CRIMES." SET uid = :user", $items);
+            $this->insert("INSERT INTO ".TBL_TIME." SET uid = :user", $items);
+            return true;
         }
 
         return false;
@@ -407,11 +408,24 @@ class Database
     }
 
     /**
+     *
+     * @param $table
+     * @param $orderBy
+     * @param $start
+     * @param $end
+     * @return mixed
+     */
+    public function paginate($table, $orderBy, $start, $end) {
+        $query = $this->select("SELECT * FROM ".$table." ORDER BY ".$orderBy." LIMIT ".$start.", ".$end);
+        return $query->fetchAll();
+    }
+
+    /**
      * Select from database
      *
-     * @param-1: The query that has to be executed
-     * @param-2: The placeholders (Default = empty array)
-     * @return:  Query result
+     * @param $query The query that has to be executed
+     * @param array $items The placeholders (Default = empty array)
+     * @return bool|\PDOStatement :  Query result
      */
     public function select($query, $items = array()) {
         try {
@@ -421,7 +435,11 @@ class Database
             echo $e;
         }
 
-        return $stmt;
+        if ($stmt) {
+            return $stmt;
+        } else {
+            return false;
+        }
     }
 
     /**
