@@ -3,7 +3,7 @@ osFighter
 
 OpenSource Roll Playing Click Game.
 
-Currently under active development.
+Currently not under development.
 
 By:
  - Dees Oomens
