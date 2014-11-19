@@ -209,7 +209,7 @@ class Database
         $query = "INSERT INTO ".TBL_USERS." SET username = :username, password = :password, usersalt = :usersalt, userid = 0, userlevel = $ulevel, email = :email, timestamp = $time, actkey = :token, ip = '$userip', regdate = $time";
         $stmt = $this->connection->prepare($query);
         if ($stmt->execute(array(':username' => $username, ':password' => $password, ':usersalt' => $usersalt, ':email' => $email, ':token' => $token))) {
-            $items = array(':user' => $this->getLastUserRegisteredName());
+            $items = array(':user' => $this->getLastUserRegisteredId());
             $this->insert("INSERT INTO ".TBL_INFO." SET uid = :user", $items);
             $this->insert("INSERT INTO ".TBL_TIME." SET uid = :user", $items);
             return true;
@@ -299,6 +299,16 @@ class Database
          $result = $this->connection->query("SELECT username, regdate FROM ".TBL_USERS." ORDER BY regdate DESC LIMIT 0,1");
          $this->lastuser_reg = $result->fetchColumn(1);
          return $this->lastuser_reg;
+    }
+
+    /**
+     * getLastUserRegistered - Returns the id of the last
+     * member to sign up and the date.
+     */
+    public function getLastUserRegisteredId() {
+        $result = $this->connection->query("SELECT id, regdate FROM ".TBL_USERS." ORDER BY regdate DESC LIMIT 0,1");
+        $this->lastuser_reg = $result->fetchColumn();
+        return $this->lastuser_reg;
     }
 
     public function getRanks() {
