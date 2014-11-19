@@ -124,6 +124,10 @@ class Session
         if (!$subuser || strlen($subuser = trim($subuser)) == 0) {
             $form->setError($field, "* Username not entered");
         } else {
+            /* Check if username is banned */
+            if ($database->usernameBanned($subuser)) {
+                $form->setError($field, "* Username banned");
+            }
             /* Check if username is not alphanumeric */
             /*if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subuser)) {
                 $form->setError($field, "* Username not alphanumeric");
@@ -363,7 +367,7 @@ class Session
     /**
      * editConfigs - edits the site configurations in the database
      */
-    function editConfigs($subsitename, $subsitedesc, $subemailfromname, $subadminemail, $subwebroot, $subhome_page, $subactivation, $submin_user_chars, $submax_user_chars, $submin_pass_chars, $submax_pass_chars, $subsend_welcome, $subenable_login_question, $sub_captcha, $sub_all_lowercase, $subuser_timeout, $subguest_timeout, $subcookie_expiry, $subcookie_path){
+    function editConfigs($subsitename, $subsitedesc, $subemailfromname, $subadminemail, $subwebroot, $subhome_page, $subactivation, $submin_user_chars, $submax_user_chars, $submin_pass_chars, $submax_pass_chars, $subsend_welcome, $subenable_login_question, $sub_captcha, $sub_all_lowercase, $subuser_timeout, $subguest_timeout, $subcookie_expiry, $subcookie_path, $currency, $number_format){
         global $database, $form;  //The database and form object
 
         /* New Sitename entered */
@@ -374,8 +378,6 @@ class Session
                 $form->setError($field, "* Sitename not entered");
             } else if (strlen($subsitename) > 40) {
                 $form->setError($field, "* Sitename above 40 characters");
-            } else if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subsitename)) {
-                $form->setError($field, "* Sitename not alphanumeric");
             }
         }
 
@@ -387,8 +389,6 @@ class Session
                 $form->setError($field, "* Site description not entered");
             } else if (strlen($subsitedesc) > 60) {
                 $form->setError($field, "* Site description above 60 characters");
-            } else if (!preg_match("/^[a-z0-9]([0-9a-z_.-\s])+$/i", $subsitedesc)) {
-                $form->setError($field, "* Site description not alphanumeric");
             }
         }
 
@@ -400,8 +400,6 @@ class Session
                 $form->setError($field, "* Email From Name not entered");
             } else if(strlen($subemailfromname) > 60) {
                 $form->setError($field, "* From Name above 60 characters");
-            } else if(!preg_match("/^[a-z0-9]([0-9a-z_.-\s])+$/i", $subemailfromname)) {
-                $form->setError($field, "* From Name not alphanumeric");
             }
         }
 
@@ -573,6 +571,32 @@ class Session
             $database->updateConfigs($subcookie_path,"COOKIE_PATH");
         }
 
+        if ($number_format) {
+            $database->updateConfigs($number_format,"NUMBER_FORMAT");
+        }
+
+        if ($currency) {
+            $value = "";
+            switch($currency) {
+                case 1:
+                    $value = "&#36;";
+                    break;
+                case 2:
+                    $value = "&#128;";
+                    break;
+                case 3:
+                    $value = "&#165;";
+                    break;
+                case 4:
+                    $value = "&#163;";
+                    break;
+                default:
+                    $value = "&#36;";
+                    break;
+            }
+            $database->updateConfigs($value, "CURRENCY");
+        }
+
         /* Success! */
         return true;
     }
@@ -709,5 +733,17 @@ class Session
             }
         }
         return $randstr;
+    }
+
+    public function createFormat($number) {
+        global $database;
+
+        $number_format = $database->getConfigs()['NUMBER_FORMAT'];
+
+        if ($number_format == 1) {
+            return number_format($number, 0, ',', '.');
+        } else if ($number_format == 2) {
+            return number_format($number, 0, '.', ',');
+        }
     }
 };

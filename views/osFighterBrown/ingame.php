@@ -4,11 +4,11 @@
         <link href="css/style.css" rel="stylesheet" type="text/css"></link>
         <title><?php echo $info['title']." | ".$info['link']->title; ?></title>
         <base href="<?= $info['base']; ?>">
-        <link href="themes/osFighterBrown/css/style.css" rel="stylesheet" />
-        <link href="themes/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
+        <link href="views/osFighterBrown/css/style.css" rel="stylesheet" />
+        <link href="views/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
         <script src="files/js/jquery.min.js"></script>
         <script src="files/js/jquery-ui.min.js"></script>
-        <script src="themes/FrenzoTheme/js/tabs/tabcontent.js"></script>
+        <script src="views/FrenzoTheme/js/tabs/tabcontent.js"></script>
         <script src="files/js/functions.js"></script>
     </head>
     <body>
@@ -16,46 +16,46 @@
         <div class="container">
             <div class="header">
                 <div class="logo">
-                    <img src="themes/osFighterBrown/images/logo.png" alt="StarOGame">
+                    <img src="views/osFighterBrown/images/logo.png" alt="StarOGame">
                 </div>
                 <div class="infoBox">
                     <div class="left">
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/userIcon.png" alt="name"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/userIcon.png" alt="name"></div>
                             <div class="itemText"><?=$user->info->username; ?></div>
                         </div>
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/medalIcon.png" alt="rank"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/medalIcon.png" alt="rank"></div>
                             <div class="itemText"><?=$info['ranks'][$user->stats->rank]; ?></div>
                         </div>
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/groupIcon.png" alt="rank"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/groupIcon.png" alt="rank"></div>
                             <div class="itemText"><?=$info['cities'][$user->stats->city]; ?></div>
                         </div>
                     </div>
                     
                     <div class="left">
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/emailIcon.png" alt="Inbox"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/emailIcon.png" alt="Inbox"></div>
                             <div class="itemText">Inbox: <b>3</b> nieuwe berichten</div>
                         </div>
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/heartIcon.png" alt="health"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/heartIcon.png" alt="health"></div>
                             <div class="itemText"><?=$user->stats->health; ?>%</div>
                         </div>
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/awardIcon.png" alt="respect"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/awardIcon.png" alt="respect"></div>
                             <div class="itemText">Respect: 1337</div>
                         </div>
                     </div>
                     
                     <div class="left">
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/bombIcon.png" alt="attackpower"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/bombIcon.png" alt="attackpower"></div>
                             <div class="itemText">Attackpower: 3976</div>
                         </div> 
                         <div class="item">
-                            <div class="itemImg"><img src="themes/osFighterBrown/images/shieldIcon.png" alt="defendpower"></div>
+                            <div class="itemImg"><img src="views/osFighterBrown/images/shieldIcon.png" alt="defendpower"></div>
                             <div class="itemText">Defensepower: 4976</div>
                         </div> 
                     </div>

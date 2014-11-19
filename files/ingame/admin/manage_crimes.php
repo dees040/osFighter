@@ -74,7 +74,7 @@
                         Change(?):
                     </td>
                     <td>
-                        <input type="range" name="change" min="1" max="200" value="<?=$crime->change; ?>" class="input-change" title="Click and/or use arrow keys"> <em class="crime-change-output"></em>
+                        <input type="range" name="change" style="width: 200px;" min="1" max="200" value="<?=$crime->change; ?>" class="input-change" title="Click and/or use arrow keys"> <em class="crime-change-output"></em>
                     </td>
                 </tr>
                 <tr>

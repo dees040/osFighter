@@ -252,7 +252,7 @@ class Process
             $_POST['min_user_chars'], $_POST['max_user_chars'], $_POST['min_pass_chars'],
             $_POST['max_pass_chars'], $_POST['send_welcome'], $_POST['enable_login_question'],
             $_POST['enable_capthca'], $_POST['all_lowercase'], $_POST['user_timeout'], $_POST['guest_timeout'],
-            $_POST['cookie_expiry'], $_POST['cookie_path']);
+            $_POST['cookie_expiry'], $_POST['cookie_path'], $_POST['currency'], $_POST['number_format']);
 
         /* Account edit successful */
         if($retval){

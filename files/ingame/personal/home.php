@@ -7,22 +7,22 @@
     <tr>
         <td width="35%">Health:</td>
         <td width="6%"><img src="files/images/icons/heart.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=hospital"><?=$user->stats->health; ?>%</a></td>
+        <td width="69%"><a href="locations/hospital"><?=$user->stats->health; ?>%</a></td>
     </tr>
     <tr>
         <td width="35%">Power:</td>
         <td width="6%"><img src="files/images/icons/star.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=shop"><?=$user->stats->power; ?></a></td>
+        <td width="69%"><a href="locations/shop"><?=$user->stats->power; ?></a></td>
     </tr>
     <tr>
         <td width="35%">Money (cash):</td>
         <td width="6%"><img src="files/images/icons/money.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=bank">&euro; <?=$user->stats->money; ?></a></td>
+        <td width="69%"><a href="locations/bank">&euro; <?=$user->stats->money; ?></a></td>
     </tr>
     <tr>
         <td width="35%">Money (bank):</td>
         <td width="6%"><img src="files/images/icons/bank.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=bank">&euro; <?=$user->stats->bank; ?></a></td>
+        <td width="69%"><a href="locations/bank">&euro; <?=$user->stats->bank; ?></a></td>
     </tr>
     <tr>
         <td width="35%">Rank:</td>
@@ -32,12 +32,12 @@
     <tr>
         <td width="35%">Credits:</td>
         <td width="6%"><img src="files/images/icons/coins.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=buycredits">-</a></td>
+        <td width="69%"><a href="call-credits/shop">-</a></td>
     </tr>
     <tr>
         <td width="35%">VIP:</td>
         <td width="6%"><img src="files/images/icons/credit-card-green.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=buycredits">-</a></td>
+        <td width="69%"><a href="call-credits/shop">-</a></td>
     </tr>
     <tr>
         <td width="35%">Rank process:</td>
@@ -48,7 +48,7 @@
     <tr>
         <td width="35%">City:</td>
         <td width="6%"><img src="files/images/icons/globe.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=station"><?=$info['cities'][$user->stats->city]; ?></a></td>
+        <td width="69%"><a href="locations/airport"><?=$info['cities'][$user->stats->city]; ?></a></td>
     </tr>
     <tr>
         <td width="35%">Family:</td>

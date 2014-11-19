@@ -44,7 +44,7 @@ class User
 
         if ($family == false) {
             $this->family->id = 0;
-            $this->family->name = "none";
+            $this->family->name = "-";
             $this->in_family = false;
         } else {
             $this->family->id = $family->id;
@@ -75,7 +75,7 @@ class User
             $rank_process = 100;
         }
 
-        $items = array(':rank' => $rank, ':process' => $rank_process, ':name' => $session->username);
+        $items = array(':rank' => $rank, ':process' => $rank_process, ':name' => $session->userinfo['id']);
         $database->update("UPDATE ".TBL_INFO." SET rank = :rank, rank_process = :process WHERE uid = :name", $items);
         $this->stats->rank = $rank;
         $this->stats->rank_process = $rank_process;

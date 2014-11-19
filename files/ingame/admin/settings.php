@@ -2,6 +2,7 @@
     <li><a href="#tab1">Main Settings</a></li>
     <li><a href="#tab2">Ranks</a></li>
     <li><a href="#tab3">City's</a></li>
+    <li><a href="#tab4">Themes</a></li>
 </ul>
 
 <div class="tabcontents inhoud">
@@ -38,6 +39,18 @@
                     <dd><input id="webroot" type="text" size="40" maxlength="255" name="webroot" value="<?php echo $config['WEB_ROOT']; ?>" /><br><?php echo $form->error("webroot"); ?></dd>
                     <dt><label for="home_page">Home Page:</label><br><span>Eg, index.php - This page among other things will be the page users are redirected to after logging off.</span></dt>
                     <dd><input id="home_page" type="text" size="40" maxlength="255" name="home_page" value="<?php echo $config['home_page']; ?>" /><br><?php echo $form->error("home_page"); ?></dd>
+                    <dt><label for="currency">Currency:</label><br><span>The currency of the site, default is &#36; Dollar.</span></dt>
+                    <dd>
+                        <label><input name="currency" value="1" class="radio" type="radio" <?php if($config['CURRENCY'] == "&#36;") { echo "checked='checked'"; } ?>> &#36; Dollar</label><br>
+                        <label><input name="currency" value="2" class="radio" type="radio" <?php if($config['CURRENCY'] == "&#128;") { echo "checked='checked'"; } ?>> &#128; Euro</label><br>
+                        <label><input name="currency" value="3" class="radio" type="radio" <?php if($config['CURRENCY'] == "&#165;") { echo "checked='checked'"; } ?>> &#165; Yen</label><br>
+                        <label><input name="currency" value="4" class="radio" type="radio" <?php if($config['CURRENCY'] == "&#163;") { echo "checked='checked'"; } ?>> &#163; Pound</label><br>
+                    </dd>
+                    <dt><label for="number_format">Number format:</label><br><span>Define the way numbers display. eg, for English format choose option 2 for ',' as thousand seperator.</span></dt>
+                    <dd>
+                        <label><input name="number_format" value="1" class="radio" type="radio" <?php if($config['NUMBER_FORMAT'] == "1") { echo "checked='checked'"; } ?>> <?=$config['CURRENCY'];?>1.000.000</label>
+                        <label><input name="number_format" value="2" class="radio" type="radio" <?php if($config['NUMBER_FORMAT'] == "2") { echo "checked='checked'"; } ?>> <?=$config['CURRENCY'];?>1,000,000</label>
+                    </dd>
                 </dl>
             </fieldset>
 
@@ -48,7 +61,7 @@
                     <dd>
                         <label><input name="activation" value="4" class="radio" type="radio" <?php if($config['ACCOUNT_ACTIVATION'] == 4) { echo "checked='checked'"; } ?>> Disable registration</label><br>
                         <label><input name="activation" value="1" class="radio" type="radio" <?php if($config['ACCOUNT_ACTIVATION'] == 1) { echo "checked='checked'"; } ?>> No activation (immediate access)</label><br>
-                        <label><input name="activation" value="2" class="radio" type="radio" <?php if($config['ACCOUNT_ACTIVATION'] == 2) { echo "checked='checked'"; } ?>> By user (e-mail verification)</label><br>
+                    <label><input name="activation" value="2" class="radio" type="radio" <?php if($config['ACCOUNT_ACTIVATION'] == 2) { echo "checked='checked'"; } ?>> By user (e-mail verification)</label><br>
                         <label><input name="activation" value="3" class="radio" type="radio" <?php if($config['ACCOUNT_ACTIVATION'] == 3) { echo "checked='checked'"; } ?>> By admin</label></dd>
                 </dl>
 
@@ -185,6 +198,67 @@
                 </tr>
             </table>
         </form>
+    </div>
+
+    <!-- settings page tab4: Themes Settings-->
+    <div id="tab4">
+        <?php
+            $possibleThemes = scandir("views");
+            $themes = array();
+
+            foreach($possibleThemes as $theme) {
+                if ($theme == "." || $theme == "..") continue;
+                if (!is_dir("views/".$theme)) continue;
+
+                $themes[] = $theme;
+            }
+
+            if (isset($_POST['theme_submit'])) {
+                $newTheme = $_POST['theme'];
+                if (in_array($newTheme, $themes)) {
+                    $database->updateConfigs($newTheme, "ACTIVE_THEME");
+                    header("Location: admin/settings");
+                } else {
+                    echo "This view does not exists.";
+                }
+            }
+        ?>
+
+        <form method="post">
+            <table>
+                <?php
+                    foreach($themes as $theme) {
+                    $themeInfo = scandir("views/".$theme);
+                    if (!in_array("ingame.php", $themeInfo) || !in_array("outgame.php", $themeInfo)) continue;
+                ?>
+                    <tr>
+                        <td>
+                            <input type="radio" name="theme" value="<?=$theme; ?>" <?=($info['theme'] == $theme) ? 'checked="checked"' : '' ?>>
+                        </td>
+                        <td>
+                            <?php
+                                if (in_array("screenshot.png", $themeInfo)) {
+                                    echo "<img src='views/".$theme."/screenshot.png' width='50%'>";
+                                } else {
+                                    echo "<img src='views/no-preview.png' width='50%'>";
+                                }
+                            ?>
+                        </td>
+                        <td>
+                            <?=$theme;?>
+                        </td>
+                    </tr>
+                <?php
+                    }
+                ?>
+                <tr>
+                    <td colspan="3">
+                        <input type="submit" value="Save!" name="theme_submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
     </div>
 
 </div>

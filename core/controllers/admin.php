@@ -227,8 +227,6 @@ class admin
     public function updateCrime($info, $file) {
         global $database;
 
-        var_dump($file);
-
         if (empty($file['file']['name'])) $file = false;
 
         $this->checkCrimeForm($info, $file);
@@ -238,7 +236,7 @@ class admin
         $items = array(':id' => $_SESSION['get-crime-id'], ':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':ch' => $info['change']);
         $database->update("UPDATE ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :ch WHERE id = :id", $items);
 
-        if (empty($file['file']['name'])) {
+        if (!empty($file['file']['name'])) {
             $items = array(':id' => $_SESSION['get-crime-id'], ':icon' => $file["file"]["name"]);
             $database->update("UPDATE ".TBL_CRIMES." SET icon = :icon WHERE id = :id", $items);
         }

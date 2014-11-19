@@ -16,7 +16,7 @@
             <div id="status">
                 <table>
                     <tr>
-                        <td width="35%" class="first">Leven</td>
+                        <td width="35%" class="first">Health</td>
                         <td>
                             <div class="bar">
                                 <div class="bar" style="width: <?=$user->stats->health; ?>%; background: #dd5252; color: #3c2a23;">
@@ -27,7 +27,7 @@
                     </tr>
 
                     <tr>
-                        <td class="first">power</td>
+                        <td class="first">Process</td>
                         <td>
                             <div class="bar">
                                 <div class="bar" style="width: <?=$user->stats->rank_process; ?>%; background: #0097a9; color: #3c2a23;">
@@ -45,6 +45,16 @@
                     <tr>
                         <td class="first">Country</td>
                         <td><?=$info['cities'][$user->stats->city]; ?></td>
+                    </tr>
+
+                    <tr>
+                        <td class="first">Money</td>
+                        <td><?=$info['currency'].$session->createFormat($user->stats->money); ?></td>
+                    </tr>
+
+                    <tr>
+                        <td class="first">Bank</td>
+                        <td><?=$info['currency'].$session->createFormat($user->stats->bank); ?></td>
                     </tr>
                 </table>
             </div>
@@ -113,7 +123,7 @@
 
             </div>
 
-            <div class="menus" style="float: right;">
+            <div class="menus right" style="float: right;">
                 <ul class="menu">
                     <h1>Crime</h1> <img src="views/FrenzoTheme/images/icons/1391731384_Police_officer.png" class="menu-icon" />
 

@@ -11,7 +11,9 @@
     }
 
     if (isset($_POST['crime'])) {
+        $crime = $database->select("SELECT * FROM ".TBL_CRIMES." WHERE id = :id", array(':id' => $_POST["crime"]))->fetchObject();
 
+        $change = floor($user->stats->crime_process / $crime['change']);
     }
 
 ?>
@@ -65,4 +67,5 @@
         </tr>
         <?php } ?>
     </table>
+    <input type="submit" value="Go!">
 </form>

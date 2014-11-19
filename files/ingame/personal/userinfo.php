@@ -7,13 +7,12 @@
 
     /* Requested Username error checking */
     if (!$req_user || strlen($req_user) == 0 ||
-       !preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $req_user) ||
        !$database->usernameTaken($req_user)) {
        echo "Username not registered";
     } else {
         /* Display requested user information - add/delete as applicable */
         $user_info = (object)$database->getUserInfo($req_user);
-        $items = array(':user' => $user_info->username);
+        $items = array(':user' => $user_info->id);
         $stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :user", $items)->fetchObject();
 ?>
         <img src="files/images/icons/bomb.png"> <a href="attack?target=<?=$user_info->username; ?>"><b>Aanvallen</b></a>
@@ -44,7 +43,7 @@
             <tr>
                 <td width="35%" class="first">Power:</td>
                 <td width="6%" align=center><img src="files/images/icons/star.png" border="0px"></td>
-                <td width="69%"><? echo $power_profiel; ?></td>
+                <td width="69%"><? echo $stat; ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Family power:</td>
