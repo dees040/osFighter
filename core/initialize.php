@@ -18,7 +18,7 @@ function osFighter_autoloader($class) {
     } elseif (file_exists('core/controllers/'.strtolower($class).'.php')) {
         include 'core/controllers/'.strtolower($class).'.php';
     } else {
-
+        die("The server is missing a class file, script could not continue.");
     }
 }
 
@@ -50,7 +50,7 @@ class initialize
     }
 
     /**
-     * Check if the given url exsits and the user has permission to see it.
+     * Check if the given url exists and the user has permission to see it.
      */
     private function initialize() {
 
@@ -70,7 +70,7 @@ class initialize
     }
 
     /**
-     * Functions to check if page exsits
+     * Functions to check if page exists
      * @return bool|object
      */
     private function pageExists() {
@@ -85,7 +85,7 @@ class initialize
             ->select("SELECT pages.*, menus.menu FROM ".TBL_PAGES." INNER JOIN menus ON menus.pid = pages.id WHERE pages.link = :url", $items)
             ->fetchObject();
 
-        if (is_object($link) && $this->checkFileExsits($link->menu, $link->file)) return $link;
+        if (is_object($link) && $this->checkFileExists($link->menu, $link->file)) return $link;
 
         return false;
     }
@@ -115,7 +115,7 @@ class initialize
      * @param $path path to file which need to be checked
      * @return bool
      */
-    private function checkFileExsits($category, $path) {
+    private function checkFileExists($category, $path) {
         global $session;
 
         if ($session->logged_in && file_exists("files/ingame/".$category."/".$path)) {

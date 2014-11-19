@@ -25,6 +25,7 @@
         );
         $items = $query->fetchAll();
 ?>
+    You can drag the menu items into diffrent orders.
     <form method="post">
         <?php
             if ($query->rowCount()) {

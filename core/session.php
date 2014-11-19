@@ -125,9 +125,9 @@ class Session
             $form->setError($field, "* Username not entered");
         } else {
             /* Check if username is not alphanumeric */
-            if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subuser)) {
+            /*if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subuser)) {
                 $form->setError($field, "* Username not alphanumeric");
-            }
+            }*/
         }
 
         /* Password error checking */
@@ -264,9 +264,9 @@ class Session
                 $form->setError($field, "* Username above ".$config['max_user_chars']."characters");
             }
             /* Check if username is not alphanumeric */
-            else if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subuser)) {
+            /*else if (!preg_match("/^[a-z0-9]([0-9a-z_-\s])+$/i", $subuser)) {
                 $form->setError($field, "* Username not alphanumeric");
-            }
+            }*/
             /* Check if username is reserved */
             else if (strcasecmp($subuser, GUEST_NAME) == 0) {
                 $form->setError($field, "* Username reserved word");

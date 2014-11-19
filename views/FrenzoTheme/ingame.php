@@ -3,11 +3,11 @@
     <head>
         <title><?php echo $info['title']." | ".$info['link']->title; ?></title>
         <base href="<?= $info['base']; ?>">
-        <link href="themes/FrenzoTheme/css/ingame.css" rel="stylesheet" />
-        <link href="themes/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
+        <link href="views/FrenzoTheme/css/ingame.css" rel="stylesheet" />
+        <link href="views/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
         <script src="files/js/jquery.min.js"></script>
         <script src="files/js/jquery-ui.min.js"></script>
-        <script src="themes/FrenzoTheme/js/tabs/tabcontent.js"></script>
+        <script src="views/FrenzoTheme/js/tabs/tabcontent.js"></script>
         <script src="files/js/functions.js"></script>
     </head>
     <body>
@@ -54,7 +54,7 @@
 
             <div class="menus" style="float: left;">
                 <ul class="menu">
-                    <h1>Personal</h1> <img src="themes/FrenzoTheme/images/icons/1391648113_administrator.png" class="menu-icon" />
+                    <h1>Personal</h1> <img src="views/FrenzoTheme/images/icons/1391648113_administrator.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['personal'])) {
@@ -67,7 +67,7 @@
                 </ul>
 
                 <ul class="menu">
-                    <h1>Call Credits</h1> <img src="themes/FrenzoTheme/images/icons/1391731203_bookmark_toolbar.png" class="menu-icon" />
+                    <h1>Call Credits</h1> <img src="views/FrenzoTheme/images/icons/1391731203_bookmark_toolbar.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['call-credits'])) {
@@ -79,7 +79,7 @@
                 </ul>
 
                 <ul class="menu">
-                    <h1>Family</h1> <img src="themes/FrenzoTheme/images/icons/1391731263_family.png" class="menu-icon" />
+                    <h1>Family</h1> <img src="views/FrenzoTheme/images/icons/1391731263_family.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['family'])) {
@@ -91,7 +91,7 @@
                 </ul>
 
                 <ul class="menu">
-                    <h1>Extra</h1> <img src="themes/FrenzoTheme/images/icons/1391731349_search.png" class="menu-icon" />
+                    <h1>Extra</h1> <img src="views/FrenzoTheme/images/icons/1391731349_search.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['extra'])) {
@@ -115,7 +115,7 @@
 
             <div class="menus" style="float: right;">
                 <ul class="menu">
-                    <h1>Crime</h1> <img src="themes/FrenzoTheme/images/icons/1391731384_Police_officer.png" class="menu-icon" />
+                    <h1>Crime</h1> <img src="views/FrenzoTheme/images/icons/1391731384_Police_officer.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['crime'])) {
@@ -127,7 +127,7 @@
                 </ul>
 
                 <ul class="menu">
-                    <h1>Locations</h1> <img src="themes/FrenzoTheme/images/icons/1391731369_push_pin.png" class="menu-icon" />
+                    <h1>Locations</h1> <img src="views/FrenzoTheme/images/icons/1391731369_push_pin.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['locations'])) {
@@ -139,7 +139,7 @@
                 </ul>
 
                 <ul class="menu">
-                    <h1>Casino</h1> <img src="themes/FrenzoTheme/images/icons/1391731460_Game-casino.png" class="menu-icon" />
+                    <h1>Casino</h1> <img src="views/FrenzoTheme/images/icons/1391731460_Game-casino.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['casino'])) {
@@ -151,7 +151,7 @@
                 </ul>
 
                 <ul class="menu">
-                    <h1>Statistics</h1> <img src="themes/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
+                    <h1>Statistics</h1> <img src="views/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
 
                     <li><a href="#">Server time: <?php echo date("H:i:s"); ?></a></li>
                     <li><a href="#">Gangsters: <?php echo $database->getNumMembers(); ?></a></li>
@@ -161,7 +161,7 @@
 
                 <?php if ($session->isAdmin()) { ?>
                 <ul class="menu">
-                    <h1>Admin</h1> <img src="themes/FrenzoTheme/images/icons/1391648113_administrator.png" class="menu-icon" />
+                    <h1>Admin</h1> <img src="views/FrenzoTheme/images/icons/1391648113_administrator.png" class="menu-icon" />
 
                     <?php
                     if (isset($info['menu']['admin'])) {

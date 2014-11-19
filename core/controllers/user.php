@@ -16,7 +16,7 @@ class User
     public function __construct() {
         global $database, $session;
 
-        $items = array(':uid' => $session->username);
+        $items = array(':uid' => $session->userinfo['id']);
         $this->info  = (object)$session->userinfo;
         $this->stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject();
         $this->time  = $database->select("SELECT * FROM ".TBL_TIME." WHERE uid = :uid", $items)->fetchObject();
