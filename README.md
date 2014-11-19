@@ -1,9 +1,11 @@
 osFighter
 =========
 
+<strong>Soon (~within 3 months, from October 29th) this application will be under active devolpment.</strong>
+
 OpenSource Roll Playing Click Game.
 
-Currently under active development.
+Currently not under development.
 
 By:
  - Dees Oomens
