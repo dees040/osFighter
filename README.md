@@ -1,7 +1,7 @@
 osFighter
 =========
 
-<strong>Soon (~within 3 months) this application will be under active devolpment.</strong>
+<strong>Soon (~within 3 months, from October 29th) this application will be under active devolpment.</strong>
 
 OpenSource Roll Playing Click Game.
 
