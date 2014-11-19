@@ -4,29 +4,24 @@
 {
     position:relative;
     width:700px;
-    margin: 0 auto; /*center-aligned*/
+    margin:0 auto; /*center-aligned*/
 }
-  
+
 #slider, #slider div.sliderInner {
     width:700px;height:306px;/* Must be the same size as the slider images */
-    border-radius: 8px;
 }
 
-/* make video and audio to have rounded corners */
-#slider iframe, #slider div.video, #slider audio { border-radius:8px; }
-
 #slider {
-    background:#fff url(loading.gif) no-repeat 50% 50%;
-    position:relative;
-	transform: translate3d(0,0,0);
+	background:#fff url(loading.gif) no-repeat 50% 50%;
+	position:relative;
+	margin:0 auto; /*center-aligned*/
+    transform: translate3d(0,0,0);
     box-shadow: 0px 1px 5px #999999;
 }
 
 /* image wrapper */
-#slider a.imgLink, #slider div.video
-{
+#slider a.imgLink, #slider div.video {
 	z-index:2;
-	cursor:pointer;
 	position:absolute;
 	top:0px;left:0px;border:0;padding:0;margin:0;
 	width:100%;height:100%;
@@ -46,9 +41,9 @@
 	z-index:3;
 	overflow:hidden;
 	font-size: 0;
-	border-radius: 0 0 6px 6px;/*round caption bottom corners */
 }
-#slider div.mc-caption-bg {
+#slider div.mc-caption-bg 
+{
     /* NOTE: Its opacity is to be set through the sliderOptions.captionOpacity setting in the js-image-slider.js file.*/
 	background:Black;/* or any other colors such as White, or: background:none; */
 }
@@ -71,9 +66,9 @@
 
 
 /* ------ built-in navigation bullets wrapper ------*/
-/* Note: check themes\2\js-image-slider.css to see how to hide nav bullets */
+/* Note: check views\2\js-image-slider.css to see how to hide nav bullets */
 #slider div.navBulletsWrapper  {
-	top:320px;/* Its position is relative to the #slider */
+    top:320px;/* Its position is relative to the #slider */
 	text-align:center;
 	background:none;
 	position:relative;
@@ -92,6 +87,7 @@
 }
 
 #slider div.navBulletsWrapper div.active {background-position:0 -11px;}
+
 
 /* --------- Others ------- */
 

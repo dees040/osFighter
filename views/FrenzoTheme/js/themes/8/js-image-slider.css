@@ -3,24 +3,25 @@
 #sliderFrame 
 {
     position:relative;
-    width:700px;
-    margin:0 auto; /*center-aligned*/
+    width:400px;
+    margin: 0 auto; /*center-aligned*/
+    margin-top: 30px;
 }
 
 #slider, #slider div.sliderInner {
-    width:700px;height:306px;/* Must be the same size as the slider images */
+    width:650px;height:166px;/* Must be the same size as the slider images */
+    border-radius: 12px;
 }
 
 #slider {
 	background:#fff url(loading.gif) no-repeat 50% 50%;
 	position:relative;
-	margin:0 auto; /*center-aligned*/
     transform: translate3d(0,0,0);
-    box-shadow: 0px 1px 5px #999999;
+    box-shadow: 0px 1px 5px #000;
 }
 
-/* image wrapper */
-#slider a.imgLink, #slider div.video {
+/* the link style (if an image is wrapped in a link) */
+#slider a.imgLink, #slider .video {
 	z-index:2;
 	position:absolute;
 	top:0px;left:0px;border:0;padding:0;margin:0;
@@ -33,25 +34,26 @@
 /* Caption styles */
 #slider div.mc-caption-bg, #slider div.mc-caption-bg2 {
 	position:absolute;
-	width:100%;
+	width:440px;
 	height:auto;
 	padding:10px 0;/* 10px will increase the height.*/
-	left:0px; /*if the caption needs to be aligned from right, specify by right instead of left. i.e. right:20px;*/
-	bottom:0px;/*if the caption needs to be aligned from top, specify by top instead of bottom. i.e. top:150px;*/
+	left:120px; /*if the caption needs to be aligned from right, specify by right instead of left. i.e. right:20px;*/
+	bottom:10px;/*if the caption needs to be aligned from top, specify by top instead of bottom. i.e. top:150px;*/
 	z-index:3;
 	overflow:hidden;
 	font-size: 0;
 }
-#slider div.mc-caption-bg 
-{
+#slider div.mc-caption-bg {
     /* NOTE: Its opacity is to be set through the sliderOptions.captionOpacity setting in the js-image-slider.js file.*/
 	background:Black;/* or any other colors such as White, or: background:none; */
+	border:1px solid white;
+	border-radius: 5px;
 }
 #slider div.mc-caption-bg2 {
     background:none;
 }
 #slider div.mc-caption {
-	font: bold 14px/20px Arial;
+	font:bold 15px Arial;
 	color:#EEE;
 	z-index:4;
 	text-align:center;
@@ -66,9 +68,9 @@
 
 
 /* ------ built-in navigation bullets wrapper ------*/
-/* Note: check themes\2\js-image-slider.css to see how to hide nav bullets */
+/* Note: check views\2\js-image-slider.css to see how to hide nav bullets */
 #slider div.navBulletsWrapper  {
-    top:320px;/* Its position is relative to the #slider */
+	top:320px;/* Its position is relative to the #slider */
 	text-align:center;
 	background:none;
 	position:relative;
@@ -79,14 +81,23 @@
 #slider div.navBulletsWrapper div 
 {
     width:11px; height:11px;
-    font-size:0;color:White;/*hide the index number in the bullet element*/
-    background:transparent url(bullet.png) no-repeat 0 0;
+    border:1px solid #AAA;
+    background:#EEE;
+    color:#AAA;
+    font:normal 9px Arial;
+    text-align:center;
     display:inline-block; *display:inline; zoom:1;
     overflow:hidden;cursor:pointer;
     margin:0 6px;/* set distance between each bullet*/
+    border-radius:50%;
+    box-shadow:inset 0 0 4px #AAA;
 }
 
-#slider div.navBulletsWrapper div.active {background-position:0 -11px;}
+#slider div.navBulletsWrapper div.active {
+    border-color:#3E99C6;
+    background:#259FDC;
+    color:White;
+}
 
 
 /* --------- Others ------- */

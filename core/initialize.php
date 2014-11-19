@@ -13,7 +13,13 @@
  * @param $class name
  */
 function osFighter_autoloader($class) {
-    include 'core/'.strtolower($class).'.php';
+    if (file_exists('core/'.strtolower($class).'.php')) {
+        include 'core/'.strtolower($class).'.php';
+    } elseif (file_exists('core/controllers/'.strtolower($class).'.php')) {
+        include 'core/controllers/'.strtolower($class).'.php';
+    } else {
+
+    }
 }
 
 spl_autoload_register('osFighter_autoloader'); // Register function
@@ -52,7 +58,7 @@ class initialize
             if ($this->hasPermissions($this->link_info->groups)) {
                 $this->info = $this->getInfoArray();
 
-                $this->info['file_to_load'] = 'themes/'.$this->info['theme'].'/'.$this->info['file'];
+                $this->info['file_to_load'] = 'views/'.$this->info['theme'].'/'.$this->info['file'];
 
                 $this->checkJail();
             } else {

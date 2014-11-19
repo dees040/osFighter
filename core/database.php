@@ -27,7 +27,7 @@ class Database
             $this->connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
         }
         catch(PDOException $e) {
-            echo "Error connecting to database.";
+            die("Error connecting to database.");
         }
 
         $this->MySQLDB();
@@ -432,7 +432,7 @@ class Database
             $stmt = $this->connection->prepare($query);
             $stmt->execute($items);
         } catch(PDOException $e) {
-            echo $e;
+            die($e);
         }
 
         if ($stmt) {
