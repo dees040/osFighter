@@ -54,11 +54,9 @@ if($session->logged_in){
     else if ((isset($_GET['mode'])) && ($_GET['mode'] == 'activate')) {
 	$user = $_GET['user'];
 	$actkey = $_GET['activatecode'];
-	
-	$sql = $database->connection->prepare("UPDATE ".TBL_USERS." SET USERLEVEL = '3' WHERE username=:user AND actkey=:actkey");
-	$sql->bindParam(":user",$user);
-	$sql->bindParam(":actkey",$actkey);
-	$sql->execute();
+
+
+	$database->update("UPDATE ".TBL_USERS." SET USERLEVEL = '3' WHERE username=:user AND actkey=:actkey", array(':user' => $user, ':actkey' => $actkey));
 	
 	echo 'Your account is now activated.';
 	// some warning if not successful

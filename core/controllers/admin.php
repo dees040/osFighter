@@ -308,4 +308,26 @@ class admin
             }
         }
     }
+
+    public function updateUser($info, $username) {
+        global $database;
+
+        $items = array();
+        $items[':uid'] = $database->getUserInfo($username)['id'];
+        $query = "UPDATE ".TBL_INFO." SET";
+        $i = 0;
+
+        foreach ($info as $key => $item) {
+            $i++;
+            $items[':' . $key] = $item;
+            $query .= " " . $key . " = :" . $key;
+
+            if (count($info) != $i) {
+                $query .= ",";
+            }
+        }
+
+        $query .= " WHERE uid = :uid";
+        $database->update($query, $items);
+    }
 }

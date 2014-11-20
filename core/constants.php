@@ -9,7 +9,7 @@
 define("DB_SERVER", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
-define("DB_NAME", "osf");
+define("DB_NAME", "osFighter");
 
 /**
  * Database Table Constants - these constants
@@ -20,6 +20,7 @@ define("TBL_USERS", "users");
 define("TBL_ACTIVE_USERS",  "active_users");
 define("TBL_ACTIVE_GUESTS", "active_guests");
 define("TBL_BANNED_USERS",  "banned_users");
+define("TBL_BANNED_IP",  "banned_ip");
 define("TBL_CONFIGURATION", "configuration");
 define("TBL_PAGES", "pages");
 define("TBL_MENUS", "menus");

@@ -15,11 +15,11 @@
         $items = array(':user' => $user_info->id);
         $stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :user", $items)->fetchObject();
 ?>
-        <img src="files/images/icons/bomb.png"> <a href="attack?target=<?=$user_info->username; ?>"><b>Aanvallen</b></a>
-        <img src="files/images/icons/vcard.png" style="margin-left:30px;"> <a href="messages?box=new&to=<?=$user_info->username; ?>"><b>PB sturen</b></a>
-        <img src="files/images/icons/key.png" style="margin-left:30px;"> <a href="click?to=<?=$user_info->username; ?>" target="_blank"><b>Secret link</b></a>
-        <img src="files/images/icons/ruby_add.png" style="margin-left:30px;"> <a href="respect?to=<?=$user_info->username; ?>"><b>Respect</b></a>
-        <img src="files/images/icons/group_link.png" style="margin-left:30px;"><a href="friends-enemies?add=<?=$user_info->username; ?>"><b>Vriend</b></a>
+        <img src="files/images/icons/bomb.png"> <a href="attack?target=<?=$user_info->username; ?>"><strong>Attack</strong></a>
+        <img src="files/images/icons/vcard.png" style="margin-left:30px;"> <a href="personal/messages?box=new&to=<?=$user_info->username; ?>"><strong>PB sturen</strong></a>
+        <img src="files/images/icons/key.png" style="margin-left:30px;"> <a href="click?to=<?=$user_info->username; ?>" target="_blank"><strong>Secret link</strong></a>
+        <img src="files/images/icons/ruby_add.png" style="margin-left:30px;"> <a href="respect?to=<?=$user_info->username; ?>"><strong>Respect</strong></a>
+        <img src="files/images/icons/group_link.png" style="margin-left:30px;"><a href="friends-enemies?add=<?=$user_info->username; ?>"><strong>Friend</strong></a>
 
 
         <table width="100%" border="0" cellspacing="2" cellpadding="2" class="mod_list">

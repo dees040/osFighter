@@ -417,6 +417,12 @@ class Database
         $this->calcNumActiveGuests();
     }
 
+    public function userOnline($user) {
+        $query = $this->select("SELECT username FROM ".TBL_ACTIVE_USERS." WHERE username = :user", array(':user' => $user));
+
+        return ($query->rowCount() != 0) ? true : false;
+    }
+
     /**
      *
      * @param $table

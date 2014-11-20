@@ -26,7 +26,7 @@ class Mailer
                   ."with the following username:\n\n"
                   ."Username: ".$user."\n\n"
                   ."Please visit the following link in order to activate your account: "
-                  .$config['WEB_ROOT']."register.php?mode=activate&user=".urlencode($user)."&activatecode=".$token." \n\n"
+                  .$config['WEB_ROOT']."register?mode=activate&user=".urlencode($user)."&activatecode=".$token." \n\n"
                   .$config['SITE_NAME'];
 
         return mail($email,$subject,$body,$from);

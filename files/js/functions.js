@@ -14,7 +14,13 @@ var functions = {
     countDown: function() {
         seconds -= 1;
         $('.timer').text(seconds);
-        if (seconds == 0) clearInterval(countDownInterval);
+        if (seconds == 0) {
+            clearInterval(countDownInterval);
+            $('.reload').text("Click here to reload.");
+        }
+    },
+    reload: function() {
+        location.reload();
     }
 }
 
@@ -24,4 +30,5 @@ $(document).ready(function() {
     countDownInterval = setInterval(functions.countDown, 1000);
 
     $('.input-change').change(init.change);
+    $('.reload').click(functions.reload);
 });

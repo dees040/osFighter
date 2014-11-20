@@ -2,7 +2,7 @@
     <tr>
         <td width="35%">Username:</td>
         <td width="6%"><img src="files/images/icons/user.png" border="0px"></td>
-        <td width="69%"><a href="index.php?p=profile&x='.$data['id'].'"><?=$user->info->username; ?></a></td>
+        <td width="69%"><a href="personal/user-info?user=<?=$user->info->username; ?>"><?=$user->info->username; ?></a></td>
     </tr>
     <tr>
         <td width="35%">Health:</td>

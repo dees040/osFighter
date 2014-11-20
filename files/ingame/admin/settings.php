@@ -178,10 +178,10 @@
         <form method="post">
             <table>
                 <?php
-                foreach(unserialize($configs['CITIES']) as $key => $rank) {
+                foreach(unserialize($configs['CITIES']) as $key => $city) {
                     echo '<tr>';
                     echo '<td>'.$key.': </td>';
-                    echo '<td><input type="text" name="'.$key.'" value="'.$rank.'"></td>';
+                    echo '<td><input type="text" name="'.$key.'" value="'.$city.'"></td>';
                     echo '</tr>';
                 }
                 ?>

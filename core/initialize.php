@@ -53,8 +53,14 @@ class initialize
      * Check if the given url exists and the user has permission to see it.
      */
     private function initialize() {
+        global $database;
 
-        if (is_object($this->link_info = $this->pageExists())) {
+        if ($this->ipBanned($_SERVER['REMOTE_ADDR'])) {
+            $this->info = array(
+                'file_to_load' => 'files/http/403_banned.php',
+                'mail'        => $database->getConfigs()['EMAIL_FROM_ADDR']
+            );
+        } else if (is_object($this->link_info = $this->pageExists())) {
             if ($this->hasPermissions($this->link_info->groups)) {
                 $this->info = $this->getInfoArray();
 
@@ -161,6 +167,7 @@ class initialize
 
             $pageInfo = $page->fetch();
 
+            if ($menuItem['display'] == 0) continue;
             if (!$this->hasPermissions($pageInfo['groups'])) continue;
 
             $menuItems[$menuItem['menu']][] = $pageInfo;
@@ -197,6 +204,14 @@ class initialize
             $this->info['link']->file = "in_jail.php";
             $this->info['link']->menu = "locations";
         }
+    }
+
+    private function ipBanned($ip) {
+        global $database;
+
+        $query = $database->select("SELECT * FROM ".TBL_BANNED_IP." WHERE ip = :ip", array(':ip' => $ip));
+
+        return ($query->rowCount() == 0) ? false : true;
     }
 }
 
