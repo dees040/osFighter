@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 19, 2014 at 08:32 PM
+-- Generation Time: Nov 23, 2014 at 02:58 PM
 -- Server version: 5.5.38-MariaDB-cll-lve
 -- PHP Version: 5.5.17
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `your_db_name`
+-- Database: `deb65120n6_os`
 --
 
 -- --------------------------------------------------------
@@ -37,12 +37,14 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
 --
 
 INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
-('192.200.24.226', 1416425353),
-('98.143.146.227', 1416425445),
-('123.125.71.56', 1416425529),
-('23.95.22.43', 1416425404),
-('192.3.61.222', 1416425403),
-('192.171.247.27', 1416425333);
+('192.240.198.55', 1416750799),
+('192.200.24.193', 1416750843),
+('107.168.64.250', 1416750894),
+('66.249.78.133', 1416750797),
+('66.249.78.140', 1416750798),
+('66.249.78.147', 1416750796),
+('46.229.164.111', 1416751065),
+('94.23.25.214', 1416750960);
 
 -- --------------------------------------------------------
 
@@ -56,12 +58,16 @@ CREATE TABLE IF NOT EXISTS `active_users` (
   PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `active_users`
+-- Table structure for table `banned_ip`
 --
 
-INSERT INTO `active_users` (`username`, `timestamp`) VALUES
-('admin', 1416425550);
+CREATE TABLE IF NOT EXISTS `banned_ip` (
+  `ip` varchar(50) NOT NULL,
+  UNIQUE KEY `ip` (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -100,9 +106,9 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 ('max_pass_chars', '100'),
 ('min_pass_chars', '4'),
 ('EMAIL_FROM_NAME', 'osFighter'),
-('EMAIL_FROM_ADDR', 'email@yoursite.com'),
+('EMAIL_FROM_ADDR', 'deesoomens@gmail.com'),
 ('EMAIL_WELCOME', '0'),
-('SITE_NAME', 'osFighter'),
+('SITE_NAME', 'osFighters'),
 ('SITE_DESC', 'none'),
 ('WEB_ROOT', 'http://www.ultimate-survival.net/'),
 ('ENABLE_CAPTCHA', '0'),
@@ -111,7 +117,7 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 ('home_page', 'home'),
 ('ALL_LOWERCASE', '0'),
 ('Version', '0.1'),
-('USER_TIMEOUT', '10'),
+('USER_TIMEOUT', '30'),
 ('GUEST_TIMEOUT', '5'),
 ('ACTIVE_THEME', 'FrenzoTheme'),
 ('RANKS', 'a:4:{i:0;s:6:"Newbie";i:1;s:4:"Thug";i:2;s:4:"Boss";i:3;s:4:"Kast";}'),
@@ -166,7 +172,15 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`) VALUES
+(1, 'admin'),
+(2, 'moderator');
 
 -- --------------------------------------------------------
 
@@ -180,6 +194,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `menu` varchar(50) NOT NULL,
   `link` varchar(50) NOT NULL,
   `weight` int(11) NOT NULL,
+  `display` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
@@ -187,31 +202,31 @@ CREATE TABLE IF NOT EXISTS `menus` (
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`) VALUES
-(1, 1, 'personal', 'home', 0),
-(2, 2, 'outgame', 'register', 2),
-(3, 3, 'outgame', 'forgot-pass', 3),
-(4, 4, 'outgame', 'login', 4),
-(5, 5, 'admin', 'admin/files', 0),
-(6, 8, 'admin', 'admin/menu', 1),
-(7, 9, 'admin', 'admin/crimes', 4),
-(8, 10, 'admin', 'admin/settings', 2),
-(9, 11, 'admin', 'admin/users', 3),
-(10, 12, 'crime', 'crime/crimes', 0),
-(11, 13, 'family', 'family', 0),
-(12, 14, 'statistics', 'online', 0),
-(13, 15, 'personal', 'personal/user-edit', 2),
-(14, 16, 'personal', 'personal/user-info', 1),
-(15, 17, 'locations', 'locations/airport', 2),
-(16, 18, 'personal', 'personal/messages', 0),
-(17, 19, 'call-credits', 'call-credits', 0),
-(18, 20, 'call-credits', 'call-credits/shop', 0),
-(19, 21, 'locations', 'locations/shop', 1),
-(20, 22, 'locations', 'locations/jail', 3),
-(21, 23, 'locations', 'locations/bank', 0),
-(22, 24, 'locations', 'locations/housing-market', 0),
-(23, 25, 'locations', 'locations/hospital', 0),
-(24, 26, 'extra', 'extra/attack', 0);
+INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
+(1, 1, 'personal', 'home', 0, 1),
+(2, 2, 'outgame', 'register', 2, 1),
+(3, 3, 'outgame', 'forgot-pass', 3, 1),
+(4, 4, 'outgame', 'login', 4, 1),
+(5, 5, 'admin', 'admin/files', 0, 1),
+(6, 8, 'admin', 'admin/menu', 1, 1),
+(7, 9, 'admin', 'admin/crimes', 4, 1),
+(8, 10, 'admin', 'admin/settings', 2, 1),
+(9, 11, 'admin', 'admin/users', 3, 1),
+(10, 12, 'crime', 'crime/crimes', 0, 1),
+(11, 13, 'family', 'family', 0, 1),
+(12, 14, 'statistics', 'online', 0, 1),
+(13, 15, 'personal', 'personal/user-edit', 2, 1),
+(14, 16, 'personal', 'personal/user-info', 1, 0),
+(15, 17, 'locations', 'locations/airport', 3, 1),
+(16, 18, 'personal', 'personal/messages', 0, 1),
+(17, 19, 'call-credits', 'call-credits', 0, 1),
+(18, 20, 'call-credits', 'call-credits/shop', 0, 1),
+(19, 21, 'locations', 'locations/shop', 2, 1),
+(20, 22, 'locations', 'locations/jail', 1, 1),
+(21, 23, 'locations', 'locations/bank', 0, 1),
+(22, 24, 'locations', 'locations/housing-market', 5, 1),
+(23, 25, 'locations', 'locations/hospital', 4, 1),
+(24, 26, 'extra', 'extra/attack', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -278,16 +293,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `actkey` varchar(35) NOT NULL,
   `ip` varchar(15) NOT NULL,
   `regdate` int(11) unsigned NOT NULL,
+  `groups` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `usersalt`, `userid`, `userlevel`, `email`, `timestamp`, `actkey`, `ip`, `regdate`) VALUES
-(1, 'admin', '12a5534328eec6d44e285b4eda68b4efa1e707cb', 'rtrpCSWD', 'bff039bc4c02d780e28b0c7b792f0ad5', 9, 'd.oomens@hotmail.nl', 1416425550, 'Waf60fKlX1mRTBre', '145.100.167.217', 1416386489),
-(3, 'demo', '53097e78f22e4ba1e796c39971be5f4d00ae66e6', 'vwxWLF88', 'f32da78e0f6e4208c4410fafc64fe75d', 3, 'demo@demo.com', 1416424900, '274AVOSpUZhMFQ8P', '145.100.167.217', 1416391206);
+INSERT INTO `users` (`id`, `username`, `password`, `usersalt`, `userid`, `userlevel`, `email`, `timestamp`, `actkey`, `ip`, `regdate`, `groups`) VALUES
+(1, 'admin', '12a5534328eec6d44e285b4eda68b4efa1e707cb', 'rtrpCSWD', '37278b5b488d8292597cb2f4afa6b865', 9, 'd.oomens@hotmail.nl', 1416747858, 'Waf60fKlX1mRTBre', '145.100.167.217', 1416386489, 'a:1:{i:0;s:1:"1";}'),
+(3, 'demo', '53097e78f22e4ba1e796c39971be5f4d00ae66e6', 'vwxWLF88', '407b8ca30211a60fa5df802adbdc2dfc', 9, 'demo@demo.com', 1416728698, '274AVOSpUZhMFQ8P', '145.100.167.217', 1416391206, ''),
+(8, 'mentimjojo', '8a801ac791f74df3d508e80041f0338438e445ad', 'oz8j0Rk3', '387ab285357f49cab397ea6c8d642607', 3, 'timnijborg@hotmail.nl', 1416502689, 'vVgsZkSXDeJElHob', '81.207.171.113', 1416502216, ''),
+(7, 'volrisico', 'd7ca81d9a77b3a785719cf4fbd8f0519348988fb', 'HWVv9hao', '0', 1, 'corne.steenbakkers@gmail.com', 1416475596, 'ZRPT86wB0zk1EdVF', '145.100.163.54', 1416475596, '');
 
 -- --------------------------------------------------------
 
@@ -306,6 +324,7 @@ CREATE TABLE IF NOT EXISTS `users_info` (
   `bank` int(20) NOT NULL DEFAULT '500',
   `power` int(15) NOT NULL,
   `crime_process` int(5) NOT NULL,
+  `credits` int(11) NOT NULL,
   UNIQUE KEY `id` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -313,9 +332,11 @@ CREATE TABLE IF NOT EXISTS `users_info` (
 -- Dumping data for table `users_info`
 --
 
-INSERT INTO `users_info` (`uid`, `fid`, `rank`, `rank_process`, `health`, `city`, `money`, `bank`, `power`, `crime_process`) VALUES
-(1, 0, 3, 88, 100, 0, 10000, 500, 0, 50),
-(3, 0, 0, 0, 100, 0, 100, 500, 0, 0);
+INSERT INTO `users_info` (`uid`, `fid`, `rank`, `rank_process`, `health`, `city`, `money`, `bank`, `power`, `crime_process`, `credits`) VALUES
+(1, 0, 3, 8, 100, 1, 582, 10500, 1000, 162, 9),
+(3, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0),
+(7, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0),
+(8, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -326,6 +347,7 @@ INSERT INTO `users_info` (`uid`, `fid`, `rank`, `rank_process`, `health`, `city`
 CREATE TABLE IF NOT EXISTS `users_time` (
   `uid` int(11) NOT NULL,
   `jail` int(11) NOT NULL,
+  `crime_time` int(11) NOT NULL,
   UNIQUE KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -333,9 +355,11 @@ CREATE TABLE IF NOT EXISTS `users_time` (
 -- Dumping data for table `users_time`
 --
 
-INSERT INTO `users_time` (`uid`, `jail`) VALUES
-(1, 1416389181),
-(3, 0);
+INSERT INTO `users_time` (`uid`, `jail`, `crime_time`) VALUES
+(1, 1416481529, 1416507566),
+(3, 0, 0),
+(7, 0, 0),
+(8, 0, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
