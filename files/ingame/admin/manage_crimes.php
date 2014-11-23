@@ -8,7 +8,7 @@
     <!-- manage crimes page tab1: -->
     <div id="tab1">
         <?php
-            $crimes = $database->select("SELECT * FROM ".TBL_CRIMES." ORDER BY name");
+            $crimes = $database->query("SELECT * FROM ".TBL_CRIMES." ORDER BY name");
         ?>
         <form method="post">
             <select name="get-crime">
@@ -40,7 +40,7 @@
             if (isset($_POST['get-crime-item'])) {
                 $_SESSION['get-crime-id'] = $_POST['get-crime'];
                 $items = array(':id' => $_POST['get-crime']);
-                $crime = $database->select("SELECT * FROM ".TBL_CRIMES." WHERE id = :id", $items)->fetchObject();
+                $crime = $database->query("SELECT * FROM ".TBL_CRIMES." WHERE id = :id", $items)->fetchObject();
         ?>
 
         <form method="post" enctype="multipart/form-data">

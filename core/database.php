@@ -210,8 +210,8 @@ class Database
         $stmt = $this->connection->prepare($query);
         if ($stmt->execute(array(':username' => $username, ':password' => $password, ':usersalt' => $usersalt, ':email' => $email, ':token' => $token))) {
             $items = array(':user' => $this->getLastUserRegisteredId());
-            $this->insert("INSERT INTO ".TBL_INFO." SET uid = :user", $items);
-            $this->insert("INSERT INTO ".TBL_TIME." SET uid = :user", $items);
+            $this->query("INSERT INTO ".TBL_INFO." SET uid = :user", $items);
+            $this->query("INSERT INTO ".TBL_TIME." SET uid = :user", $items);
             return true;
         }
 
@@ -418,7 +418,7 @@ class Database
     }
 
     public function userOnline($user) {
-        $query = $this->select("SELECT username FROM ".TBL_ACTIVE_USERS." WHERE username = :user", array(':user' => $user));
+        $query = $this->query("SELECT username FROM ".TBL_ACTIVE_USERS." WHERE username = :user", array(':user' => $user));
 
         return ($query->rowCount() != 0) ? true : false;
     }
@@ -432,22 +432,22 @@ class Database
      * @return mixed
      */
     public function paginate($table, $orderBy, $start, $end) {
-        $query = $this->select("SELECT * FROM ".$table." ORDER BY ".$orderBy." LIMIT ".$start.", ".$end);
+        $query = $this->query("SELECT * FROM ".$table." ORDER BY ".$orderBy." LIMIT ".$start.", ".$end);
         return $query->fetchAll();
     }
 
     /**
-     * Select from database
+     * Query to the database
      *
-     * @param $query The query that has to be executed
-     * @param array $items The placeholders (Default = empty array)
+     * @param string $query - The query that has to be executed
+     * @param array $items - The placeholders (Default = empty array)
      * @return bool|\PDOStatement :  Query result
      */
-    public function select($query, $items = array()) {
+    public function query($query, $items = array()) {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($items);
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             die($e);
         }
 
@@ -458,48 +458,31 @@ class Database
         }
     }
 
-    /**
-     * Update the database
-     *
-     * @param-1: The query that has to be executed
-     * @param-2: The placeholders (Default = empty array)
-     */
-    public function update($query, $items = array()) {
-        try {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute($items);
-        } catch(PDOException $e) {
-            echo $e;
+    public function banUser($username) {
+        $userExists = $this->query("SELECT id FROM ".TBL_USERS." WHERE username = :username", array(':username' => $username));
+
+        if ($userExists->rowCount() == 0) {
+            return false;
+        } else {
+            $this->query(
+                "INSERT INTO ".TBL_BANNED_USERS." SET username = :username, timestamp = :time",
+                array(':username' => $username, ':time' => time())
+            );
+            return true;
         }
     }
 
-    /**
-     * Insert into the database
-     *
-     * @param-1: The query that has to be executed
-     * @param-2: The placeholders (Default = empty array)
-     */
-    public function insert($query, $items = array()) {
-        try {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute($items);
-        } catch(PDOException $e) {
-            echo $e;
-        }
-    }
+    public function unbanUser($username) {
+        $userExists = $this->query("SELECT id FROM ".TBL_USERS." WHERE username = :username", array(':username' => $username));
 
-    /**
-     * Delete from database
-     *
-     * @param-1: The query that has to be executed
-     * @param-2: The placeholders (Default = empty array)
-     */
-    public function delete($query, $items = array()) {
-        try {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute($items);
-        } catch(PDOException $e) {
-            echo $e;
+        if ($userExists->rowCount() == 0) {
+            return false;
+        } else {
+            $this->query(
+                "DELETE FROM ".TBL_BANNED_USERS." WHERE username = :username",
+                array(':username' => $username)
+            );
+            return true;
         }
     }
    

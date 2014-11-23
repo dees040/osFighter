@@ -13,7 +13,7 @@
         /* Display requested user information - add/delete as applicable */
         $user_info = (object)$database->getUserInfo($req_user);
         $items = array(':user' => $user_info->id);
-        $stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :user", $items)->fetchObject();
+        $stats = $database->query("SELECT * FROM ".TBL_INFO." WHERE uid = :user", $items)->fetchObject();
 ?>
         <img src="files/images/icons/bomb.png"> <a href="attack?target=<?=$user_info->username; ?>"><strong>Attack</strong></a>
         <img src="files/images/icons/vcard.png" style="margin-left:30px;"> <a href="personal/messages?box=new&to=<?=$user_info->username; ?>"><strong>PB sturen</strong></a>
@@ -28,7 +28,7 @@
                 <?php
                     $status = "status_offline.png";
 
-                    if ($database->select("SELECT username FROM ".TBL_ACTIVE_USERS." WHERE username = :user", $items)->rowCount()) {
+                    if ($database->query("SELECT username FROM ".TBL_ACTIVE_USERS." WHERE username = :user", $items)->rowCount()) {
                         $status = "status_online.png";
                     }
                 ?>

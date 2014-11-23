@@ -1,5 +1,5 @@
 <?php
-    $users = $database->select("SELECT * FROM ".TBL_ACTIVE_USERS." ORDER BY timestamp");
+    $users = $database->query("SELECT * FROM ".TBL_ACTIVE_USERS." ORDER BY timestamp");
 ?>
 
 <table>

@@ -1,5 +1,5 @@
 <?php
-$crimes = $database->select("SELECT * FROM ".TBL_CRIMES." ORDER BY `change` ASC")->fetchAll();
+$crimes = $database->query("SELECT * FROM ".TBL_CRIMES." ORDER BY `change` ASC")->fetchAll();
 
 $_aMinPayout = array(); // All minimum payouts
 $_aMaxPayout = array(); // All maximum payouts
@@ -13,7 +13,7 @@ foreach ($crimes as $crime) {
 
 if (isset($_POST['crime'])) {
     if ($user->time->crime_time <= time()) {
-        $crime = $database->select("SELECT id FROM ".TBL_CRIMES." WHERE id = :id", array(':id' => $_POST["crime"]))->fetchObject();
+        $crime = $database->query("SELECT id FROM ".TBL_CRIMES." WHERE id = :id", array(':id' => $_POST["crime"]))->fetchObject();
 
         $change = $_aChange[$crime->id];
         $crimeSuccess = mt_rand(0, 100);
@@ -25,23 +25,23 @@ if (isset($_POST['crime'])) {
             $newCrimeProcess = $user->stats->crime_process + 5;
 
             $items = array(':rank' => $newRankProcess, ':money' => $newCash, ':crime' => $newCrimeProcess, ':uid' => $user->info->id);
-            $database->update("UPDATE " . TBL_INFO . " SET rank_process = :rank, money = :money, crime_process = :crime WHERE uid = :uid", $items);
+            $database->query("UPDATE " . TBL_INFO . " SET rank_process = :rank, money = :money, crime_process = :crime WHERE uid = :uid", $items);
 
             $items = array(':time' => (time() + 60), ':uid' => $user->info->id);
-            $database->update("UPDATE " . TBL_TIME . " SET crime_time = :time WHERE uid = :uid", $items);
+            $database->query("UPDATE " . TBL_TIME . " SET crime_time = :time WHERE uid = :uid", $items);
 
             echo $error->successBig("You completed the crime with success and earned " . $info['currency'] . $payout . " with it!");
         } else if ($crimeSuccess < ($change + 30)) {
             $newCrimeProcess = $user->stats->crime_process + 2;
             $items = array(':crime' => $newCrimeProcess, ':uid' => $user->info->id);
-            $database->update("UPDATE " . TBL_INFO . " SET crime_process = :crime WHERE uid = :uid", $items);
+            $database->query("UPDATE " . TBL_INFO . " SET crime_process = :crime WHERE uid = :uid", $items);
 
             $items = array(':time' => (time() + 60), ':uid' => $user->info->id);
-            $database->update("UPDATE " . TBL_TIME . " SET crime_time = :time WHERE uid = :uid", $items);
+            $database->query("UPDATE " . TBL_TIME . " SET crime_time = :time WHERE uid = :uid", $items);
             echo $error->errorBig("Crime failed, but you escaped the police. Cooldown for 60 seconds.");
         } else {
             $items = array(':time' => (time() + 60), ':jail' => (time() + 120), ':uid' => $user->info->id);
-            $database->update("UPDATE " . TBL_TIME . " SET crime_time = :time, jail = :jail WHERE uid = :uid", $items);
+            $database->query("UPDATE " . TBL_TIME . " SET crime_time = :time, jail = :jail WHERE uid = :uid", $items);
             echo $error->errorBig("Crime failed and the police took you to jail. You're in jail for 120 seconds.");
         }
     }

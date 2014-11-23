@@ -18,8 +18,8 @@ class User
 
         $items = array(':uid' => $session->userinfo['id']);
         $this->info  = (object)$session->userinfo;
-        $this->stats = $database->select("SELECT * FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject();
-        $this->time  = $database->select("SELECT * FROM ".TBL_TIME." WHERE uid = :uid", $items)->fetchObject();
+        $this->stats = $database->query("SELECT * FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject();
+        $this->time  = $database->query("SELECT * FROM ".TBL_TIME." WHERE uid = :uid", $items)->fetchObject();
 
         $this->init();
     }
@@ -40,7 +40,7 @@ class User
         global $database;
 
         $items = array(":fid" => $this->stats->fid);
-        $family = $database->select("SELECT * FROM ".TBL_FAMILY." WHERE id = :fid", $items)->fetchObject();
+        $family = $database->query("SELECT * FROM ".TBL_FAMILY." WHERE id = :fid", $items)->fetchObject();
 
         if ($family == false) {
             $this->family->id = 0;
@@ -76,7 +76,7 @@ class User
         }
 
         $items = array(':rank' => $rank, ':process' => $rank_process, ':name' => $session->userinfo['id']);
-        $database->update("UPDATE ".TBL_INFO." SET rank = :rank, rank_process = :process WHERE uid = :name", $items);
+        $database->query("UPDATE ".TBL_INFO." SET rank = :rank, rank_process = :process WHERE uid = :name", $items);
         $this->stats->rank = $rank;
         $this->stats->rank_process = $rank_process;
     }

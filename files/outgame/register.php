@@ -56,7 +56,7 @@ if($session->logged_in){
 	$actkey = $_GET['activatecode'];
 
 
-	$database->update("UPDATE ".TBL_USERS." SET USERLEVEL = '3' WHERE username=:user AND actkey=:actkey", array(':user' => $user, ':actkey' => $actkey));
+	$database->query("UPDATE ".TBL_USERS." SET USERLEVEL = '3' WHERE username=:user AND actkey=:actkey", array(':user' => $user, ':actkey' => $actkey));
 	
 	echo 'Your account is now activated.';
 	// some warning if not successful

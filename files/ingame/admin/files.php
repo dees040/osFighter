@@ -13,7 +13,7 @@
     <!-- file-sytem page tab2: Create -->
     <div id="tab2">
         <?php
-            $groups = $database->select("SELECT * FROM ".TBL_GROUPS." ORDER BY name")->fetchAll();
+            $groups = $database->query("SELECT * FROM ".TBL_GROUPS." ORDER BY name")->fetchAll();
 
             if (isset($_POST['submit-create-page'])) {
                 $retval = $admin->fileSystemCreateForm($_POST);
@@ -104,11 +104,11 @@
     <!-- file-sytem page tab1: Edit -->
     <div id="tab3">
         <?php
-            $pages = $database->select("SELECT * FROM ".TBL_PAGES." ORDER BY title ASC");
+            $pages = $database->query("SELECT * FROM ".TBL_PAGES." ORDER BY title ASC");
 
             if (isset($_POST['submit-get-page'])) {
                 $items = array(':id' => $_POST['page']);
-                $query = $database->select("SELECT pages.*, menus.menu FROM ".TBL_PAGES." INNER JOIN menus ON menus.pid = pages.id WHERE pages.id = :id", $items);
+                $query = $database->query("SELECT pages.*, menus.menu FROM ".TBL_PAGES." INNER JOIN menus ON menus.pid = pages.id WHERE pages.id = :id", $items);
                 $page  = $query->fetchObject();
                 $page->groups = unserialize($page->groups);
 

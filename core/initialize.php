@@ -88,7 +88,7 @@ class initialize
 
         $items = array(':url' => $this->url);
         $link = $database
-            ->select("SELECT pages.*, menus.menu FROM ".TBL_PAGES." INNER JOIN menus ON menus.pid = pages.id WHERE pages.link = :url", $items)
+            ->query("SELECT pages.*, menus.menu FROM ".TBL_PAGES." INNER JOIN menus ON menus.pid = pages.id WHERE pages.link = :url", $items)
             ->fetchObject();
 
         if (is_object($link) && $this->checkFileExists($link->menu, $link->file)) return $link;
@@ -157,11 +157,11 @@ class initialize
         global $database;
 
         $menuItems = array();
-        $query = $database->select("SELECT * FROM ".TBL_MENUS." ORDER BY weight");
+        $query = $database->query("SELECT * FROM ".TBL_MENUS." ORDER BY weight");
 
         foreach($query as $menuItem) {
             $items = array('pid' => $menuItem['pid']);
-            $page = $database->select("SELECT groups, title, link FROM ".TBL_PAGES." WHERE id = :pid", $items);
+            $page = $database->query("SELECT groups, title, link FROM ".TBL_PAGES." WHERE id = :pid", $items);
 
             if ($page->rowCount() == 0) continue;
 
@@ -209,7 +209,7 @@ class initialize
     private function ipBanned($ip) {
         global $database;
 
-        $query = $database->select("SELECT * FROM ".TBL_BANNED_IP." WHERE ip = :ip", array(':ip' => $ip));
+        $query = $database->query("SELECT * FROM " . TBL_BANNED_IP . " WHERE ip = :ip", array(':ip' => $ip));
 
         return ($query->rowCount() == 0) ? false : true;
     }

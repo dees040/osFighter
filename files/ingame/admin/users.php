@@ -25,7 +25,8 @@
                 echo "User not found";
             } else {
                 $items = array(':user' => $user_info['id']);
-                $stats = $database->select("SELECT * FROM " . TBL_INFO . " WHERE uid = :user", $items)->fetchObject();
+                $stats = $database->query("SELECT * FROM " . TBL_INFO . " WHERE uid = :user", $items)->fetchObject();
+                $groups = $database->query("SELECT * FROM ".TBL_GROUPS." ORDER BY name")->fetchAll();
         ?>
         <form method="post">
             <table>
@@ -176,6 +177,25 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        Groups:
+                    </td>
+                    <td>
+                        <img src="files/images/icons/group.png">
+                    </td>
+                    <td>
+                        <?php
+                        foreach($groups as $group) {
+                            if (in_array($group['id'], unserialize($user_info['groups']))) {
+                                echo '<input type="checkbox" value="' . $group['id'] . '" name="groups[]" checked> ' . $group['name'] . '<br>';
+                            } else {
+                                echo '<input type="checkbox" value="' . $group['id'] . '" name="groups[]"> ' . $group['name'] . '<br>';
+                            }
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="3">
                         <input type="submit" value="Save" name="save-user">
                     </td>
@@ -191,7 +211,30 @@
 
     <!-- file-sytem page tab2: Ban -->
     <div id="tab2">
-
+        <?php
+            if (isset($_POST['ban-user'])) {
+                $admin->banUser($_POST['ban-user']);
+                echo "<strong>User is banned.</strong>";
+            }
+        ?>
+        <form method="post">
+            If you ban a user who already is banned you will unban this user.<br>
+            <input type="text" name="ban-user" placeholder="username"><input type="submit" value="(un)Ban user">
+        </form><br>
+        <div class="banned-users">
+            <table width="100%" class="table">
+            <?php
+                foreach($database->query("SELECT * FROM ".TBL_BANNED_USERS." ORDER BY timestamp DESC")->fetchAll() as $user) {
+                    echo "<tr>";
+                    echo "<td>Username:</td>";
+                    echo "<td>".$user['username']."</td>";
+                    echo "<td>Since:</td>";
+                    echo "<td>".date('Y-m-d H:i', $user['timestamp'])."</td>";
+                    echo "</tr>";
+                }
+            ?>
+            </table>
+        </div>
     </div>
 
     <!-- file-sytem page tab1: - -->

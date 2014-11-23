@@ -37,14 +37,14 @@ class admin
             ':jail'   => isset($_POST['jail']) ? '0' : '1'
         );
 
-        $database->insert("INSERT INTO ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups, jail = :jail", $items);
+        $database->query("INSERT INTO ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups, jail = :jail", $items);
 
         $items = array(':link' => $info['link']);
-        $query = $database->select("SELECT id FROM ".TBL_PAGES." WHERE link = :link", $items);
+        $query = $database->query("SELECT id FROM ".TBL_PAGES." WHERE link = :link", $items);
         $pid   = $query->fetchObject()->id;
 
         $items = array(':pid' => $pid, ':link' => $info['link'], ':menu' => $info['category']);
-        $database->insert("INSERT INTO ".TBL_MENUS." SET pid = :pid, link = :link, menu = :menu", $items);
+        $database->query("INSERT INTO ".TBL_MENUS." SET pid = :pid, link = :link, menu = :menu", $items);
 
         return false;
     }
@@ -73,10 +73,10 @@ class admin
             ':groups' => serialize($groupsArray),
             ':jail'   => isset($_POST['jail']) ? '0' : '1'
         );
-        $database->update("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups, jail = :jail WHERE id = :id", $items);
+        $database->query("UPDATE ".TBL_PAGES." set title = :title, link = :link, file = :file, groups = :groups, jail = :jail WHERE id = :id", $items);
 
         $items = array(':pid' => $_SESSION['get-page-id'], ':link' => $info['link'], ':menu' => $info['category']);
-        $database->update("UPDATE ".TBL_MENUS." SET link = :link, menu = :menu WHERE pid = :pid", $items);
+        $database->query("UPDATE ".TBL_MENUS." SET link = :link, menu = :menu WHERE pid = :pid", $items);
 
         unset($_SESSION['get-page-id']);
 
@@ -100,10 +100,10 @@ class admin
         } else {
             if ($createPage) {
                 $items = array(':title' => $title);
-                $query = $database->select("SELECT id FROM ".TBL_PAGES." WHERE title = :title", $items);
+                $query = $database->query("SELECT id FROM ".TBL_PAGES." WHERE title = :title", $items);
             } else {
                 $items = array(':title' => $title, ':id' => $_SESSION['get-page-id']);
-                $query = $database->select("SELECT id FROM ".TBL_PAGES." WHERE title = :title AND id != :id", $items);
+                $query = $database->query("SELECT id FROM ".TBL_PAGES." WHERE title = :title AND id != :id", $items);
             }
 
             if ($query->rowCount()) $this->reportArray[] = " - Title already exists.";
@@ -114,10 +114,10 @@ class admin
         } else {
             if ($createPage) {
                 $items = array(':link' => $link);
-                $query = $database->select("SELECT id FROM ".TBL_PAGES." WHERE link = :link", $items);
+                $query = $database->query("SELECT id FROM ".TBL_PAGES." WHERE link = :link", $items);
             } else {
                 $items = array(':link' => $link, ':id' => $_SESSION['get-page-id']);
-                $query = $database->select("SELECT * FROM ".TBL_PAGES." WHERE link = :link AND id != :id", $items);
+                $query = $database->query("SELECT * FROM ".TBL_PAGES." WHERE link = :link AND id != :id", $items);
             }
 
             if ($query->rowCount()) $this->errorArray[] = " - Link already exists.";
@@ -128,10 +128,10 @@ class admin
         } else {
             if ($createPage) {
                 $items = array(':file' => $file);
-                $query = $database->select("SELECT id FROM ".TBL_PAGES." WHERE file = :file", $items);
+                $query = $database->query("SELECT id FROM ".TBL_PAGES." WHERE file = :file", $items);
             } else {
                 $items = array(':file' => $file, ':id' => $_SESSION['get-page-id']);
-                $query = $database->select("SELECT * FROM ".TBL_PAGES." WHERE file = :file AND id != :id", $items);
+                $query = $database->query("SELECT * FROM ".TBL_PAGES." WHERE file = :file AND id != :id", $items);
             }
 
             if ($query->rowCount()) {
@@ -165,7 +165,7 @@ class admin
         $weight = 0;
         foreach($menuItems as $key => $val) {
             $items = array(':id' => $key, ':weight' => $weight);
-            $database->update("UPDATE ".TBL_MENUS." SET weight = :weight WHERE id = :id", $items);
+            $database->query("UPDATE ".TBL_MENUS." SET weight = :weight WHERE id = :id", $items);
             $weight++;
         }
     }
@@ -221,7 +221,7 @@ class admin
         if (!empty($this->errorArray)) return true;
 
         $items = array(':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':change' => $info['change'], ':icon' => $file["file"]["name"]);
-        $database->update("INSERT INTO ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :change, icon = :icon", $items);
+        $database->query("INSERT INTO ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :change, icon = :icon", $items);
     }
 
     public function updateCrime($info, $file) {
@@ -234,11 +234,11 @@ class admin
         if (!empty($this->errorArray)) return true;
 
         $items = array(':id' => $_SESSION['get-crime-id'], ':name' => $info['name'], ':min_p' => $info['min-payout'], ':max_p' => $info['max-payout'], ':ch' => $info['change']);
-        $database->update("UPDATE ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :ch WHERE id = :id", $items);
+        $database->query("UPDATE ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :ch WHERE id = :id", $items);
 
         if (!empty($file['file']['name'])) {
             $items = array(':id' => $_SESSION['get-crime-id'], ':icon' => $file["file"]["name"]);
-            $database->update("UPDATE ".TBL_CRIMES." SET icon = :icon WHERE id = :id", $items);
+            $database->query("UPDATE ".TBL_CRIMES." SET icon = :icon WHERE id = :id", $items);
         }
 
         unset($_SESSION['get-crime-id']);
@@ -318,16 +318,31 @@ class admin
         $i = 0;
 
         foreach ($info as $key => $item) {
+            if ($key == "groups") continue;
             $i++;
             $items[':' . $key] = $item;
             $query .= " " . $key . " = :" . $key;
 
-            if (count($info) != $i) {
+            if ((count($info) - 1) != $i) {
                 $query .= ",";
             }
         }
 
+
         $query .= " WHERE uid = :uid";
-        $database->update($query, $items);
+        $database->query($query, $items);
+
+        $items = array(':groups' => serialize($info['groups']), ':id' => $username);
+        $database->query("UPDATE ".TBL_USERS." SET groups = :groups WHERE username = :id", $items);
+    }
+
+    public function banUser($username) {
+        global $database;
+
+        if ($database->usernameBanned($username)) {
+            return $database->unbanUser($username);
+        } else {
+            return $database->banUser($username);
+        }
     }
 }

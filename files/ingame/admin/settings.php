@@ -238,9 +238,9 @@
                         <td>
                             <?php
                                 if (in_array("screenshot.png", $themeInfo)) {
-                                    echo "<img src='views/".$theme."/screenshot.png' width='50%'>";
+                                    echo "<img src='views/".$theme."/screenshot.png' width='100%'>";
                                 } else {
-                                    echo "<img src='views/no-preview.png' width='50%'>";
+                                    echo "<img src='views/no-preview.png' width='100%'>";
                                 }
                             ?>
                         </td>

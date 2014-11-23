@@ -208,3 +208,6 @@ textarea {
 
 .right {
     margin-top: 25px; }
+
+.table, .table td {
+    border: 1px solid #bb3838; }

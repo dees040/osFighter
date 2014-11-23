@@ -20,7 +20,7 @@
     }
     if (isset($_POST['category'])) {
         $items = array(':menu' => $_POST['category']);
-        $query = $database->select(
+        $query = $database->query(
             "SELECT menus.weight, pages.title, menus.id FROM ".TBL_MENUS." INNER JOIN pages ON menus.pid = pages.id WHERE menus.menu = :menu ORDER BY menus.weight", $items
         );
         $items = $query->fetchAll();
