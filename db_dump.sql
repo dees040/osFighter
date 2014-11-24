@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 23, 2014 at 02:58 PM
+-- Generation Time: Nov 24, 2014 at 03:30 PM
 -- Server version: 5.5.38-MariaDB-cll-lve
 -- PHP Version: 5.5.17
 
@@ -37,14 +37,17 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
 --
 
 INSERT INTO `active_guests` (`ip`, `timestamp`) VALUES
-('192.240.198.55', 1416750799),
-('192.200.24.193', 1416750843),
-('107.168.64.250', 1416750894),
-('66.249.78.133', 1416750797),
-('66.249.78.140', 1416750798),
-('66.249.78.147', 1416750796),
-('46.229.164.111', 1416751065),
-('94.23.25.214', 1416750960);
+('192.255.69.110', 1416839424),
+('104.224.19.111', 1416839444),
+('50.60.134.47', 1416839379),
+('69.12.66.233', 1416839321),
+('46.28.51.60', 1416839276),
+('23.95.22.57', 1416839360),
+('192.240.198.55', 1416839371),
+('107.182.120.184', 1416839307),
+('196.196.20.141', 1416839206),
+('192.200.24.223', 1416839171),
+('196.196.20.126', 1416839172);
 
 -- --------------------------------------------------------
 
@@ -57,6 +60,13 @@ CREATE TABLE IF NOT EXISTS `active_users` (
   `timestamp` int(11) unsigned NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `active_users`
+--
+
+INSERT INTO `active_users` (`username`, `timestamp`) VALUES
+('admin', 1416839241);
 
 -- --------------------------------------------------------
 
@@ -123,7 +133,8 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 ('RANKS', 'a:4:{i:0;s:6:"Newbie";i:1;s:4:"Thug";i:2;s:4:"Boss";i:3;s:4:"Kast";}'),
 ('CITIES', 'a:8:{i:0;s:9:"Eindhoven";i:1;s:9:"Amsterdam";i:2;s:6:"London";i:3;s:8:"New York";i:4;s:5:"Paris";i:5;s:6:"Berlin";i:6;s:5:"Milan";i:7;s:6:"Madrid";}'),
 ('CURRENCY', '&#36;'),
-('NUMBER_FORMAT', '2');
+('NUMBER_FORMAT', '2'),
+('FLY_TICKET_COST', '5000');
 
 -- --------------------------------------------------------
 
@@ -185,6 +196,47 @@ INSERT INTO `groups` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `items_shop`
+--
+
+CREATE TABLE IF NOT EXISTS `items_shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `price` int(11) NOT NULL,
+  `power` int(11) NOT NULL,
+  `max_amount` int(11) NOT NULL DEFAULT '0',
+  `image` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `items_shop`
+--
+
+INSERT INTO `items_shop` (`id`, `name`, `description`, `price`, `power`, `max_amount`, `image`) VALUES
+(1, 'Bat', 'none', 500, 25, 0, 'knuppel.gif'),
+(2, 'Pepperspray', 'none', 950, 40, 0, 'pepperspray.gif'),
+(3, 'Desert Eagle', 'none', 1000, 45, 0, 'deserteagle.gif'),
+(4, 'Sig P228', 'none', 1400, 55, 0, 'sigp228.gif'),
+(5, 'Attack Coin', 'Get 5 attack coins to attack people.', 1500, 0, 0, 'attackcoins.gif'),
+(6, 'C4 Bomb', 'none', 3000, 75, 0, 'c4.gif'),
+(7, 'Machine Gun', 'none', 5000, 150, 0, 'm16.gif'),
+(8, 'Corner Shot', 'none', 5000, 150, 0, 'cornershot.gif'),
+(9, 'Switch Blade', 'none', 9500, 180, 0, 'switchblade.gif'),
+(10, 'Pitbull', 'none', 12500, 250, 0, 'pitbull.gif'),
+(11, 'Sniper', 'none', 20000, 450, 0, 'sniper.gif'),
+(12, 'S.W.A.T. Gun', 'none', 37500, 625, 0, 'swatgun.gif'),
+(13, 'RPG', 'none', 50000, 950, 0, 'rpg.gif'),
+(14, 'Bodyguard', 'none', 50000, 950, 0, 'bodyguards.gif'),
+(15, 'War Boat', 'none', 150000, 10000, 0, 'warboot.gif'),
+(16, 'Nuke', 'none', 200000, 15000, 0, 'nuke.gif'),
+(17, 'Tank', 'none', 240000, 15500, 0, 'tank.gif'),
+(18, 'Scud Rocket', 'none', 450000, 25000, 0, 'scudraket.gif');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menus`
 --
 
@@ -196,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `weight` int(11) NOT NULL,
   `display` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `menus`
@@ -226,7 +278,35 @@ INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
 (21, 23, 'locations', 'locations/bank', 0, 1),
 (22, 24, 'locations', 'locations/housing-market', 5, 1),
 (23, 25, 'locations', 'locations/hospital', 4, 1),
-(24, 26, 'extra', 'extra/attack', 0, 1);
+(24, 26, 'extra', 'extra/attack', 0, 1),
+(25, 27, 'admin', 'admin/modules', 0, 0),
+(26, 28, 'extra', 'extra/shoutbox', 0, 1),
+(27, 29, 'extra', 'extra/forum', 0, 1),
+(28, 30, 'casino', 'casino/crack-the-vault', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE IF NOT EXISTS `messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_id` int(11) NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `date` int(11) NOT NULL,
+  `subject` varchar(50) NOT NULL,
+  `content` text NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `from_id`, `to_id`, `date`, `subject`, `content`, `status`) VALUES
+(1, 8, 1, 145464829, 'Test', 'The test', 0);
 
 -- --------------------------------------------------------
 
@@ -243,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `jail` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `pages`
@@ -254,11 +334,11 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (2, 'Register', 'register', 'register.php', 'a:0:{}', 0),
 (3, 'Forgot password', 'forgot-pass', 'forgotpass.php', 'a:0:{}', 0),
 (4, 'Login', 'login', 'main.php', 'a:0:{}', 1),
-(5, 'Files', 'admin/files', 'files.php', 'a:0:{}', 0),
-(8, 'Menus', 'admin/menu', 'menus.php', 'a:0:{}', 0),
-(9, 'Manage crimes', 'admin/crimes', 'manage_crimes.php', 'a:0:{}', 0),
-(10, 'Settings', 'admin/settings', 'settings.php', 'a:0:{}', 0),
-(11, 'Users', 'admin/users', 'users.php', 'a:0:{}', 0),
+(5, 'Files', 'admin/files', 'files.php', 'a:1:{i:0;s:1:"1";}', 0),
+(8, 'Menus', 'admin/menu', 'menus.php', 'a:1:{i:0;s:1:"1";}', 0),
+(9, 'Manage crimes', 'admin/crimes', 'manage_crimes.php', 'a:1:{i:0;s:1:"1";}', 0),
+(10, 'Settings', 'admin/settings', 'settings.php', 'a:1:{i:0;s:1:"1";}', 0),
+(11, 'Users', 'admin/users', 'users.php', 'a:1:{i:0;s:1:"1";}', 0),
 (12, 'Crimes', 'crime/crimes', 'crimes.php', 'a:0:{}', 1),
 (13, 'Families', 'family', 'families.php', 'a:0:{}', 0),
 (14, 'Online', 'online', 'online.php', 'a:0:{}', 0),
@@ -270,10 +350,14 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (20, 'Call Credits Shop', 'call-credits/shop', 'call-credits-shop.php', 'a:0:{}', 0),
 (21, 'Shop', 'locations/shop', 'shop.php', 'a:0:{}', 1),
 (22, 'Jail', 'locations/jail', 'jail.php', 'a:0:{}', 0),
-(23, 'Bank', 'locations/bank', 'bank.php', 'a:0:{}', 0),
+(23, 'Bank', 'locations/bank', 'bank.php', 'a:0:{}', 1),
 (24, 'Housing market', 'locations/housing-market', 'housing-market.php', 'a:0:{}', 1),
 (25, 'Hospital', 'locations/hospital', 'hospital.php', 'a:0:{}', 1),
-(26, 'Attack', 'extra/attack', 'attack.php', 'a:0:{}', 1);
+(26, 'Attack', 'extra/attack', 'attack.php', 'a:0:{}', 1),
+(27, 'Modules', 'admin/modules', 'modules.php', 'a:1:{i:0;s:1:"1";}', 0),
+(28, 'Shoutbox', 'extra/shoutbox', 'shoutbox.php', 'a:0:{}', 0),
+(29, 'Forum', 'extra/forum', 'forum.php', 'a:0:{}', 0),
+(30, 'Crack the vault', 'casino/crack-the-vault', 'crack-the-vault.php', 'a:0:{}', 1);
 
 -- --------------------------------------------------------
 
@@ -295,17 +379,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `regdate` int(11) unsigned NOT NULL,
   `groups` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `usersalt`, `userid`, `userlevel`, `email`, `timestamp`, `actkey`, `ip`, `regdate`, `groups`) VALUES
-(1, 'admin', '12a5534328eec6d44e285b4eda68b4efa1e707cb', 'rtrpCSWD', '37278b5b488d8292597cb2f4afa6b865', 9, 'd.oomens@hotmail.nl', 1416747858, 'Waf60fKlX1mRTBre', '145.100.167.217', 1416386489, 'a:1:{i:0;s:1:"1";}'),
-(3, 'demo', '53097e78f22e4ba1e796c39971be5f4d00ae66e6', 'vwxWLF88', '407b8ca30211a60fa5df802adbdc2dfc', 9, 'demo@demo.com', 1416728698, '274AVOSpUZhMFQ8P', '145.100.167.217', 1416391206, ''),
+(1, 'admin', 'c131f24726b6f9bad6ecd9f1bf5af1d37d54fad7', 'TdVRRBrT', '89dd91c8e6be5343d06cd6cf90c5e4ae', 9, 'd.oomens@hotmail.nl', 1416839241, 'Waf60fKlX1mRTBre', '145.100.167.217', 1416386489, 'a:1:{i:0;s:1:"1";}'),
+(3, 'demo', '53097e78f22e4ba1e796c39971be5f4d00ae66e6', 'vwxWLF88', '097c9cea42e486f1e8e0cb1d439fe8b3', 3, 'demo@demo.com', 1416827332, '274AVOSpUZhMFQ8P', '145.100.167.217', 1416391206, ''),
 (8, 'mentimjojo', '8a801ac791f74df3d508e80041f0338438e445ad', 'oz8j0Rk3', '387ab285357f49cab397ea6c8d642607', 3, 'timnijborg@hotmail.nl', 1416502689, 'vVgsZkSXDeJElHob', '81.207.171.113', 1416502216, ''),
-(7, 'volrisico', 'd7ca81d9a77b3a785719cf4fbd8f0519348988fb', 'HWVv9hao', '0', 1, 'corne.steenbakkers@gmail.com', 1416475596, 'ZRPT86wB0zk1EdVF', '145.100.163.54', 1416475596, '');
+(7, 'volrisico', 'd7ca81d9a77b3a785719cf4fbd8f0519348988fb', 'HWVv9hao', '0', 1, 'corne.steenbakkers@gmail.com', 1416475596, 'ZRPT86wB0zk1EdVF', '145.100.163.54', 1416475596, ''),
+(10, 'tcbhome', '418e312a295ff124787706188d3fec5f2e45cffb', 'SvU3TlhU', '0', 1, 'tcbhome@live.be', 1416772632, 'AYI5CsrEUDi1QTM4', '141.134.129.114', 1416772632, ''),
+(11, 'cornest', 'b96b93224bd70b9ebb2c46bad6cdf8625b729115', 'CREDHIaJ', '87a8311531d50903e9eec8909365529b', 3, 'corne.steenbakkers@gmail.com', 1416827397, 'wMq62KaYnog8iirl', '145.100.152.54', 1416825873, '');
 
 -- --------------------------------------------------------
 
@@ -333,10 +419,36 @@ CREATE TABLE IF NOT EXISTS `users_info` (
 --
 
 INSERT INTO `users_info` (`uid`, `fid`, `rank`, `rank_process`, `health`, `city`, `money`, `bank`, `power`, `crime_process`, `credits`) VALUES
-(1, 0, 3, 8, 100, 1, 582, 10500, 1000, 162, 9),
+(1, 0, 3, 8, 100, 0, 172850, 493210, 33525, 168, 9),
 (3, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0),
 (7, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0),
-(8, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0);
+(8, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0),
+(10, 0, 0, 0, 100, 0, 100, 500, 0, 0, 0),
+(11, 0, 0, 0, 100, 0, 100, 500, 0, 2, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_items`
+--
+
+CREATE TABLE IF NOT EXISTS `users_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `users_items`
+--
+
+INSERT INTO `users_items` (`id`, `uid`, `sid`, `amount`) VALUES
+(2, 1, 3, 100),
+(3, 1, 1, 121),
+(4, 1, 5, 3),
+(5, 1, 18, 1);
 
 -- --------------------------------------------------------
 
@@ -348,6 +460,7 @@ CREATE TABLE IF NOT EXISTS `users_time` (
   `uid` int(11) NOT NULL,
   `jail` int(11) NOT NULL,
   `crime_time` int(11) NOT NULL,
+  `fly_time` int(11) NOT NULL,
   UNIQUE KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -355,11 +468,13 @@ CREATE TABLE IF NOT EXISTS `users_time` (
 -- Dumping data for table `users_time`
 --
 
-INSERT INTO `users_time` (`uid`, `jail`, `crime_time`) VALUES
-(1, 1416481529, 1416507566),
-(3, 0, 0),
-(7, 0, 0),
-(8, 0, 0);
+INSERT INTO `users_time` (`uid`, `jail`, `crime_time`, `fly_time`) VALUES
+(1, 1416838515, 1416838533, 1416838980),
+(3, 1416955818, 0, 0),
+(7, 0, 0, 0),
+(8, 0, 0, 0),
+(10, 0, 0, 0),
+(11, 0, 1416827449, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
