@@ -5,6 +5,13 @@ Clean up code:
  - Clean up unused function / code in functions
  - Add commentary to all the code
 
+Functionality:
+ - Captcha
+ - Loads of loads of settings
+    Settings:
+     - Flight costs
+     - Captcha on/off
+
 Pages:
 
 Messages
@@ -20,6 +27,8 @@ Family page
 Family settings
 
 Attack players
+Shoutbox
+Forum
 
 Small crimes
 Big Crimes

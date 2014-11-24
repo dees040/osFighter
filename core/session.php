@@ -734,16 +734,4 @@ class Session
         }
         return $randstr;
     }
-
-    public function createFormat($number) {
-        global $database;
-
-        $number_format = $database->getConfigs()['NUMBER_FORMAT'];
-
-        if ($number_format == 1) {
-            return number_format($number, 0, ',', '.');
-        } else if ($number_format == 2) {
-            return number_format($number, 0, '.', ',');
-        }
-    }
 };

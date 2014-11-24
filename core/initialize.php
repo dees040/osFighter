@@ -23,13 +23,15 @@ function osFighter_autoloader($class) {
 }
 
 spl_autoload_register('osFighter_autoloader'); // Register function
-$database = new Database;
-$mailer   = new Mailer;
-$error    = new Error;
-$session  = new Session;
-$form     = new Form;
-$user     = new User;
-$admin    = new Admin;
+$database  = new Database;
+$mailer    = new Mailer;
+$error     = new Error;
+$session   = new Session;
+$form      = new Form;
+$user      = new User;
+$admin     = new Admin;
+$settings  = new Settings;
+$validator = new Validator;
 
 class initialize
 {
@@ -66,6 +68,7 @@ class initialize
 
                 $this->info['file_to_load'] = 'views/'.$this->info['theme'].'/'.$this->info['file'];
 
+                $this->checkInAir();
                 $this->checkJail();
             } else {
                 $this->info['file_to_load'] =  'files/http/403.php';
@@ -202,6 +205,15 @@ class initialize
 
         if ($user->in_jail && (int)$this->info['link']->jail) {
             $this->info['link']->file = "in_jail.php";
+            $this->info['link']->menu = "locations";
+        }
+    }
+
+    private function checkInAir() {
+        global $user;
+
+        if ($user->in_air) {
+            $this->info['link']->file = "in_air.php";
             $this->info['link']->menu = "locations";
         }
     }

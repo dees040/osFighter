@@ -27,6 +27,7 @@
                 $items = array(':user' => $user_info['id']);
                 $stats = $database->query("SELECT * FROM " . TBL_INFO . " WHERE uid = :user", $items)->fetchObject();
                 $groups = $database->query("SELECT * FROM ".TBL_GROUPS." ORDER BY name")->fetchAll();
+                $banned = $database->query("SELECT * FROM ".TBL_BANNED_USERS." WHERE username = :user", array(':user' => $user_info['username']))->rowCount();
         ?>
         <form method="post">
             <table>
@@ -63,13 +64,30 @@
                         <?=($database->userOnline($user_info['username'])) ? 'Online' : 'Offline'; ?>
                     </td>
                 </tr>
+                <?php
+                if ($banned) {
+                ?>
+                <tr>
+                    <td>
+                        Banned:
+                    </td>
+                    <td>
+                        <img src="files/images/icons/cross.png">
+                    </td>
+                    <td>
+                        True
+                    </td>
+                </tr>
+                <?php
+                }
+                ?>
                 <tr>
                     <td>
                         Rank
                     </td>
 
                     <td>
-                        <img src="files/images/icons/star.png">
+                        <img src="files/images/icons/rank.png">
                     </td>
                     <td>
                         <select name="rank">

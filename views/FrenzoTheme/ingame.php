@@ -49,12 +49,12 @@
 
                     <tr>
                         <td class="first">Money</td>
-                        <td><?=$info['currency'].$session->createFormat($user->stats->money); ?></td>
+                        <td><?=$info['currency'].$settings->createFormat($user->stats->money); ?></td>
                     </tr>
 
                     <tr>
                         <td class="first">Bank</td>
-                        <td><?=$info['currency'].$session->createFormat($user->stats->bank); ?></td>
+                        <td><?=$info['currency'].$settings->createFormat($user->stats->bank); ?></td>
                     </tr>
                 </table>
             </div>

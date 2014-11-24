@@ -3,8 +3,8 @@
     <head>
         <title><?php echo $info['title']." | ".$info['link']->title; ?></title>
         <link href="views/FrenzoTheme/css/style-outgame.css" rel="stylesheet" />
-        <link href="views/FrenzoTheme/js/views/8/js-image-slider.css" rel="stylesheet"/>
-        <script src="views/FrenzoTheme/js/views/8/js-image-slider.js"></script>
+        <link href="views/FrenzoTheme/js/themes/8/js-image-slider.css" rel="stylesheet"/>
+        <script src="views/FrenzoTheme/js/themes/8/js-image-slider.js"></script>
         <link href="views/FrenzoTheme/css/slider/generic.css" rel="stylesheet" />
         <script>
             imageSlider.thumbnailPreview(function (thumbIndex) { return "<img src='images/thumb" + (thumbIndex + 1) + ".jpg' style='width:70px;height:44px;' />"; });
@@ -18,29 +18,27 @@
 
                     <div id="sliderFrame">
                         <div id="slider">
-                            <a href="http://www.osFighter.com" target="_blank">
+                            <a href="http://www.ultimate-survival.net/login">
                                 <img src="views/FrenzoTheme/images/layout/outgame/slider/slider1.png" alt="Welcome to osFighter" />
                             </a>
-                            <img src="views/FrenzoTheme/images/layout/outgame/slider/image-slider-2.jpg" alt="Lorem ipsum dolor sit amet" />
-                            <img src="views/FrenzoTheme/images/layout/outgame/slider/image-slider-3.jpg" alt="Pure Javascript. No jQuery. No flash." />
-                            <img src="views/FrenzoTheme/images/layout/outgame/slider/image-slider-4.jpg" alt="#cap2" />
-                            <img src="views/FrenzoTheme/images/layout/outgame/slider/image-slider-5.jpg" alt="Excepteur sint occaecat cupidatat" />
+                            <a href="https://github.com/dees040/osFighter" target="_blank">
+                                <img src="views/FrenzoTheme/images/layout/outgame/slider/blog-github.png" alt="Follow our code on Github" />
+                            </a>
                         </div>
                     </div>
                 </div>
 
                 <div id="content">
                     <div id="inhoud">
-                        <h1><?php echo $info['link']->title; ?></h1>
                         <?php include 'files/outgame/'.$info['link']->file; ?>
                     </div>
                 </div>
 
                 <ul id="menu">
-                    <li><a href="home">Startpagina</a></li>
-                    <li><a href="register">Aanmelden</a></li>
-                    <li><a href="forgot-pass">Wachtwoord vergeten</a></li>
-                    <li><a href="#">Algemene voorwaarden</a></li>
+                    <li><a href="home">Home</a></li>
+                    <li><a href="register">Register</a></li>
+                    <li><a href="forgot-pass">Forgot password</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
                 </ul>
 
                 <div id="login">

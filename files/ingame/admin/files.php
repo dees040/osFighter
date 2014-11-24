@@ -86,7 +86,7 @@
                 </tr>
                 <tr>
                     <td title="Select this checkbox when user may view this page when in jail">
-                        Jail:
+                        Jail (?):
                     </td>
                     <td>
                         <input type="checkbox" name="jail" value="1">
@@ -209,7 +209,7 @@
                         </td>
                     </tr>
                     <td title="Select this checkbox when user may view this page when in jail">
-                        Jail:
+                        Jail (?):
                     </td>
                     <td>
                         <input type="checkbox" name="jail" value="1" <?php if(!$page->jail) echo "checked"; ?>>

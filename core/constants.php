@@ -7,9 +7,9 @@
  */
 
 define("DB_SERVER", "localhost");
-define("DB_USER", "root");
-define("DB_PASS", "");
-define("DB_NAME", "osFighter");
+define("DB_USER", "deb65120n6_osf");
+define("DB_PASS", "dees1234!");
+define("DB_NAME", "deb65120n6_os");
 
 /**
  * Database Table Constants - these constants
@@ -29,6 +29,9 @@ define("TBL_TIME", "users_time");
 define("TBL_GROUPS", "groups");
 define("TBL_CRIMES", "crimes");
 define("TBL_FAMILY", "families");
+define("TBL_MESSAGE", "messages");
+define("TBL_SHOP_ITEMS", "items_shop");
+define("TBL_USERS_ITEMS", "users_items");
 
 
 /**

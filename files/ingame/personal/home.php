@@ -11,7 +11,7 @@
     </tr>
     <tr>
         <td width="35%">Power:</td>
-        <td width="6%"><img src="files/images/icons/star.png" border="0px"></td>
+        <td width="6%"><img src="files/images/icons/lightning.png" border="0px"></td>
         <td width="69%"><a href="locations/shop"><?=$user->stats->power; ?></a></td>
     </tr>
     <tr>
@@ -26,7 +26,7 @@
     </tr>
     <tr>
         <td width="35%">Rank:</td>
-        <td width="6%"><img src="files/images/icons/lightning.png" border="0px"></td>
+        <td width="6%"><img src="files/images/icons/rank.png" border="0px"></td>
         <td width="69%"><?=$info['ranks'][$user->stats->rank]; ?></td>
     </tr>
     <tr>
@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <td width="35%">VIP:</td>
-        <td width="6%"><img src="files/images/icons/credit-card-green.png" border="0px"></td>
+        <td width="6%"><img src="files/images/icons/star.png" border="0px"></td>
         <td width="69%"><a href="call-credits/shop">-</a></td>
     </tr>
     <tr>
