@@ -9,7 +9,7 @@
  * On 08-02-2014
  */
 include("constants.php");
-      
+
 class Database
 {
    private $connection;         //The MySQL database connection
@@ -17,7 +17,7 @@ class Database
    public $num_active_guests;  //Number of active guests viewing site
    public $num_members;        //Number of signed-up users
    /* Note: call getNumMembers() to access $num_members! */
-   
+
     /* Class constructor */
     public function __construct() {
         /* Make connection to database */
@@ -48,7 +48,7 @@ class Database
             $this->calcNumActiveGuests();
         }
     } // MySQLDB function
-   
+
     /**
      * Gather together the configs from the database configuration table.
      */
@@ -248,6 +248,25 @@ class Database
     }
 
     /**
+     * getUserInfoById - Returns the result array from a mysql
+     * query asking for all information stored regarding
+     * the given username. If query fails, NULL is returned.
+     */
+    public function getUserInfoById($id){
+        $query = "SELECT * FROM ".TBL_USERS." WHERE id = :id";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute(array(':id' => $id));
+        $dbarray = $stmt->fetchObject();
+        /* Error occurred, return given name by default */
+        $result = count($dbarray);
+        if (!$dbarray || $result < 1) {
+            return NULL;
+        }
+        /* Return result array */
+        return $dbarray;
+    }
+
+    /**
      * checkUserEmailMatch - Checks whether username
      * and email match in forget password form.
      */
@@ -356,9 +375,10 @@ class Database
         $timeout = time()-$config['USER_TIMEOUT']*60;
         if($db_timestamp < $timeout && !isset($_COOKIE['cookname']) && !isset($_COOKIE['cookid'])) header("Location:".$config['WEB_ROOT']."core/process.php");
 
-        $query = "UPDATE ".TBL_USERS." SET timestamp = :time WHERE username = :username";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute(array(':username' => $username, ':time' => $time));
+        $this->query(
+            "UPDATE ".TBL_USERS." SET timestamp = :time WHERE username = :username",
+            array(':username' => $username, ':time' => $time)
+        );
 
         if(!$config['TRACK_VISITORS']) return;
         $query = "REPLACE INTO ".TBL_ACTIVE_USERS." VALUES (:username, :time)";
@@ -433,7 +453,7 @@ class Database
      */
     public function paginate($table, $orderBy, $start, $end) {
         $query = $this->query("SELECT * FROM ".$table." ORDER BY ".$orderBy." LIMIT ".$start.", ".$end);
-        return $query->fetchAll();
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
     /**
@@ -485,5 +505,5 @@ class Database
             return true;
         }
     }
-   
+
 };

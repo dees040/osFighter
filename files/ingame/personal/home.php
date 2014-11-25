@@ -12,17 +12,17 @@
     <tr>
         <td width="35%">Power:</td>
         <td width="6%"><img src="files/images/icons/lightning.png" border="0px"></td>
-        <td width="69%"><a href="locations/shop"><?=$user->stats->power; ?></a></td>
+        <td width="69%"><a href="locations/shop"><?=$settings->createFormat($user->stats->power); ?></a></td>
     </tr>
     <tr>
         <td width="35%">Money (cash):</td>
         <td width="6%"><img src="files/images/icons/money.png" border="0px"></td>
-        <td width="69%"><a href="locations/bank">&euro; <?=$user->stats->money; ?></a></td>
+        <td width="69%"><a href="locations/bank"><?=$settings->currencySymbol()." ".$settings->createFormat($user->stats->money); ?></a></td>
     </tr>
     <tr>
         <td width="35%">Money (bank):</td>
         <td width="6%"><img src="files/images/icons/bank.png" border="0px"></td>
-        <td width="69%"><a href="locations/bank">&euro; <?=$user->stats->bank; ?></a></td>
+        <td width="69%"><a href="locations/bank"><?=$settings->currencySymbol()." ".$settings->createFormat($user->stats->bank); ?></a></td>
     </tr>
     <tr>
         <td width="35%">Rank:</td>
@@ -47,13 +47,13 @@
 
     <tr>
         <td width="35%">City:</td>
-        <td width="6%"><img src="files/images/icons/globe.png" border="0px"></td>
+        <td width="6%"><img src="files/images/icons/world.png" border="0px"></td>
         <td width="69%"><a href="locations/airport"><?=$info['cities'][$user->stats->city]; ?></a></td>
     </tr>
     <tr>
         <td width="35%">Family:</td>
         <td width="6%"><img src="files/images/icons/drive_user.png" border="0px"></td>
-        <td width="69%"><?=$user->family->name; ?></td>
+        <td width="69%"><a href="family/profile?id=<?=$user->family->id; ?>"><?=$user->family->name; ?></a> </td>
     </tr>
     <tr>
         <td width="35%">Veilig:</td>

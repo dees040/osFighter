@@ -12,7 +12,7 @@
     </head>
     <body>
         <div id="header">
-            <div id="logo"></div>
+            <div id="logo"><img src="views/FrenzoTheme/images/layout/logo-new.png"/></div>
             <div id="status">
                 <table>
                     <tr>

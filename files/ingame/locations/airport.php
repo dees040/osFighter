@@ -16,8 +16,7 @@
     </tr>
 </table>
 
-<form method="POST" onsubmit="return checkError(this);">
-    <input type="hidden" name="sel" id="sel" value="">
+<form method="post">
     <table width='100%' class="mod_list" cellspacing='2' cellpadding='2'>
         <tr>
             <td align='center' colspan="3"><b>City</b></td>

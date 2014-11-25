@@ -8,7 +8,7 @@ class User
 
     public $in_jail;
     public $in_family;
-    public $family;
+    public  $family;
     public $id;
     public $in_air;
 
@@ -288,5 +288,43 @@ class User
         $database->query("UPDATE ".TBL_TIME." SET fly_time = :fly WHERE uid = :uid", $items);
 
         return $error->succesSmall("You're traveling to ".unserialize($settings->config['CITIES'])[$toId]." now");
+    }
+
+    public function buyHouse($id)
+    {
+        global $database, $error, $settings;
+
+        $house = $database->query("SELECT * FROM ".TBL_HOUSE_ITEMS." WHERE id = :id", array(':id' => $id));
+
+        if ($house->rowCount() == 0) {
+            return $error->errorSmall("This house doesn't exists.");
+        }
+
+        $house = $house->fetchObject();
+
+        if ($house->price > $this->stats->money) {
+            return $error->errorSmall("You don't have enough money to buy this property.");
+        }
+
+        $oldHouseId = $this->stats->house;
+        if ($this->stats->house != 0) {
+            $oldHouse = $database->query("SELECT price FROM ".TBL_HOUSE_ITEMS." WHERE id = :id", array(':id' => $this->stats->house))->fetchObject();
+
+            $moneyBack = $oldHouse->price * 0.75;
+            $this->stats->money = $this->stats->money + $moneyBack;
+        }
+
+        $this->stats->house = $id;
+        $this->stats->money = $this->stats->money - $house->price;
+        $items = array(':money' => $this->stats->money, ':house' => $id, ':uid' => $this->id);
+        $database->query("UPDATE ".TBL_INFO." SET money = :money, house = :house WHERE uid = :uid", $items);
+
+        if ($oldHouseId == 0) {
+            return $error->succesSmall("You bought your new house for " . $settings->currencySymbol() . $settings->createFormat($house->price));
+        } else if ($id == 0) {
+            return $error->succesSmall("You sold your old house for ".$settings->currencySymbol() . $settings->createFormat($moneyBack));
+        } else {
+            return $error->succesSmall("You bought your new house for " . $settings->currencySymbol() . $settings->createFormat($house->price). " and you sold your old house for ".$settings->currencySymbol() . $settings->createFormat($moneyBack));
+        }
     }
 }

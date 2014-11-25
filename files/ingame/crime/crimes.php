@@ -12,7 +12,7 @@ foreach ($crimes as $crime) {
 }
 
 if (isset($_POST['crime'])) {
-    if ($_SESSION['vercode'] != $_POST['vercode']) {
+    if ($settings->checkCaptcha()) {
         echo $error->errorBig("Verification code is not correct");
     } else {
         if ($user->time->crime_time <= time()) {
@@ -55,59 +55,61 @@ if ($user->time->crime_time > time()) {
     echo $error->errorBig("You can do the next crime in <time class='timer'>".($user->time->crime_time - time())."</time> seconds.");
 } else {
     ?>
-    <form method="POST">
+    <form method="POST" name="captcha-form">
         <table align="center" width="100%" border="0" cellspacing="2" cellpadding="2" class="mod_list">
             <?php foreach ($crimes as $crime) { ?>
-                <tr>
-                    <td rowspan="4" width="10">
-                        <input type="radio" name="crime" value="<?= $crime['id']; ?>"
-                               onclick="document.getElementById('sel').value = 'true'">
-                    </td>
-                    <td rowspan="4" width="100">
-                        <img src="files/images/crimes/<?= $crime['icon']; ?>" alt="Crime ICON" width="100%">
-                    </td>
-                    <td colspan="2">
-                        <strong><?= $crime['name']; ?></strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="16">
-                        <label for="1">
-                            <img src="files/images/icons/chart_bar.gif" alt="Change for crime">
-                        </label>
-                    </td>
-                    <td>
-                        <strong><?php
-                            if ($_aChange[$crime['id']] > 100) {
-                                $_aChange[$crime['id']] = 100;
-                            }
-                            echo $_aChange[$crime['id']]; ?>%</strong> change of success.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="files/images/icons/money.gif" alt="Payout">
-                    </td>
-                    <td>
-                        Payout is between <?= $crime['min_payout']; ?> and <?= $crime['max_payout']; ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="files/images/icons/clock.gif" alt="Punishment for crime">
-                    </td>
-                    <td>
-                        <strong>1 minute</strong> jail time if you get caught.
-                    </td>
-                </tr>
-                <tr height="5px">
+            <tr>
+                <td rowspan="4" width="10">
+                    <input type="radio" name="crime" value="<?= $crime['id']; ?>"
+                           onclick="document.getElementById('sel').value = 'true'">
+                </td>
+                <td rowspan="4" width="100">
+                    <img src="files/images/crimes/<?= $crime['icon']; ?>" alt="Crime ICON" width="100%">
+                </td>
+                <td colspan="2">
+                    <strong><?= $crime['name']; ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td width="16">
+                    <label for="1">
+                        <img src="files/images/icons/chart_bar.png" alt="Change for crime">
+                    </label>
+                </td>
+                <td>
+                    <strong><?php
+                        if ($_aChange[$crime['id']] > 100) {
+                            $_aChange[$crime['id']] = 100;
+                        }
+                        echo $_aChange[$crime['id']]; ?>%</strong> change of success.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="files/images/icons/coins.png" alt="Payout">
+                </td>
+                <td>
+                    Payout is between <?= $crime['min_payout']; ?> and <?= $crime['max_payout']; ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="files/images/icons/clock.png" alt="Punishment for crime">
+                </td>
+                <td>
+                    <strong>1 minute</strong> jail time if you get caught.
+                </td>
+            </tr>
+            <tr height="5px">
 
-                </tr>
-            <?php } ?>
+            </tr>
+            <?php
+            }
+            ?>
         </table>
-        <img src="core/image.php"><input type="text" name="vercode" size="4" />
-        <input type="submit" value="Go!">
+        <?php
+        echo $settings->createCaptcha();
+        ?>
     </form>
 <?php
 }
-?>

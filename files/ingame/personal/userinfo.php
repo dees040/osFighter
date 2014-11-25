@@ -14,6 +14,9 @@
         $user_info = (object)$database->getUserInfo($req_user);
         $items = array(':user' => $user_info->id);
         $stats = $database->query("SELECT * FROM ".TBL_INFO." WHERE uid = :user", $items)->fetchObject();
+        $family = $database->query("SELECT * FROM ".TBL_FAMILY." WHERE id = :fid", array(':fid' => $stats->fid))->fetchObject();
+        $online = $database->userOnline($user_info->username);
+        $house = $database->query("SELECT name FROM ".TBL_HOUSE_ITEMS." WHERE id = :id", array(':id' => $stats->house))->fetchObject()->name;
 ?>
         <img src="files/images/icons/bomb.png"> <a href="attack?target=<?=$user_info->username; ?>"><strong>Attack</strong></a>
         <img src="files/images/icons/vcard.png" style="margin-left:30px;"> <a href="personal/messages?box=new&to=<?=$user_info->username; ?>"><strong>PB sturen</strong></a>
@@ -25,14 +28,7 @@
         <table width="100%" border="0" cellspacing="2" cellpadding="2" class="mod_list">
             <tr>
                 <td width="35%" class="first">Username:</td>
-                <?php
-                    $status = "status_offline.png";
-
-                    if ($database->query("SELECT username FROM ".TBL_ACTIVE_USERS." WHERE username = :user", $items)->rowCount()) {
-                        $status = "status_online.png";
-                    }
-                ?>
-                <td width="6%" align=center><img src="files/images/icons/<?=$status; ?>" title="Online"></td>
+                <td width="6%" align=center><img src="files/images/icons/<?=($online) ? 'status_online' : 'status_offline'; ?>.png" title="Online"></td>
                 <td width="69%"><?=$user_info->username; ?></td>
             </tr>
             <tr>
@@ -42,33 +38,33 @@
             </tr>
             <tr>
                 <td width="35%" class="first">Power:</td>
-                <td width="6%" align=center><img src="files/images/icons/star.png" border="0px"></td>
-                <td width="69%"><? echo $stat; ?></td>
+                <td width="6%" align=center><img src="files/images/icons/lightning.png" border="0px"></td>
+                <td width="69%"><?=$settings->createFormat($stats->power); ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Family power:</td>
-                <td width="6%" align=center><img src="files/images/icons/star.png" border="0px"></td>
-                <td width="69%"><? echo $powerfamilie_profiel; ?></td>
+                <td width="6%" align=center><img src="files/images/icons/lightning.png" border="0px"></td>
+                <td width="69%"><?=$settings->createFormat($family->power); ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Power total:</td>
-                <td width="6%" align=center><img src="files/images/icons/star.png" border="0px"></td>
-                <td width="69%"><? echo $power_totaal; ?></td>
+                <td width="6%" align=center><img src="files/images/icons/lightning.png" border="0px"></td>
+                <td width="69%"><?=$settings->createFormat($stats->power + $family->power); ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Respect:</td>
                 <td width="6%" align=center><img src="files/images/icons/ruby.png" border="0px"></td>
-                <td width="69%"><? echo $stats->respect; ?></td>
+                <td width="69%"><?=$settings->createFormat($stats->respect); ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Home:</td>
-                <td width="6%" align=center><img src="files/images/icons/woning-icon.png" border="0px"></td>
-                <td width="69%"><? echo $stats->woning?>
+                <td width="6%" align=center><img src="files/images/icons/house.png" border="0px"></td>
+                <td width="69%"><?=$house?>
                 </td>
             <tr>
                 <td width="35%" class="first">City:</td>
                 <td width="6%" align=center><img src="files/images/icons/world.png" border="0px"></td>
-                <td width="69%"></td>
+                <td width="69%"><?=$info['cities'][$stats->city]; ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Safe:</td>
@@ -88,21 +84,21 @@
             <tr>
                 <td width="35%" class="first">Money (cash):</td>
                 <td width="6%" align=center><img src="files/images/icons/money.png" border="0px"></td>
-                <td width="69%">&euro; <?=$stats->money; ?></td>
+                <td width="69%"><?=$settings->currencySymbol()." ".$settings->createFormat($stats->money); ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Money (bank):</td>
                 <td width="6%" align=center><img src="files/images/icons/bank.png" border="0px"></td>
-                <td width="69%">&euro; <?=$stats->bank; ?></td>
+                <td width="69%"><?=$settings->currencySymbol()." ".$settings->createFormat($stats->bank); ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Family:</td>
                 <td width="6%" align=center><img src="files/images/icons/group.png" border="0px"></td>
-                <td width="69%"></td>
+                <td width="69%"><a href="family/profile?id=<?=$family->id; ?>"><?=$family->name; ?></a></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Rank:</td>
-                <td width="6%" align=center><img src="files/images/icons/lightning.png" border="0px"></td>
+                <td width="6%" align=center><img src="files/images/icons/rank.png" border="0px"></td>
                 <td width="69%"><?=$info['ranks'][$stats->rank]; ?></td>
             </tr>
             <tr>

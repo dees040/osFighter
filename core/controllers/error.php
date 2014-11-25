@@ -9,7 +9,7 @@ class error
      */
     public function errorBig($text){
         return '<br /><br /><div class="notifi" style="border: 3px solid red; color: #bb3838; background: #ffeeee;">
-		<img src="files/images/1391740998_stop.png" style="float: left; padding-right: 10px;" alt=""/>
+		<img src="files/images/stop.png" style="float: left; padding-right: 10px;" alt=""/>
 		'.$text.'</div><br /><br />';
     }
 
@@ -29,7 +29,7 @@ class error
      */
     public function successBig($text){
         return '<br /><br /><div class="notifi" style="border: 3px solid #89dffb; color: Black; background: #d9f6ff;">
-		<img src="files/images/1391741332_semi_success.png" style="float: left; padding-right: 10px;" alt=""/>
+		<img src="files/images/success.png" style="float: left; padding-right: 10px;" alt=""/>
 		'.$text.'</div><br /><br />';
     }
 

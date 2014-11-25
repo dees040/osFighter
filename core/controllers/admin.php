@@ -321,12 +321,10 @@ class admin
             if ($key == "groups") continue;
             $i++;
             $items[':' . $key] = $item;
-            $query .= " " . $key . " = :" . $key;
-
-            if ((count($info) - 1) != $i) {
-                $query .= ",";
-            }
+            $query .= " " . $key . " = :" . $key . ",";
         }
+
+        $query = rtrim($query, ',');
 
 
         $query .= " WHERE uid = :uid";

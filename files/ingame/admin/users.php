@@ -16,6 +16,7 @@
         if (isset($_POST['save-user'])) {
             array_pop($_POST);
             $admin->updateUser($_POST, $_GET['username']);
+            echo "<strong>User updated!</strong>";
         }
 
         if (isset($_GET['username'])) {
@@ -47,7 +48,7 @@
                         Last seen:
                     </td>
                     <td>
-                        <img src="files/images/icons/clock.gif">
+                        <img src="files/images/icons/clock.png">
                     </td>
                     <td>
                         <?=date("Y-m-d H:i", $user_info['timestamp']); ?>
@@ -110,7 +111,7 @@
                         Rank process:
                     </td>
                     <td>
-                        <img src="files/images/icons/chart_bar.gif">
+                        <img src="files/images/icons/chart_bar.png">
                     </td>
                     <td>
                         <input type="text" name="rank_process" value="<?=$stats->rank_process; ?>">

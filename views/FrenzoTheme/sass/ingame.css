@@ -31,7 +31,8 @@ body {
   height: 63px; }
 
 #logo {
-  background: url(../images/layout/logo.png);
+  background: url(../images/layout/ingame/logo.png);
+  z-index: 10;
   width: 218px;
   height: 45px;
   float: left;

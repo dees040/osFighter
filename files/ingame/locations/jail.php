@@ -3,20 +3,23 @@
         echo $user->buyFree($_POST['person']);
     }
 ?>
+<table width='100%'>
+    <tr>
+        <td valign='top'>
+            Welcome to the <?=$info['title']; ?> jail. Here you can find the most wanted Gangsters of <?=$info['title']; ?>. Help them out by buying them free and earn there respect!
+        </td>
+        <td>
+            <img src='files/images/extra/jail.jpg' align='right' border='1' width="200px" height="125px">
+        </td>
+    </tr>
+</table>
 <form method="post">
-    Op deze pagina bevinden zich de gangsters die op dit moment in de gevangenis zitten. Deze kun je uitkopen voor de borg die wordt weergeven.<br \>
-    <br \>
     <table width="100%" cellspacing="2" cellpadding="2" class="mod_list">
         <tr>
-            <td width="6%">&nbsp;</td>
-            <td width="6%">&nbsp;</td>
-            <td><b>User</b></td>
-            <td width="6%">&nbsp;</td>
-            <td><b>Rank</b></td>
-            <td width="6%">&nbsp;</td>
-            <td><b>Time</b></td>
-            <td width="6%">&nbsp;</td>
-            <td><b>Borg</b></td>
+            <td colspan="3" align="center"><strong>User</strong></td>
+            <td colspan="2" align="center"><strong>Rank</strong></td>
+            <td colspan="2" align="center"><strong>Time</strong></td>
+            <td colspan="2" align="center"><strong>Borg</strong></td>
         </tr>
         <?php
             $users = $database->query("SELECT uid, jail FROM ".TBL_TIME." WHERE jail > UNIX_TIMESTAMP(NOW()) ORDER BY jail DESC")->fetchAll(PDO::FETCH_OBJ);
@@ -25,7 +28,7 @@
                 $rank = $database->query("SELECT rank FROM ".TBL_INFO." WHERE uid = :uid", array(':uid' => $person->uid))->fetchObject()->rank;
                 ?>
                 <tr class="top">
-                    <td>
+                    <td width="3%">
                         <input type="radio" name="person" value="<?=$person->uid; ?>">
                     </td>
                     <td align="center" width="6%">
@@ -49,7 +52,7 @@
                         <?=$info['ranks'][$rank]; ?>
                     </td>
                     <td align="center" width="6%">
-                        <img src="files/images/icons/clock.gif">
+                        <img src="files/images/icons/clock.png">
                     </td>
                     <td>
                         <time class='multiple-timer'><?=$person->jail - time(); ?></time>
