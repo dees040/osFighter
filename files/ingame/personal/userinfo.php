@@ -11,7 +11,7 @@
        echo "Username not registered";
     } else {
         /* Display requested user information - add/delete as applicable */
-        $user_info = (object)$database->getUserInfo($req_user);
+        $user_info = $database->getUserInfo($req_user);
         $items = array(':user' => $user_info->id);
         $stats = $database->query("SELECT * FROM ".TBL_INFO." WHERE uid = :user", $items)->fetchObject();
         $family = $database->query("SELECT * FROM ".TBL_FAMILY." WHERE id = :fid", array(':fid' => $stats->fid))->fetchObject();

@@ -19,11 +19,11 @@ class User
     {
         global $database, $session;
 
-        if ($session->userinfo['id'] == null) {
+        if ($session->userinfo->id == null) {
             return false;
         }
 
-        $items = array(':uid' => $session->userinfo['id']);
+        $items = array(':uid' => $session->userinfo->id);
         $this->info  = (object)$session->userinfo;
         $this->stats = $database->query("SELECT * FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject();
         $this->time  = $database->query("SELECT * FROM ".TBL_TIME." WHERE uid = :uid", $items)->fetchObject();
@@ -99,7 +99,7 @@ class User
             $rank_process = 100;
         }
 
-        $items = array(':rank' => $rank, ':process' => $rank_process, ':name' => $session->userinfo['id']);
+        $items = array(':rank' => $rank, ':process' => $rank_process, ':name' => $session->userinfo->id);
         $database->query("UPDATE ".TBL_INFO." SET rank = :rank, rank_process = :process WHERE uid = :name", $items);
         $this->stats->rank = $rank;
         $this->stats->rank_process = $rank_process;
@@ -111,7 +111,18 @@ class User
 
         return $database
             ->query(
-                "SELECT * FROM ".TBL_MESSAGE." WHERE to_id = :id",
+                "SELECT * FROM ".TBL_MESSAGE." WHERE to_id = :id ORDER BY date DESC",
+                array(':id' => $this->id))
+            ->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getOutbox()
+    {
+        global $database;
+
+        return $database
+            ->query(
+                "SELECT * FROM ".TBL_MESSAGE." WHERE from_id = :id AND from_status = 0 ORDER BY date DESC",
                 array(':id' => $this->id))
             ->fetchAll(PDO::FETCH_OBJ);
     }
@@ -326,5 +337,52 @@ class User
         } else {
             return $error->succesSmall("You bought your new house for " . $settings->currencySymbol() . $settings->createFormat($house->price). " and you sold your old house for ".$settings->currencySymbol() . $settings->createFormat($moneyBack));
         }
+    }
+
+    public function sendMessage($to, $subject, $message)
+    {
+        global $database, $error;
+
+        $userInfo = $database->getUserInfo($to);
+
+        if ($userInfo == null) {
+            return $error->errorSmall("User: ". $to ." doesn't exists.");
+        }
+
+        if (!$subject || empty($subject)) {
+            return $error->errorSmall("Subject can not be empty.");
+        }
+
+        $items = array(':from_id' => $this->id, ':to_id' => $userInfo->id, ':date' => time(), ':sub' => $subject, ':mess' => $message);
+        $database->query(
+            "INSERT INTO ".TBL_MESSAGE." SET from_id = :from_id, to_id = :to_id, date = :date, subject = :sub, content = :mess",
+            $items
+        );
+
+        return $error->succesSmall("Message has been sent to ".$userInfo->username);
+    }
+
+    public function deleteMessage($messages, $type = false)
+    {
+        global $database, $error;
+
+        $i = 0;
+        foreach($messages as $message) {
+            if ($type === false) {
+                $from = $database->query("SELECT to_id FROM ".TBL_MESSAGE." WHERE id = :id", array(':id' => $message[$i]))->fetchObject();
+                if ($from->to_id == $this->id) {
+                    $items = array(':id' => $message[$i], ':to_id' => $this->id);
+                    $database->query("DELETE FROM " . TBL_MESSAGE . " WHERE id = :id AND to_id = :to_id", $items);
+                } else {
+                    return $error->errorSmall("You are not allowed to delete this message!");
+                }
+            } else {
+                $items = array(':id' => $message[$i], ':status' => 1);
+                $database->query("UPDATE " . TBL_MESSAGE . " SET from_status = :status  WHERE id = :id", $items);
+            }
+            $i++;
+        }
+
+        return $error->succesSmall("All selected messages have been deleted!");
     }
 }

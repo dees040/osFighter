@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 25, 2014 at 02:51 PM
+-- Generation Time: Nov 26, 2014 at 09:42 PM
 -- Server version: 5.5.38-MariaDB-cll-lve
 -- PHP Version: 5.5.17
 
@@ -41,8 +41,11 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(30) NOT NULL,
   `timestamp` int(11) unsigned NOT NULL,
+  `page` varchar(50) NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `banned_ip`
@@ -153,6 +156,13 @@ CREATE TABLE IF NOT EXISTS `families` (
   `info` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `families`
+--
+
+INSERT INTO `families` (`id`, `name`, `cash`, `bank`, `power`, `bullits`, `creator`, `max_members`, `info`) VALUES
+(1, 'Staff', 10, 1000, 100, 0, 1, 10, '');
 
 -- --------------------------------------------------------
 
@@ -265,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `weight` int(11) NOT NULL,
   `display` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `menus`
@@ -300,7 +310,8 @@ INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
 (26, 28, 'extra', 'extra/shoutbox', 0, 1),
 (27, 29, 'extra', 'extra/forum', 0, 1),
 (28, 30, 'casino', 'casino/crack-the-vault', 0, 1),
-(29, 31, 'family', 'family/profile', 0, 0);
+(29, 31, 'family', 'family/profile', 0, 0),
+(30, 32, 'personal', 'personal/message', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -316,8 +327,9 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `subject` varchar(50) NOT NULL,
   `content` text NOT NULL,
   `status` tinyint(4) NOT NULL,
+  `from_status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -334,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `jail` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `pages`
@@ -369,7 +381,8 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (28, 'Shoutbox', 'extra/shoutbox', 'shoutbox.php', 'a:0:{}', 0),
 (29, 'Forum', 'extra/forum', 'forum.php', 'a:0:{}', 0),
 (30, 'Crack the vault', 'casino/crack-the-vault', 'crack-the-vault.php', 'a:0:{}', 1),
-(31, 'Family profile', 'family/profile', 'family-profile.php', 'a:0:{}', 1);
+(31, 'Family profile', 'family/profile', 'family-profile.php', 'a:0:{}', 1),
+(32, 'Message', 'personal/message', 'message_load.php', 'a:3:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";}', 0);
 
 -- --------------------------------------------------------
 
@@ -391,7 +404,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `regdate` int(11) unsigned NOT NULL,
   `groups` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -429,6 +442,7 @@ CREATE TABLE IF NOT EXISTS `users_items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
+
 -- --------------------------------------------------------
 
 --
@@ -442,6 +456,7 @@ CREATE TABLE IF NOT EXISTS `users_time` (
   `fly_time` int(11) NOT NULL,
   UNIQUE KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

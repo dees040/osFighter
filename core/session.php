@@ -99,9 +99,9 @@ class Session
 
             /* User is logged in, set class variables */
             $this->userinfo  = $database->getUserInfo($_SESSION['username']);
-            $this->username  = $this->userinfo['username'];
-            $this->userid    = $this->userinfo['userid'];
-            $this->userlevel = $this->userinfo['userlevel'];
+            $this->username  = $this->userinfo->username;
+            $this->userid    = $this->userinfo->userid;
+            $this->userlevel = $this->userinfo->userlevel;
             return true;
         }
         /* User not logged in */
@@ -169,9 +169,9 @@ class Session
 
         /* Username and password correct, register session variables */
         $this->userinfo  = $database->getUserInfo($subuser);
-        $this->username  = $_SESSION['username'] = $this->userinfo['username'];
+        $this->username  = $_SESSION['username'] = $this->userinfo->username;
         $this->userid    = $_SESSION['userid']   = $this->generateRandID();
-        $this->userlevel = $this->userinfo['userlevel'];
+        $this->userlevel = $this->userinfo->userlevel;
 
         /* Insert userid into database and update active users table */
         $database->updateUserField($this->username, "userid", $this->userid);
@@ -700,7 +700,7 @@ class Session
     public function isUserGroup($groupID) {
         if (!$this->logged_in) return false;
 
-        $groups = unserialize($this->userinfo['groups']);
+        $groups = unserialize($this->userinfo->groups);
         if (!empty($groups) && in_array($groupID, $groups)) return true;
 
         return false;

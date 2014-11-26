@@ -71,7 +71,7 @@
             <td>
                 <input type="text" name="email" maxlength="50" value="<?php
                 if ($form->value("email") == "") {
-                   echo $session->userinfo['email'];
+                   echo $session->userinfo->email;
                 } else {
                    echo $form->value("email");
                 }

@@ -237,7 +237,7 @@ class Database
         $query = "SELECT * FROM ".TBL_USERS." WHERE username = :username";
         $stmt = $this->connection->prepare($query);
         $stmt->execute(array(':username' => $username));
-        $dbarray = $stmt->fetch();
+        $dbarray = $stmt->fetchObject();
         /* Error occurred, return given name by default */
         $result = count($dbarray);
         if (!$dbarray || $result < 1) {
@@ -380,10 +380,22 @@ class Database
             array(':username' => $username, ':time' => $time)
         );
 
+        $page = isset($_GET['REQUEST_URI']) ? $_GET['REQUEST_URI'] : 'home';
+
         if(!$config['TRACK_VISITORS']) return;
-        $query = "REPLACE INTO ".TBL_ACTIVE_USERS." VALUES (:username, :time)";
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute(array(':username' => $username, ':time' => $time));
+
+        if ($page == "favicon.ico") {
+            $page = $this->query("SELECT page FROM ".TBL_ACTIVE_USERS." WHERE username = :id", array(':id' => $username))->fetchObject()->page;
+            $this->query(
+                "REPLACE INTO " . TBL_ACTIVE_USERS . " VALUES (:username, :time, :page)",
+                array(':username' => $username, ':time' => $time, ':page' => $page)
+            );
+        } else {
+            $this->query(
+                "REPLACE INTO " . TBL_ACTIVE_USERS . " VALUES (:username, :time, :page)",
+                array(':username' => $username, ':time' => $time, ':page' => $page)
+            );
+        }
 
         $this->calcNumActiveUsers();
     }

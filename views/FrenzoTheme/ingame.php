@@ -5,9 +5,11 @@
         <base href="<?= $info['base']; ?>">
         <link href="views/FrenzoTheme/css/ingame.css" rel="stylesheet" />
         <link href="views/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
+        <link rel="icon" type="image/png" href="files/images/favicon.png">
         <script src="files/js/jquery.min.js"></script>
         <script src="files/js/jquery-ui.min.js"></script>
         <script src="views/FrenzoTheme/js/tabs/tabcontent.js"></script>
+        <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
         <script src="files/js/functions.js"></script>
     </head>
     <body>

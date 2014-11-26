@@ -313,7 +313,7 @@ class admin
         global $database;
 
         $items = array();
-        $items[':uid'] = $database->getUserInfo($username)['id'];
+        $items[':uid'] = $database->getUserInfo($username)->id;
         $query = "UPDATE ".TBL_INFO." SET";
         $i = 0;
 

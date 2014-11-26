@@ -37,6 +37,9 @@ var functions = {
     }
 }
 
+tinymce.init({
+    selector: "textarea"
+});
 
 $(document).ready(function() {
     init.timer();

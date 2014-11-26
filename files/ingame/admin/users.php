@@ -25,10 +25,10 @@
             if (empty($user_info)) {
                 echo "User not found";
             } else {
-                $items = array(':user' => $user_info['id']);
+                $items = array(':user' => $user_info->id);
                 $stats = $database->query("SELECT * FROM " . TBL_INFO . " WHERE uid = :user", $items)->fetchObject();
                 $groups = $database->query("SELECT * FROM ".TBL_GROUPS." ORDER BY name")->fetchAll();
-                $banned = $database->query("SELECT * FROM ".TBL_BANNED_USERS." WHERE username = :user", array(':user' => $user_info['username']))->rowCount();
+                $banned = $database->query("SELECT * FROM ".TBL_BANNED_USERS." WHERE username = :user", array(':user' => $user_info->username))->rowCount();
         ?>
         <form method="post">
             <table>
@@ -40,7 +40,7 @@
                         <img src="files/images/icons/computer.png">
                     </td>
                     <td width="69%">
-                        <?=$user_info['ip']; ?>
+                        <?=$user_info->ip; ?>
                     </td>
                 </tr>
                 <tr>
@@ -51,7 +51,7 @@
                         <img src="files/images/icons/clock.png">
                     </td>
                     <td>
-                        <?=date("Y-m-d H:i", $user_info['timestamp']); ?>
+                        <?=date("Y-m-d H:i", $user_info->timestamp); ?>
                     </td>
                 </tr>
                 <tr>
@@ -59,10 +59,10 @@
                         Status:
                     </td>
                     <td>
-                        <img src="files/images/icons/status_<?=($database->userOnline($user_info['username'])) ? 'online' : 'offline'; ?>.png">
+                        <img src="files/images/icons/status_<?=($database->userOnline($user_info->username)) ? 'online' : 'offline'; ?>.png">
                     </td>
                     <td>
-                        <?=($database->userOnline($user_info['username'])) ? 'Online' : 'Offline'; ?>
+                        <?=($database->userOnline($user_info->username)) ? 'Online' : 'Offline'; ?>
                     </td>
                 </tr>
                 <?php
@@ -205,7 +205,7 @@
                     <td>
                         <?php
                         foreach($groups as $group) {
-                            if (in_array($group['id'], unserialize($user_info['groups']))) {
+                            if (in_array($group['id'], unserialize($user_info->groups))) {
                                 echo '<input type="checkbox" value="' . $group['id'] . '" name="groups[]" checked> ' . $group['name'] . '<br>';
                             } else {
                                 echo '<input type="checkbox" value="' . $group['id'] . '" name="groups[]"> ' . $group['name'] . '<br>';
