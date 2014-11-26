@@ -19,7 +19,7 @@ class error
      * @return string
      */
     public function errorSmall($text){
-        return '<div class="notifi-small" style="border: 2px solid red; color: red; bakckground: #ffc9c9;">'.$text.'</div>';
+        return '<div class="notifi-small" style="border: 2px solid red; color: red; bakckground: #ffc9c9;">'.$text.'</div><br>';
     }
 
     /**
@@ -39,6 +39,6 @@ class error
      * @return string
      */
     public function succesSmall($text){
-        return '<div class="notifi-small" style="border: 2px solid #89dffb; color: black;">'.$text.'</div>';
+        return '<div class="notifi-small" style="border: 2px solid #89dffb; color: black;">'.$text.'</div><br>';
     }
 }

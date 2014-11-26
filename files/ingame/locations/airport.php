@@ -8,7 +8,7 @@
         <td valign='top'>
             Welcome to <strong><?=$info['cities'][$user->stats->city]; ?></strong>!<br /><br />
             From this airport you can fly through all the airports in <?=$info['title']; ?>.<br /><br />
-            The benifts of flying through other cities is that you can kill other player who are in that city.
+            The benefits of flying through other cities is that you can kill other player who are in that city.
         </td>
         <td>
             <img src='files/images/extra/world.png' align='right' border='1' width="200px" height="125px">

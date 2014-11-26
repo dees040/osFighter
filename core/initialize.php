@@ -32,6 +32,7 @@ $user      = new User;
 $admin     = new Admin;
 $settings  = new Settings;
 $validator = new Validator;
+$casino    = new Casino;
 
 class initialize
 {
