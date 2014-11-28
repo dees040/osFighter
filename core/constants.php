@@ -8,7 +8,7 @@
 
 define("DB_SERVER", "localhost");
 define("DB_USER", "deb65120n6_osf");
-define("DB_PASS", "");
+define("DB_PASS", "jan1234!");
 define("DB_NAME", "deb65120n6_os");
 
 /**

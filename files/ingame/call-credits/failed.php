@@ -1,0 +1,1 @@
+Payment failed, none transactions has been send.
