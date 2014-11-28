@@ -8,7 +8,7 @@
 
 define("DB_SERVER", "localhost");
 define("DB_USER", "deb65120n6_osf");
-define("DB_PASS", "none");
+define("DB_PASS", "");
 define("DB_NAME", "deb65120n6_os");
 
 /**
@@ -33,6 +33,8 @@ define("TBL_MESSAGE", "messages");
 define("TBL_SHOP_ITEMS", "items_shop");
 define("TBL_USERS_ITEMS", "users_items");
 define("TBL_HOUSE_ITEMS", "items_house");
+define("TBL_ITEMS_CC", "items_call_credits");
+define("TBL_PAYMENTS", "payments");
 
 
 /**

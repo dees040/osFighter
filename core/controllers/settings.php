@@ -1,9 +1,13 @@
 <?php
 
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+
 class Settings
 {
     private $currency;
     public $config;
+    public $PayPal;
 
     public function __construct()
     {
@@ -15,7 +19,30 @@ class Settings
         global $database;
         $this->config = $database->getConfigs();
         $this->setCurrency();
+        $this->setPayPalSettings();
     }
+
+    private function setPayPalSettings()
+    {
+        $this->PayPal = new ApiContext(
+            new OAuthTokenCredential(
+                $this->config['PAYPAL_CLIENT_ID'],
+                $this->config['PAYPAL_SECRET_ID']
+            )
+        );
+
+        $this->PayPal->setConfig(
+            array(
+                'mode' => 'sandbox',
+                'http.ConnectionTimeOut' => 30,
+                'log.LogEnabled' => false,
+                'log.FileName' => '',
+                'log.LogLevel' => 'FINE',
+                'validation.level' => 'log'
+            )
+        );
+    }
+
 
     private function setCurrency()
     {

@@ -14,13 +14,15 @@
  */
 function osFighter_autoloader($class) {
     if (file_exists('core/'.strtolower($class).'.php')) {
-        include 'core/'.strtolower($class).'.php';
-    } elseif (file_exists('core/controllers/'.strtolower($class).'.php')) {
-        include 'core/controllers/'.strtolower($class).'.php';
+        require 'core/'.strtolower($class).'.php';
+    } else if (file_exists('core/controllers/'.strtolower($class).'.php')) {
+        require 'core/controllers/'.strtolower($class).'.php';
     } else {
-        die("The server is missing a class file, script could not continue.");
+        //die("The server is missing a class file, script could not continue.");
     }
 }
+
+require __DIR__. '/vendor/autoload.php';
 
 spl_autoload_register('osFighter_autoloader'); // Register function
 $database  = new Database;
@@ -33,6 +35,7 @@ $admin     = new Admin;
 $settings  = new Settings;
 $validator = new Validator;
 $casino    = new Casino;
+$payclass  = new PayClass;
 
 class initialize
 {

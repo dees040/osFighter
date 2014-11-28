@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 26, 2014 at 09:42 PM
+-- Generation Time: Nov 28, 2014 at 02:34 PM
 -- Server version: 5.5.38-MariaDB-cll-lve
 -- PHP Version: 5.5.17
 
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
   `timestamp` int(11) unsigned NOT NULL,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 
 -- --------------------------------------------------------
 
@@ -111,7 +112,9 @@ INSERT INTO `configuration` (`config_name`, `config_value`) VALUES
 ('CITIES', 'a:8:{i:0;s:9:"Eindhoven";i:1;s:9:"Amsterdam";i:2;s:6:"London";i:3;s:8:"New York";i:4;s:5:"Paris";i:5;s:6:"Berlin";i:6;s:5:"Milan";i:7;s:6:"Madrid";}'),
 ('CURRENCY', '&#36;'),
 ('NUMBER_FORMAT', '2'),
-('FLY_TICKET_COST', '5000');
+('FLY_TICKET_COST', '5000'),
+('PAYPAL_CLIENT_ID', ''),
+('PAYPAL_SECRET_ID', '');
 
 -- --------------------------------------------------------
 
@@ -184,6 +187,29 @@ INSERT INTO `groups` (`id`, `name`) VALUES
 (1, 'admin'),
 (2, 'moderator'),
 (3, 'members');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items_call_credits`
+--
+
+CREATE TABLE IF NOT EXISTS `items_call_credits` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `price` int(11) NOT NULL,
+  `give` int(11) NOT NULL,
+  `item` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `items_call_credits`
+--
+
+INSERT INTO `items_call_credits` (`id`, `name`, `price`, `give`, `item`) VALUES
+(1, '1000 Power', 1, 1000, 'power'),
+(2, '15000 Power', 10, 15000, 'power');
 
 -- --------------------------------------------------------
 
@@ -275,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `weight` int(11) NOT NULL,
   `display` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `menus`
@@ -311,7 +337,9 @@ INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
 (27, 29, 'extra', 'extra/forum', 0, 1),
 (28, 30, 'casino', 'casino/crack-the-vault', 0, 1),
 (29, 31, 'family', 'family/profile', 0, 0),
-(30, 32, 'personal', 'personal/message', 0, 0);
+(30, 32, 'personal', 'personal/message', 0, 0),
+(31, 33, 'call-credits', 'pay/failed', 0, 0),
+(32, 34, 'call-credits', 'pay/success', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -346,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `jail` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
 --
 -- Dumping data for table `pages`
@@ -382,7 +410,24 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (29, 'Forum', 'extra/forum', 'forum.php', 'a:0:{}', 0),
 (30, 'Crack the vault', 'casino/crack-the-vault', 'crack-the-vault.php', 'a:0:{}', 1),
 (31, 'Family profile', 'family/profile', 'family-profile.php', 'a:0:{}', 1),
-(32, 'Message', 'personal/message', 'message_load.php', 'a:3:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";}', 0);
+(32, 'Message', 'personal/message', 'message_load.php', 'a:3:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";}', 0),
+(33, 'Pay Failed', 'pay/failed', 'failed.php', 'a:0:{}', 0),
+(34, 'Pay Success', 'pay/success', 'success.php', 'a:0:{}', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `payment_id` varchar(250) NOT NULL,
+  `hash` varchar(100) NOT NULL,
+  `complete` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -404,7 +449,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `regdate` int(11) unsigned NOT NULL,
   `groups` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -456,7 +501,6 @@ CREATE TABLE IF NOT EXISTS `users_time` (
   `fly_time` int(11) NOT NULL,
   UNIQUE KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

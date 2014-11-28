@@ -105,7 +105,7 @@ class User
         $this->stats->rank_process = $rank_process;
     }
 
-    public function getInbox()
+    public function getInbox($unread = false)
     {
         global $database;
 
