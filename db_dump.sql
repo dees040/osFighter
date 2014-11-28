@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2014 at 02:34 PM
+-- Generation Time: Nov 28, 2014 at 07:33 PM
 -- Server version: 5.5.38-MariaDB-cll-lve
 -- PHP Version: 5.5.17
 
@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
   `timestamp` int(11) unsigned NOT NULL,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
 
 -- --------------------------------------------------------
 
@@ -301,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `weight` int(11) NOT NULL,
   `display` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `menus`
@@ -339,7 +338,8 @@ INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
 (29, 31, 'family', 'family/profile', 0, 0),
 (30, 32, 'personal', 'personal/message', 0, 0),
 (31, 33, 'call-credits', 'pay/failed', 0, 0),
-(32, 34, 'call-credits', 'pay/success', 0, 0);
+(32, 34, 'call-credits', 'pay/success', 0, 0),
+(33, 35, 'call-credits', 'credits/payments', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `jail` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `pages`
@@ -412,7 +412,8 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (31, 'Family profile', 'family/profile', 'family-profile.php', 'a:0:{}', 1),
 (32, 'Message', 'personal/message', 'message_load.php', 'a:3:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";}', 0),
 (33, 'Pay Failed', 'pay/failed', 'failed.php', 'a:0:{}', 0),
-(34, 'Pay Success', 'pay/success', 'success.php', 'a:0:{}', 0);
+(34, 'Pay Success', 'pay/success', 'success.php', 'a:0:{}', 0),
+(35, 'Payments', 'credits/payments', 'payments.php', 'a:1:{i:0;s:1:"1";}', 0);
 
 -- --------------------------------------------------------
 
@@ -426,8 +427,25 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `payment_id` varchar(250) NOT NULL,
   `hash` varchar(100) NOT NULL,
   `complete` tinyint(4) NOT NULL,
+  `date` int(11) NOT NULL,
+  `date_completed` int(11) NOT NULL,
+  `price` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shoutbox`
+--
+
+CREATE TABLE IF NOT EXISTS `shoutbox` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `message` varchar(600) NOT NULL,
+  `date` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -486,7 +504,6 @@ CREATE TABLE IF NOT EXISTS `users_items` (
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
 
 -- --------------------------------------------------------
 
