@@ -40,7 +40,7 @@ class PayClass {
             ->setTax('0.00')
             ->setSubtotal($price);
 
-        $this->amount->setCurrency('GBP')
+        $this->amount->setCurrency($settings->currencyForPayPal())
             ->setTotal($price)
             ->setDetails($this->details);
 
@@ -56,10 +56,10 @@ class PayClass {
 
         $this->payment->setRedirectUrls($this->redirectUrls);
 
-        $this->createPayment($settings->PayPal);
+        $this->createPayment($settings->PayPal, $price);
     }
 
-    private function createPayment($api)
+    private function createPayment($api, $price)
     {
         global $database, $user;
 
@@ -71,8 +71,8 @@ class PayClass {
             $_SESSION['hash'] = $hash;
 
             $database->query(
-                "INSERT INTO ".TBL_PAYMENTS." SET uid = :uid, payment_id = :pid, hash = :hash",
-                array(':uid' => $user->id, ':pid' => $this->payment->getId(), ':hash' => $hash)
+                "INSERT INTO ".TBL_PAYMENTS." SET uid = :uid, payment_id = :pid, hash = :hash, date = :date, price = :price",
+                array(':uid' => $user->id, ':pid' => $this->payment->getId(), ':hash' => $hash, ':date' => time(), ':price' => $price)
             );
 
         } catch(PPConnectionException $e) {

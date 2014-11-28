@@ -274,7 +274,7 @@ class User
             $database->query("INSERT INTO ".TBL_USERS_ITEMS." SET uid = :uid, sid = :sid, amount = :amount", $items);
         }
 
-        return $error->succesSmall("You have bought ".$amount." ".$productInfo->name."(s) for ".$settings->currencySymbol().$cost." with succes!");
+        return $error->succesSmall("You have bought ".$amount." ".$productInfo->name."(s) for ".$settings->currencySymbol().$settings->createFormat($cost)." with succes!");
     }
 
     public function buyTicket($toId)
@@ -384,5 +384,25 @@ class User
         }
 
         return $error->succesSmall("All selected messages have been deleted!");
+    }
+
+    public function addToShoutBox($message)
+    {
+        global $database, $error;
+
+        if (strlen(strip_tags($message)) > 300) {
+            return $error->errorSmall("The message can not ben more then 300 characters.");
+        }
+
+        $lastUser = $database->query("SELECT uid FROM ".TBL_SHOUTBOX." ORDER BY date DESC LIMIT 1")->fetchObject();
+
+        if ($lastUser->uid == $this->id) {
+            return $error->errorSmall("You need to wait till somebody else added a message to the shoutbox!");
+        }
+
+        $items = array(':uid' => $this->id, ':message' => $message, ':date' => time());
+        $database->query("INSERT INTO ".TBL_SHOUTBOX." SET uid = :uid, message = :message, date = :date", $items);
+
+        return $error->succesSmall("Your message has been added to the shoutbox!");
     }
 }

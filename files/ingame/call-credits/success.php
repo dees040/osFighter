@@ -22,7 +22,10 @@ if (isset($_GET['PayerID'])) {
 
             $payment->execute($execution, $settings->PayPal);
 
-            $database->query("UPDATE " . TBL_PAYMENTS . " SET complete = 1 WHERE payment_id = :pid", array(':pid' => $paymentInfo->payment_id));
+            $database->query(
+                "UPDATE " . TBL_PAYMENTS . " SET complete = 1, date_completed = :date WHERE payment_id = :pid",
+                array(':pid' => $paymentInfo->payment_id, ':date' => time())
+            );
 
             $user->stats->credits = $user->stats->credits + $_SESSION['amount'];
             $items = array(':credits' => $user->stats->credits, ':uid' => $user->id);

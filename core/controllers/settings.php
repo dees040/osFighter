@@ -70,6 +70,22 @@ class Settings
         }
     }
 
+    public function currencyForPayPal()
+    {
+        switch ($this->currency) {
+            case "&#36;":
+                return "USD";
+            case "&#128;":
+                return "EUR";
+            case "&#165;":
+                return "USD";
+            case "&#163;":
+                return "GBP";
+            default:
+                return "USD";
+        }
+    }
+
     public function createFormat($number)
     {
         global $database;

@@ -40,7 +40,7 @@ if (isset($_GET['id'])) {
                     Send on:
                 </td>
                 <td width="5%">
-                    <img src="files/images/icons/clock.png">
+                    <img src="files/images/icons/calendar.png">
                 </td>
                 <td>
                     <?= date("Y-m-d H:i", $message->date); ?>
