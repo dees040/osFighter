@@ -34,7 +34,7 @@ if (isset($_GET['PayerID'])) {
             unset($_SESSION['amount']);
             unset($_SESSION['hash']);
 
-            echo "You have payed with success! Your credits have be added to your account.";
+            echo "You have payed with success! Your credits (".$_SESSION['amount'].") have be added to your account.";
         } catch (PPConnectionException $e) {
             echo $e->getData();
         }

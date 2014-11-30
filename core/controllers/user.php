@@ -8,7 +8,7 @@ class User
 
     public $in_jail;
     public $in_family;
-    public  $family;
+    public $family;
     public $id;
     public $in_air;
 
@@ -59,8 +59,7 @@ class User
             $this->family->name = "-";
             $this->in_family = false;
         } else {
-            $this->family->id = $family->id;
-            $this->family->name = $family->name;
+            $this->family = $family;
             $this->in_family = true;
         }
 
@@ -365,6 +364,14 @@ class User
             return $error->errorSmall("Subject can not be empty.");
         }
 
+        if (strlen($subject) < 3) {
+            return $error->errorSmall("Subject must contain 3 characters.");
+        }
+
+        if (!ctype_alnum($subject)) {// you may send ":"
+            //return $error->errorSmall("The subject may online contain letters and digits");
+        }
+
         $items = array(':from_id' => $this->id, ':to_id' => $userInfo->id, ':date' => time(), ':sub' => $subject, ':mess' => $message);
         $database->query(
             "INSERT INTO ".TBL_MESSAGE." SET from_id = :from_id, to_id = :to_id, date = :date, subject = :sub, content = :mess",
@@ -459,5 +466,105 @@ class User
         }
 
         return $error->succesSmall("Success");
+    }
+
+    public function createFamily($name)
+    {
+        global $database, $error;
+
+        if (empty($name)) {
+            return $error->errorSmall("Please fill in a family name.");
+        }
+
+        if (strlen($name) > 20) {
+            return $error->errorSmall("Your family is above 20 characters, yours is ".strlen($name).".");
+        }
+
+        if (!ctype_alnum($name)) {
+            return $error->errorSmall("Your family name may only contain letters or digits.");
+        }
+
+        if ($this->stats->fid != 0) {
+            return $error->errorSmall("You're already in a family.");
+        }
+
+        $count = $database->query("SELECT id FROM ".TBL_FAMILY." WHERE name = :name", array(':name' => $name))->rowCount();
+
+        if ($count != 0) {
+            return $error->errorSmall("This family name already exists.");
+        }
+
+        $items = array(':name' => $name, ':cash' => 10, ':bank' => 100, ':power' => 100, ':creator' => $this->id, ':max' => 10);
+        $lastId = $database->query("INSERT INTO ".TBL_FAMILY." SET name = :name, cash = :cash, bank = :bank, power = :power, creator = :creator, max_members = :max", $items, true);
+
+        $items = array(':fid' => $lastId, ':uid' => $this->id);
+        $database->query("UPDATE ".TBL_INFO." SET fid = :fid WHERE uid = :uid", $items);
+
+        return $error->succesSmall("You have created the family ".$name." with success!");
+    }
+
+    public function joinFamily($fid)
+    {
+        global $database, $error;
+
+        if ($this->in_family) {
+            return $error->errorSmall("You're already in a family. If you want to join this family you first need to leave your own family.");
+        }
+
+        $items = array(':fid' => $fid);
+        $family = $database->query("SELECT join_status, max_members FROM ".TBL_FAMILY." WHERE id = :fid", $items);
+
+        if ($family->rowCount() == 0) {
+            return $error->errorSmall("This family doesn't exists.");
+        }
+
+        $family = $family->fetchObject();
+
+        $members = $database->query("SELECT fid FROM ".TBL_INFO." WHERE fid = :fid", $items)->rowCount();
+
+        if ($members >= $family->max_members) {
+            return $error->errorSmall("This family has already reached his maximum member amount.");
+        }
+
+        $items[':uid'] = $this->id;
+
+        if ($family->join_status == 1) {
+            $database->query("UPDATE ".TBL_INFO." SET fid = :fid WHERE uid = :uid", $items);
+            return $error->succesSmall("You have joined the family!");
+        } else if ($family->join_status == 2) {
+            return $error->errorSmall("This family doesn't accepts join invites.");
+        } else {
+            $database->query("INSERT INTO ".TBL_FAMILY_JOIN." SET uid = :uid, fid = :fid", $items);
+            return $error->succesSmall("An invite to join this family has been sent.");
+        }
+    }
+
+    public function leaveFamily()
+    {
+        global $database, $error;
+
+        if ($this->family->creator == $this->id) {
+            $items = array(':fid' => $this->family->id, ':uid' => $this->id);
+            $members = $database->query("SELECT fid FROM ".TBL_INFO." WHERE fid = :fid AND uid != :uid", $items)->rowCount();
+            if ($members == 0) {
+                $items = array(':fid' => 0, ':uid' => $this->id);
+                $database->query("UPDATE ".TBL_INFO." SET fid = :fid WHERE uid = :uid", $items);
+                $items = array(':fid' => $this->family->id, ':uid' => $this->id);
+                $database->query("DELETE FROM ".TBL_FAMILY." WHERE id = :fid AND creator = :uid", $items);
+                return $error->succesSmall("You have left and removed your family.");
+            } else {
+                $items = array(':fid' => $this->family->id, ':uid' => $this->id);
+                $highestPlayer = $database->query("SELECT uid FROM ".TBL_INFO." WHERE fid = :fid AND uid != :uid ORDER BY power DESC LIMIT 1", $items)->fetchObject();
+                $items = array(':uid' => $highestPlayer->uid, ':fid' => $this->family->id);
+                $database->query("UPDATE ".TBL_FAMILY." SET creator = :uid WHERE id = :fid", $items);
+                $items = array(':fid' => 0, ':uid' => $this->id);
+                $database->query("UPDATE ".TBL_INFO." SET fid = :fid WHERE uid = :uid", $items);
+                return $error->succesSmall("You have left your family.");
+            }
+        } else {
+            $items = array(':fid' => 0, ':uid' => $this->id);
+            $database->query("UPDATE ".TBL_INFO." SET fid = :fid WHERE uid = :uid", $items);
+            return $error->succesSmall("You have left your family.");
+        }
     }
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2014 at 07:33 PM
+-- Generation Time: Nov 30, 2014 at 03:17 PM
 -- Server version: 5.5.38-MariaDB-cll-lve
 -- PHP Version: 5.5.17
 
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
   `timestamp` int(11) unsigned NOT NULL,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `crimes` (
   `change` int(3) NOT NULL,
   `icon` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `crimes`
@@ -138,7 +139,13 @@ CREATE TABLE IF NOT EXISTS `crimes` (
 INSERT INTO `crimes` (`id`, `name`, `min_payout`, `max_payout`, `change`, `icon`) VALUES
 (1, 'Steal from child', 10, 100, 10, 'steal_candy.jpg'),
 (2, 'Steal bycile', 50, 150, 25, 'steal_bycile.jpg'),
-(3, 'Pickpocket', 150, 300, 40, 'zakkenrollen.jpg');
+(3, 'Pickpocket', 150, 300, 40, 'zakkenrollen.jpg'),
+(4, 'Carjacking', 1000, 5000, 67, 'auto_inbreken.jpg'),
+(5, 'Truck hijacking', 5000, 15000, 82, 'vrachtwagen_kapen.jpg'),
+(6, 'Rob a jewelry store', 15000, 30000, 109, 'juwelier_overvallen.jpg'),
+(7, 'Rob a museum', 35000, 60000, 129, 'museum_inbreken.jpg'),
+(8, 'CIT robbery', 70000, 100000, 173, 'waardetransport_overvallen.jpg'),
+(9, 'Rob the bank', 150000, 300000, 200, 'bank_overvallen.jpg');
 
 -- --------------------------------------------------------
 
@@ -148,7 +155,7 @@ INSERT INTO `crimes` (`id`, `name`, `min_payout`, `max_payout`, `change`, `icon`
 
 CREATE TABLE IF NOT EXISTS `families` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(40) NOT NULL,
+  `name` varchar(20) NOT NULL,
   `cash` int(11) NOT NULL,
   `bank` int(11) NOT NULL,
   `power` int(20) NOT NULL,
@@ -156,15 +163,22 @@ CREATE TABLE IF NOT EXISTS `families` (
   `creator` int(11) NOT NULL,
   `max_members` int(11) NOT NULL DEFAULT '10',
   `info` text NOT NULL,
+  `join_status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `families`
+-- Table structure for table `family_join_invites`
 --
 
-INSERT INTO `families` (`id`, `name`, `cash`, `bank`, `power`, `bullits`, `creator`, `max_members`, `info`) VALUES
-(1, 'Staff', 10, 1000, 100, 0, 1, 10, '');
+CREATE TABLE IF NOT EXISTS `family_join_invites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -300,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `weight` int(11) NOT NULL,
   `display` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `menus`
@@ -317,7 +331,7 @@ INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
 (8, 10, 'admin', 'admin/settings', 2, 1),
 (9, 11, 'admin', 'admin/users', 3, 1),
 (10, 12, 'crime', 'crime/crimes', 0, 1),
-(11, 13, 'family', 'family', 0, 1),
+(11, 13, 'family', 'family', 1, 1),
 (12, 14, 'statistics', 'online', 0, 1),
 (13, 15, 'personal', 'personal/user-edit', 2, 1),
 (14, 16, 'personal', 'personal/user-info', 1, 0),
@@ -335,11 +349,13 @@ INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
 (26, 28, 'extra', 'extra/shoutbox', 0, 1),
 (27, 29, 'extra', 'extra/forum', 0, 1),
 (28, 30, 'casino', 'casino/crack-the-vault', 0, 1),
-(29, 31, 'family', 'family/profile', 0, 0),
+(29, 31, 'family', 'family/profile', 3, 0),
 (30, 32, 'personal', 'personal/message', 0, 0),
 (31, 33, 'call-credits', 'pay/failed', 0, 0),
 (32, 34, 'call-credits', 'pay/success', 0, 0),
-(33, 35, 'call-credits', 'credits/payments', 0, 1);
+(33, 35, 'call-credits', 'credits/payments', 0, 1),
+(34, 36, 'family', 'family/create', 0, 1),
+(35, 37, 'family', 'family/settings', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -357,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `status` tinyint(4) NOT NULL,
   `from_status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
 
@@ -374,7 +390,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `jail` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `pages`
@@ -397,8 +413,8 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (16, 'User info', 'personal/user-info', 'userinfo.php', 'a:0:{}', 0),
 (17, 'Airport', 'locations/airport', 'airport.php', 'a:0:{}', 1),
 (18, 'Messages', 'personal/messages', 'messages.php', 'a:0:{}', 0),
-(19, 'Call Credits Market', 'call-credits', 'call-credits.php', 'a:0:{}', 0),
-(20, 'Call Credits Shop', 'call-credits/shop', 'call-credits-shop.php', 'a:0:{}', 0),
+(19, 'Credits Market', 'call-credits', 'call-credits.php', 'a:0:{}', 0),
+(20, 'Credits Shop', 'call-credits/shop', 'call-credits-shop.php', 'a:0:{}', 0),
 (21, 'Shop', 'locations/shop', 'shop.php', 'a:0:{}', 1),
 (22, 'Jail', 'locations/jail', 'jail.php', 'a:0:{}', 0),
 (23, 'Bank', 'locations/bank', 'bank.php', 'a:0:{}', 1),
@@ -413,7 +429,9 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (32, 'Message', 'personal/message', 'message_load.php', 'a:3:{i:0;s:1:"1";i:1;s:1:"3";i:2;s:1:"2";}', 0),
 (33, 'Pay Failed', 'pay/failed', 'failed.php', 'a:0:{}', 0),
 (34, 'Pay Success', 'pay/success', 'success.php', 'a:0:{}', 0),
-(35, 'Payments', 'credits/payments', 'payments.php', 'a:1:{i:0;s:1:"1";}', 0);
+(35, 'Payments', 'credits/payments', 'payments.php', 'a:1:{i:0;s:1:"1";}', 0),
+(36, 'Create family', 'family/create', 'family-create.php', 'a:0:{}', 1),
+(37, 'Family settings', 'family/settings', 'family-settings.php', 'a:0:{}', 0);
 
 -- --------------------------------------------------------
 
@@ -431,7 +449,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `date_completed` int(11) NOT NULL,
   `price` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -445,7 +463,7 @@ CREATE TABLE IF NOT EXISTS `shoutbox` (
   `message` varchar(600) NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -467,7 +485,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `regdate` int(11) unsigned NOT NULL,
   `groups` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
@@ -488,6 +506,8 @@ CREATE TABLE IF NOT EXISTS `users_info` (
   `crime_process` int(5) NOT NULL,
   `credits` int(11) NOT NULL,
   `house` int(11) NOT NULL,
+  `bullets` int(11) NOT NULL,
+  `protection` int(11) NOT NULL,
   UNIQUE KEY `id` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

@@ -36,6 +36,7 @@ define("TBL_HOUSE_ITEMS", "items_house");
 define("TBL_ITEMS_CC", "items_call_credits");
 define("TBL_PAYMENTS", "payments");
 define("TBL_SHOUTBOX", "shoutbox");
+define("TBL_FAMILY_JOIN", "family_join_invites");
 
 
 /**

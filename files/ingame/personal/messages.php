@@ -36,7 +36,11 @@
                 </tr>
                 <?php
                 foreach ($user->getInbox() as $message) {
-                    $from = $database->getUserInfoById($message->from_id)->username;
+                    if ($message->from_id == 0) {
+                        $from = " * SYSTEM * ";
+                    } else {
+                        $from = $database->getUserInfoById($message->from_id)->username;
+                    }
                     ?>
                     <tr>
                         <td align="center">

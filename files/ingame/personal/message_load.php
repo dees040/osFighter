@@ -11,7 +11,11 @@ if (isset($_GET['id'])) {
             $items = array(':status' => 1, ':id' => $message->id);
             $database->query("UPDATE ".TBL_MESSAGE." SET status = :status WHERE id = :id", $items);
         }
-        $from = $database->getUserInfoById($message->from_id)->username;
+        if ($message->from_id == 0) {
+            $from = " * SYSTEM * ";
+        } else {
+            $from = $database->getUserInfoById($message->from_id)->username;
+        }
         ?>
         <table width="100%">
             <tr>

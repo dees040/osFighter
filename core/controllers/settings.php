@@ -144,4 +144,12 @@ class Settings
     {
         return $_POST['captcha'] == "" || $_POST['captcha'] != md5($_SESSION['botcheck']);
     }
+
+    public function sendMessage($subject, $message, $to)
+    {
+        global $database;
+
+        $items = array(':from' => 0, ':to' => $to, ':date' => time(), ':subject' => $subject, ':content' => $message);
+        $database->query("INSERT INTO ".TBL_MESSAGE." SET from_id = :from, to_id = :to, date = :date, subject = :subject, content = :content", $items);
+    }
 }

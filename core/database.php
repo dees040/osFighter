@@ -464,7 +464,7 @@ class Database
      * @return mixed
      */
     public function paginate($table, $orderBy, $start, $end) {
-        $query = $this->query("SELECT * FROM ".$table." ORDER BY ".$orderBy." LIMIT ".$start.", ".$end);
+        $query = $this->query("SELECT * FROM ".$table." ORDER BY ".$orderBy." DESC LIMIT ".$start.", ".$end);
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
@@ -473,9 +473,10 @@ class Database
      *
      * @param string $query - The query that has to be executed
      * @param array $items - The placeholders (Default = empty array)
+     * @param bool $lastId
      * @return bool|\PDOStatement :  Query result
      */
-    public function query($query, $items = array()) {
+    public function query($query, $items = array(), $lastId = false) {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($items);
@@ -484,7 +485,11 @@ class Database
         }
 
         if ($stmt) {
-            return $stmt;
+            if ($lastId) {
+                return $this->connection->lastInsertId(TBL_FAMILY);
+            } else {
+                return $stmt;
+            }
         } else {
             return false;
         }

@@ -25,7 +25,7 @@ if (isset($_POST['crime'])) {
                 $payout = mt_rand($_aMinPayout[$crime->id], $_aMaxPayout[$crime->id]);
                 $newCash = $user->stats->money + $payout;
                 $newRankProcess = $user->stats->rank_process + 7;
-                $newCrimeProcess = $user->stats->crime_process + 5;
+                $newCrimeProcess = $user->stats->crime_process + mt_rand(5, 7);
 
                 $items = array(':rank' => $newRankProcess, ':money' => $newCash, ':crime' => $newCrimeProcess, ':uid' => $user->info->id);
                 $database->query("UPDATE " . TBL_INFO . " SET rank_process = :rank, money = :money, crime_process = :crime WHERE uid = :uid", $items);
@@ -89,7 +89,7 @@ if ($user->time->crime_time > time()) {
                     <img src="files/images/icons/coins.png" alt="Payout">
                 </td>
                 <td>
-                    Payout is between <?= $crime['min_payout']; ?> and <?= $crime['max_payout']; ?>
+                    Payout is between <?=$settings->currencySymbol().$settings->createFormat($crime['min_payout']); ?> and <?=$settings->currencySymbol().$settings->createFormat($crime['max_payout']); ?>
                 </td>
             </tr>
             <tr>

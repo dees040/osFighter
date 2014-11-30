@@ -1,8 +1,22 @@
 <?php
+
+    if ($_GET['join'] == "true") {
+        echo $user->joinFamily($_GET['id']);
+    } else if ($_GET['leave'] == "true") {
+        echo $user->leaveFamily();
+    }
+
     $family = $database->query("SELECT * FROM ".TBL_FAMILY." WHERE id = :uid", array(':uid' => $_GET['id']))->fetchObject();
     $owner = $database->query("SELECT username FROM ".TBL_USERS." WHERE id = :uid", array(':uid' => $family->creator))->fetchObject();
     $members = $database->query("SELECT uid FROM ".TBL_INFO." WHERE fid = :fid", array(':fid' => $family->id));
+
+    if ($_GET['id'] != $user->family->id) {
+        echo '<div align="center"><img src="files/images/icons/group_add.png"> <a href="family/profile?id='.$family->id.'&join=true"><strong>Join family</strong></a></div>';
+    } else {
+        echo '<div align="center"><img src="files/images/icons/group_delete.png"> <a href="family/profile?id='.$family->id.'&leave=true"><strong>Leave family</strong></a></div>';
+    }
 ?>
+
 <table border="0" cellspacing="2" cellpadding="2" width="100%" class="mod_list">
     <tr class="top">
         <td width="28%"><strong>Creator:</strong></td>
