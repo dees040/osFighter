@@ -127,6 +127,18 @@ class User
             ->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getUnreadInbox()
+    {
+        global $database;
+
+        $count = $database
+            ->query(
+                "SELECT * FROM ".TBL_MESSAGE." WHERE to_id = :id AND status = 0 ORDER BY date DESC",
+                array(':id' => $this->id))->rowCount();
+
+        return ($count == 0) ? '' : " (".$count.")";
+    }
+
     public function deposit($value)
     {
         global $database, $error;
@@ -404,5 +416,48 @@ class User
         $database->query("INSERT INTO ".TBL_SHOUTBOX." SET uid = :uid, message = :message, date = :date", $items);
 
         return $error->succesSmall("Your message has been added to the shoutbox!");
+    }
+
+    public function attackPlayer($username, $bullets)
+    {
+        global $database, $error;
+
+        if ($username == "demo") {
+            return $error->errorSmall("You can't attack the demo account.");
+        }
+
+        if ($username == $this->info->username) {
+            return $error->errorSmall("You can't attack yourself.");
+        }
+
+        if ($bullets > $this->stats->bullets || empty($bullets)) {
+            return $error->errorSmall("You don't have ".$bullets." bullets.");
+        }
+
+        if ($this->stats->protection > time()) {
+            return $error->errorSmall("You're under protection, this means you can't attack players.");
+        }
+
+        $userToAttackId = $database->getUserInfo($username)->id;
+
+        if ($userToAttackId == NULL) {
+            return $error->errorSmall("User \"".$username."\" does not exists.");
+        }
+
+        $userToAttack = $database->query("SELECT fid, city, protection FROM ".TBL_INFO." WHERE uid = :uid", array(':uid' => $userToAttackId))->fetchObject();
+
+        if ($userToAttack->fid == $this->stats->fid) {
+            return $error->errorSmall("You can't attack players who are in the same family.");
+        }
+
+        if ($this->stats->city != $userToAttack->city) {
+            return $error->errorSmall("You are not in the same city as ".$username);
+        }
+
+        if ($userToAttack->protection > time()) {
+            return $error->errorSmall("This user is under protection till ".date("Y-m-d H:i", $userToAttack->protection).".");
+        }
+
+        return $error->succesSmall("Success");
     }
 }

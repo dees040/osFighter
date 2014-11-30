@@ -32,7 +32,7 @@
     <tr>
         <td width="35%">Credits:</td>
         <td width="6%"><img src="files/images/icons/coins.png" border="0px"></td>
-        <td width="69%"><a href="call-credits/shop">-</a></td>
+        <td width="69%"><a href="call-credits/shop"><?=$user->stats->credits; ?></a></td>
     </tr>
     <tr>
         <td width="35%">VIP:</td>
@@ -56,14 +56,9 @@
         <td width="69%"><a href="family/profile?id=<?=$user->family->id; ?>"><?=$user->family->name; ?></a> </td>
     </tr>
     <tr>
-        <td width="35%">Veilig:</td>
-        <td width="6%"><img src="files/images/icons/plus-shield.png" border="0px"></td>
-        <td width="69%">-</td>
-    </tr>
-    <tr>
-        <td width="35%">Bescherming:</td>
-        <td width="6%"><img src="files/images/icons/tick-shield.png" border="0px"></td>
-        <td width="69%">-</td>
+        <td width="35%">Protection:</td>
+        <td width="6%" align=center><img src="files/images/icons/shield.png" border="0px"></td>
+        <td width="69%"><?=($stats->protection > time()) ? date("Y-m-d H:i", $stats->protection) : 'None protection'; ?></td>
     </tr>
     <tr>
         <td width="35%">Mijn secret link:</td>

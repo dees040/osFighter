@@ -71,7 +71,11 @@
                     <?php
                     if (isset($info['menu']['personal'])) {
                         foreach($info['menu']['personal'] as $menu) {
-                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'];
+                            if ($menu['title'] == "Messages") {
+                                echo $user->getUnreadInbox();
+                            }
+                            echo '</a></li>';
                         }
                     }
                     ?>

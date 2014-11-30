@@ -17,6 +17,7 @@
         $family = $database->query("SELECT * FROM ".TBL_FAMILY." WHERE id = :fid", array(':fid' => $stats->fid))->fetchObject();
         $online = $database->userOnline($user_info->username);
         $house = $database->query("SELECT name FROM ".TBL_HOUSE_ITEMS." WHERE id = :id", array(':id' => $stats->house))->fetchObject()->name;
+        $attackCoins = $database->query("SELECT amount FROM ".TBL_USERS_ITEMS." WHERE uid = :uid AND sid = 5", array(':uid' => $user_info->id))->fetchObject()->amount;
 ?>
         <img src="files/images/icons/bomb.png"> <a href="attack?target=<?=$user_info->username; ?>"><strong>Attack</strong></a>
         <img src="files/images/icons/vcard.png" style="margin-left:30px;"> <a href="personal/messages?box=new&to=<?=$user_info->username; ?>"><strong>PB sturen</strong></a>
@@ -67,19 +68,9 @@
                 <td width="69%"><?=$info['cities'][$stats->city]; ?></td>
             </tr>
             <tr>
-                <td width="35%" class="first">Safe:</td>
-                <td width="6%" align=center><img src="files/images/icons/shield.png" border="0px"></td>
-                <td width="69%"><? echo $stats->safe; ?> uur</td>
-            </tr>
-            <tr>
                 <td width="35%" class="first">Protection:</td>
                 <td width="6%" align=center><img src="files/images/icons/shield.png" border="0px"></td>
-                <td width="69%"><? echo $stats->maffia; ?> uur</td>
-            </tr>
-            <tr>
-                <td width="35%" class="first">Penalties:</td>
-                <td width="6%" align=center><img src="files/images/icons/warning.png" border="0px"></td>
-                <td width="69%"></td>
+                <td width="69%"><?=($stats->protection > time()) ? date("Y-m-d H:i", $stats->protection) : 'None protection'; ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Money (cash):</td>
@@ -107,6 +98,11 @@
                 <td width="69%"><?=$stats->rank_process; ?>%</td>
             </tr>
             <tr>
+                <td width="35%" class="first">Bullets:</td>
+                <td width="6%" align=center><img src="files/images/icons/help.png" border="0px"></td>
+                <td width="69%"><?=$stats->bullets; ?></td>
+            </tr>
+            <tr>
                 <td width="35%" class="first">Trained killers:</td>
                 <td width="6%" align=center><img src="files/images/icons/bricks.png" border="0px"></td>
                 <td width="69%"><?=$stats->killers; ?></td>
@@ -114,7 +110,7 @@
             <tr>
                 <td width="35%" class="first">Attack coins:</td>
                 <td width="6%" align=center><img src="files/images/icons/brick.png" border="0px"></td>
-                <td width="69%"><?=$stats->kogels; ?></td>
+                <td width="69%"><?=$attackCoins; ?></td>
             </tr>
             <tr>
                 <td width="35%" class="first">Attack wins:</td>
