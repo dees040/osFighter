@@ -1,5 +1,0 @@
-New pages: forum (forums, topics, topic), create (forum, topic), family bank, red light district, members, more statistic's
-Updated pages: family settings (message), bank (transactions to others)
-Big changes: new validator (validates before HTML loads), Ban IPs
-Small changes: demo can't edit his account now (for security)
-Bug fixes: PayPal payment also completes when log out
