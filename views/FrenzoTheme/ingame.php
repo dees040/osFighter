@@ -169,10 +169,10 @@
                 <ul class="menu">
                     <h1>Statistics</h1> <img src="views/FrenzoTheme/images/icons/1391731439_web-space-px-png.png" class="menu-icon" />
 
-                    <li><a href="#">Server time: <?php echo date("H:i:s"); ?></a></li>
-                    <li><a href="#">Gangsters: <?php echo $database->getNumMembers(); ?></a></li>
+                    <li><a href="">Server time: <?php echo date("H:i:s"); ?></a></li>
+                    <li><a href="statistics/members">Gangsters: <?php echo $database->getNumMembers(); ?></a></li>
                     <li><a href="online">Online: <?php echo $database->num_active_users; ?></a></li>
-                    <li style="border: 0;"><a href="#">Meer statistieken</a></li>
+                    <li style="border: 0;"><a href="statistics/more">More statistic's</a></li>
                 </ul>
 
                 <?php if ($session->isAdmin()) { ?>

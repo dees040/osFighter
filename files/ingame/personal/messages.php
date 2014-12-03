@@ -6,17 +6,12 @@
 
 <div class="tabcontents inhoud">
     <?php
-    if (isset($_GET['delete'])) {
-        echo $user->deleteMessage(array(array(0 => $_GET['delete'])));
-    }
+        echo $validator->getVal('delete');
     ?>
     <!-- file-sytem page tab1: Inbox-->
     <div id="tab1">
         <?php
-            if (isset($_POST['delete_message'])) {
-                array_pop($_POST);
-                echo $user->deleteMessage($_POST);
-            }
+            echo $validator->getVal('delete_message');
         ?>
         <form method="post">
             <table width="100%">
@@ -50,7 +45,7 @@
                             <img src="files/images/icons/<?= ($message->status) ? 'email_open' : 'email'; ?>.png">
                         </td>
                         <td>
-                            <a href="personal/message?id=<?= $message->id; ?>"><?= $message->subject; ?></a>
+                            <a href="personal/message?message_id=<?= $message->id; ?>"><?= $message->subject; ?></a>
                         </td>
                         <td>
                             <img
@@ -81,10 +76,7 @@
     <!-- file-sytem page tab2: Outbox -->
     <div id="tab2">
         <?php
-        if (isset($_POST['delete_message_outbox'])) {
-            array_pop($_POST);
-            echo $user->deleteMessage($_POST, true);
-        }
+        echo $validator->getVal('delete_message_outbox');
         ?>
         <form method="post">
             <table width="100%">
@@ -114,7 +106,7 @@
                             <img src="files/images/icons/<?= ($message->status) ? 'email_open' : 'email'; ?>.png">
                         </td>
                         <td>
-                            <a href="personal/message?id=<?= $message->id; ?>"><?= $message->subject; ?></a>
+                            <a href="personal/message?message_id=<?= $message->id; ?>"><?= $message->subject; ?></a>
                         </td>
                         <td>
                             <img src="files/images/icons/<?= ($database->userOnline($to)) ? 'status_online' : 'status_offline'; ?>.png">
@@ -143,9 +135,7 @@
     <!-- file-sytem page tab1: New -->
     <div id="tab3">
         <?php
-        if (isset($_POST['send_message'])) {
-            echo $user->sendMessage($_POST['to'], $_POST['subject'], $_POST['message']);
-        }
+            echo $validator->getVal('send_message');
         ?>
         <form method="post">
             <table>

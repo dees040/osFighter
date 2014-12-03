@@ -1,9 +1,19 @@
 <?php
     if (isset($_POST['add_shoutbox'])) {
-        echo $user->addToShoutBox($_POST['message']);
+        echo $useractions->addToShoutBox($_POST['message']);
     }
     $messages = $database->query("SELECT * FROM ".TBL_SHOUTBOX." ORDER BY date DESC LIMIT 15")->fetchAll(PDO::FETCH_OBJ);
 ?>
+<script>
+    tinymce.init({
+        selector: "textarea",
+        plugins: ["emoticons"],
+        toolbar: [
+            "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright",
+            "emoticons"
+        ]
+    });
+</script>
 <table width="100%">
     <tr>
         <td align="center" colspan="2" width="20%">
@@ -34,6 +44,6 @@
 </table>
 <br><br>
 <form method="post">
-    <textarea name="message" maxlength="300" placeholder="message!"></textarea>
+    <textarea name="message" maxlength="300" placeholder="message!" class="text"></textarea>
     <input type="submit" value="Add message!" name="add_shoutbox">
 </form>

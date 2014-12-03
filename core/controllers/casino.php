@@ -14,11 +14,11 @@ class Casino
         $code = null;
 
         for($i = 0; $i < 4; $i++) {
-            $code[$i] = mt_rand(0, 9);
+            $code[$i] = chr(97 + mt_rand(0, 25));
         }
 
         for($i = 4; $i < 6; $i++) {
-            $code[$i] = chr(97 + mt_rand(0, 25));
+            $code[$i] = mt_rand(0, 9);
         }
 
         $this->vaultCode = $_SESSION['crack_the_vault'] = $code;
@@ -44,6 +44,7 @@ class Casino
         for($i = 0; $i < 6; $i++) {
             if ($_SESSION['crack_the_vault'][$i] == strtolower($codes['number_'.$i])) {
                 $string .= "<span style='color: green;'>".$codes['number_'.$i]."</span>";
+                $_SESSION[$i] = strtoupper($codes['number_'.$i]);
             } else {
                 $string .= "<span style='color: red;'>".$codes['number_'.$i]."</span>";
                 $success = false;
@@ -63,6 +64,17 @@ class Casino
             return $error->succesSmall("You have crack the vault! You have won ".$settings->currencySymbol().$settings->createFormat($price).". The vault code has been reset.");
         } else {
             return $error->errorSmall("The code is not correct, output: ".strtoupper($string));
+        }
+    }
+
+    public function goodCode($i)
+    {
+        if (isset($_SESSION[$i])) {
+            $retval = $_SESSION[$i];
+            unset($_SESSION[$i]);
+            return $retval;
+        } else {
+            return '';
         }
     }
 }

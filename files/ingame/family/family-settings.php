@@ -24,6 +24,8 @@
                 echo $error->succesSmall("Invite refused.");
             }
         }
+
+        echo $validator->getVal('update_family_message');
 ?>
 <table width="100%">
     <tr>
@@ -68,4 +70,9 @@
     }
     ?>
 </table>
+<br>
+<form method="post">
+    <textarea name="family_message"><?=$database->query("SELECT info FROM ".TBL_FAMILY." WHERE id = :fid", array(':fid' => $user->family->id))->fetchObject()->info; ?></textarea>
+    <input type="submit" value="Save message" name="update_family_message">
+</form>
 <?php }

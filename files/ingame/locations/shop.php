@@ -1,8 +1,6 @@
 <?php
 
-if (isset($_POST['number'])) {
-    echo $user->buyFromShop($_POST);
-}
+echo $validator->getVal('number_shop');
 
 $shopItems = $database->query("SELECT * FROM ".TBL_SHOP_ITEMS." ORDER BY price ASC")->fetchAll(PDO::FETCH_OBJ);
 foreach ($shopItems as $item) {
@@ -29,7 +27,7 @@ foreach ($shopItems as $item) {
             </tr>
             <tr>
                 <td width="18px" align="center" valign="middle"><img src="files/images/icons/wand.png"></td>
-                <td valign="middle"><form method="post" style="display: inline;">Amount: <input type="number" name="number" class="input" size="5">&nbsp;<input type="submit" value="Buy!" name="<?=$item->id; ?>"></form></td>
+                <td valign="middle"><form method="post" style="display: inline;">Amount: <input type="number" name="number_shop" class="input" size="5">&nbsp;<input type="submit" value="Buy!" name="<?=$item->id; ?>"></form></td>
             </tr>
             <tr>
                 <td width="18px" align="center" valign="middle"><img src="files/images/icons/information.png"></td>

@@ -1,7 +1,5 @@
 <?php
-    if (isset($_POST['buy_ticket'])) {
-        echo $user->buyTicket($_POST['location']);
-    }
+    echo $validator->getVal('buy_ticket');
 ?>
 <table width='100%'>
     <tr>

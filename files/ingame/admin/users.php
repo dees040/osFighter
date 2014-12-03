@@ -258,6 +258,27 @@
 
     <!-- file-sytem page tab1: - -->
     <div id="tab3">
-
+        <?php
+        echo $validator->getVal('ban_ip');
+        ?>
+        <form method="post">
+            <input type="text" placeholder="IP address" name="ip">
+            <input type="submit" value="(un)Block" name="ban_ip">
+        </form>
+        <br>
+        <div class="banned-ips">
+            <table width="100%" class="table">
+                <?php
+                foreach($database->query("SELECT * FROM ".TBL_BANNED_IP." ORDER BY timestamp DESC")->fetchAll() as $items) {
+                    echo "<tr>";
+                    echo "<td>IP:</td>";
+                    echo "<td>".$items['ip']."</td>";
+                    echo "<td>Since:</td>";
+                    echo "<td>".date('Y-m-d H:i', $items['timestamp'])."</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
+        </div>
     </div>
 </div>

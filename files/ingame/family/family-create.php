@@ -3,7 +3,7 @@ if ($user->stats->fid != 0) {
     echo $error->errorBig("You already are in a family!");
 } else {
     if (isset($_POST['create_family'])) {
-        echo $user->createFamily($_POST['family_name']);
+        echo $useractions->createFamily($_POST['family_name']);
     }
 ?>
 <form method="post">

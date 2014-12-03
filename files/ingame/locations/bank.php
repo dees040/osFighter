@@ -1,9 +1,7 @@
 <?php
-    if (isset($_POST['deposit'])) {
-        echo $user->deposit($_POST['money_value']);
-    } else if (isset($_POST['withdraw'])) {
-        echo $user->withdraw($_POST['money_value']);
-    }
+    echo $validator->getVal('deposit');
+    echo $validator->getVal('withdraw');
+    echo $validator->getVal('new_transaction');
 ?>
 <table cellspacing="2" cellpadding="2" class="mod_list">
     <tr>
@@ -31,4 +29,25 @@
             </form>
         </td>
     </tr>
+    <form method="post">
+        <tr>
+            <td rowspan="2">
+                <img src="files/images/icons/credit_card.png">
+            </td>
+            <td>
+                <input type="number" name="transaction_amount" placeholder="Amount">
+            </td>
+            <td>
+                <input type="text" name="transaction_to" placeholder="Username">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Transaction's
+            </td>
+            <td>
+                <input type="submit" value="Create transaction" name="new_transaction">
+            </td>
+        </tr>
+    </form>
 </table>

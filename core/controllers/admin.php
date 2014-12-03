@@ -8,7 +8,8 @@ class admin
     /**
      * Class constructer
      */
-    function __construct() {
+    function __construct()
+    {
         $this->errorArray  = array();
         $this->reportArray = array();
     }
@@ -18,7 +19,8 @@ class admin
      * @param $info
      * @return array returns array with error's, returns empty array when 0 errors
      */
-    public function fileSystemCreateForm($info) {
+    public function fileSystemCreateForm($info)
+    {
         global $database;
 
         $this->checkFileSystemForm($info['title'], $info['link'], $info['file'], $info['category'], true);
@@ -54,7 +56,8 @@ class admin
      * @param $info
      * @return array returns array with error's, returns empty array when 0 errors
      */
-    public function fileSystemEditForm($info) {
+    public function fileSystemEditForm($info)
+    {
         global $database;
 
         $this->checkFileSystemForm($info['title'], $info['link'], $info['file'], $info['category'], false);
@@ -91,7 +94,8 @@ class admin
      * @param $category
      * @param $createPage returns array with error's, returns empty array when 0 errors
      */
-    private function checkFileSystemForm($title, $link, $file, $category, $createPage) {
+    private function checkFileSystemForm($title, $link, $file, $category, $createPage)
+    {
         global $database;
 
         // Error checking for title
@@ -145,7 +149,8 @@ class admin
         }
     }
 
-    private function updateArray($array) {
+    private function updateArray($array)
+    {
         array_shift($array);
         array_shift($array);
         array_shift($array);
@@ -159,7 +164,8 @@ class admin
     /**
      * @param $menuItems
      */
-    public function saveMenuItems($menuItems) {
+    public function saveMenuItems($menuItems)
+    {
         global $database;
 
         $weight = 0;
@@ -175,7 +181,8 @@ class admin
      * @param $items array of setting items
      * @return bool
      */
-    public function saveSettings($items) {
+    public function saveSettings($items)
+    {
         global $database;
 
         foreach($items as $key => $item) {
@@ -197,7 +204,8 @@ class admin
      * @param $field
      * @internal param array $ranks of new ranks
      */
-    public function saveRanksCities($items, $field) {
+    public function saveRanksCities($items, $field)
+    {
         global $database;
 
         $newItems   = array();
@@ -213,7 +221,8 @@ class admin
         $database->updateConfigs(serialize($newItems), $field);
     }
 
-    public function createCrime($info, $file) {
+    public function createCrime($info, $file)
+    {
         global $database;
 
         $this->checkCrimeForm($info, $file);
@@ -224,7 +233,8 @@ class admin
         $database->query("INSERT INTO ".TBL_CRIMES." SET name = :name, min_payout = :min_p, max_payout = :max_p, `change` = :change, icon = :icon", $items);
     }
 
-    public function updateCrime($info, $file) {
+    public function updateCrime($info, $file)
+    {
         global $database;
 
         if (empty($file['file']['name'])) $file = false;
@@ -244,7 +254,8 @@ class admin
         unset($_SESSION['get-crime-id']);
     }
 
-    private function checkCrimeForm($info, $file) {
+    private function checkCrimeForm($info, $file)
+    {
         if (empty($info['name'])) {
             $this->errorArray[] = " - Please fill in a name.";
         }
@@ -309,7 +320,8 @@ class admin
         }
     }
 
-    public function updateUser($info, $username) {
+    public function updateUser($info, $username)
+    {
         global $database;
 
         $items = array();
@@ -334,13 +346,36 @@ class admin
         $database->query("UPDATE ".TBL_USERS." SET groups = :groups WHERE username = :id", $items);
     }
 
-    public function banUser($username) {
+    public function banUser($username)
+    {
         global $database;
 
         if ($database->usernameBanned($username)) {
             return $database->unbanUser($username);
         } else {
             return $database->banUser($username);
+        }
+    }
+
+    public function banIp($ip)
+    {
+        global $database, $error;
+
+        if(!filter_var($ip, FILTER_VALIDATE_IP))
+        {
+            return $error->errorSmall("IP is not valid");
+        }
+
+        $items = array(':ip' => $ip);
+        $stmt = $database->query("SELECT ip FROM ".TBL_BANNED_IP." WHERE ip = :ip", $items)->fetchObject();
+
+        if ($stmt === false) {
+            $items[':time'] = time();
+            $database->query("INSERT INTO ".TBL_BANNED_IP." SET ip = :ip, timestamp = :time", $items);
+            return $error->succesSmall($ip." has been blocked");
+        } else {
+            $database->query("DELETE FROM ".TBL_BANNED_IP." WHERE ip = :ip", $items);
+            return $error->succesSmall($ip." has been unblocked");
         }
     }
 }

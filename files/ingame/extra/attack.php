@@ -1,6 +1,6 @@
 <?php
     if (isset($_POST['attack_player'])) {
-        echo $user->attackPlayer($_POST['user'], $_POST['bullets']);
+        echo $useractions->attackPlayer($_POST['user'], $_POST['bullets']);
     }
 ?>
 <form method="post">
@@ -10,7 +10,7 @@
                 Player to attack:
             </td>
             <td>
-                <input type="text" name="user" value="<?=$_GET['player']; ?>" placeholder="Username">
+                <input type="text" name="user" value="<?=$_GET['target']; ?>" placeholder="Username">
             </td>
         </tr>
         <tr>

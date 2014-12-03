@@ -31,10 +31,11 @@ if (isset($_GET['PayerID'])) {
             $items = array(':credits' => $user->stats->credits, ':uid' => $user->id);
             $database->query("UPDATE " . TBL_INFO . " SET credits = :credits WHERE uid = :uid", $items);
 
+            echo "You have payed with success! Your credits (".$_SESSION['amount'].") have been added to your account.";
+
             unset($_SESSION['amount']);
             unset($_SESSION['hash']);
 
-            echo "You have payed with success! Your credits (".$_SESSION['amount'].") have be added to your account.";
         } catch (PPConnectionException $e) {
             echo $e->getData();
         }

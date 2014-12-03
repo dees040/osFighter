@@ -1,7 +1,5 @@
 <?php
-    if (isset($_POST['buy_free'])) {
-        echo $user->buyFree($_POST['person']);
-    }
+    echo $validator->getVal('buy_free');
 ?>
 <table width='100%'>
     <tr>

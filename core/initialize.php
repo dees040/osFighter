@@ -25,17 +25,19 @@ function osFighter_autoloader($class) {
 require __DIR__. '/vendor/autoload.php';
 
 spl_autoload_register('osFighter_autoloader'); // Register function
-$database  = new Database;
-$mailer    = new Mailer;
-$error     = new Error;
-$session   = new Session;
-$form      = new Form;
-$user      = new User;
-$admin     = new Admin;
-$settings  = new Settings;
-$validator = new Validator;
-$casino    = new Casino;
-$payclass  = new PayClass;
+$database    = new Database;
+$mailer      = new Mailer;
+$error       = new Error;
+$session     = new Session;
+$form        = new Form;
+$user        = new User;
+$admin       = new Admin;
+$settings    = new Settings;
+$casino      = new Casino;
+$payclass    = new PayClass;
+$useractions = new UserActions;
+$forum       = new Forum;
+$validator   = new Validator;
 
 class initialize
 {
@@ -64,7 +66,7 @@ class initialize
         if ($this->ipBanned($_SERVER['REMOTE_ADDR'])) {
             $this->info = array(
                 'file_to_load' => 'files/http/403_banned.php',
-                'mail'        => $database->getConfigs()['EMAIL_FROM_ADDR']
+                'mail'         => $database->getConfigs()['EMAIL_FROM_ADDR']
             );
         } else if (is_object($this->link_info = $this->pageExists())) {
             if ($this->hasPermissions($this->link_info->groups)) {

@@ -469,6 +469,19 @@ class Database
     }
 
     /**
+     *
+     * @param $table
+     * @param $orderBy
+     * @param $start
+     * @param $end
+     * @return mixed
+     */
+    public function paginateField($table, $orderBy, $start, $end) {
+        $query = $this->query("SELECT uid, ".$orderBy." FROM ".$table." ORDER BY ".$orderBy." DESC LIMIT ".$start.", ".$end);
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    /**
      * Query to the database
      *
      * @param string $query - The query that has to be executed

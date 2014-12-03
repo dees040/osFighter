@@ -1,47 +1,9 @@
-The first thing that needs to be done is to rebuild the database. Because i lost it..
-
 Clean up code:
- - Use/create validator instead of creating a new validator foreach new form.
  - Clean up unused function / code in functions
  - Add commentary to all the code
 
 Functionality:
- - Captcha
  - Loads of loads of settings
     Settings:
      - Flight costs
      - Captcha on/off
-
-Pages:
-
-Messages
-User settings
-About
-
-Call Credits market
-Spend Call Credits
-
-Family list
-Create family
-Family page
-Family settings
-
-Attack players
-Shoutbox
-Forum
-
-Small crimes
-Big Crimes
-Steal motor vehicle
-Drugs
-
-Bank
-Housing market
-Hospital
-Shop
-Travel
-Jail
-
-Crack the vault
-
-Admin user edit

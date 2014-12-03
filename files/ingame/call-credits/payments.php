@@ -1,5 +1,4 @@
 <?php
-
 $payments = $database->query("SELECT * FROM ".TBL_PAYMENTS." ORDER BY date DESC")->fetchAll(PDO::FETCH_OBJ);
 ?>
 <table width="100%">

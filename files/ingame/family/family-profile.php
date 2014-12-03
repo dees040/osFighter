@@ -1,14 +1,14 @@
 <?php
 
     if ($_GET['join'] == "true") {
-        echo $user->joinFamily($_GET['id']);
+        echo $useractions->joinFamily($_GET['id']);
     } else if ($_GET['leave'] == "true") {
-        echo $user->leaveFamily();
+        echo $useractions->leaveFamily();
     }
 
     $family = $database->query("SELECT * FROM ".TBL_FAMILY." WHERE id = :uid", array(':uid' => $_GET['id']))->fetchObject();
     $owner = $database->query("SELECT username FROM ".TBL_USERS." WHERE id = :uid", array(':uid' => $family->creator))->fetchObject();
-    $members = $database->query("SELECT uid FROM ".TBL_INFO." WHERE fid = :fid", array(':fid' => $family->id));
+    $members = $database->query("SELECT uid FROM ".TBL_INFO." WHERE fid = :fid ORDER BY power DESC", array(':fid' => $family->id));
 
     if ($_GET['id'] != $user->family->id) {
         echo '<div align="center"><img src="files/images/icons/group_add.png"> <a href="family/profile?id='.$family->id.'&join=true"><strong>Join family</strong></a></div>';
@@ -39,25 +39,18 @@
         <td><?=$settings->createFormat($family->power); ?></td>
     </tr>
     <tr class="top">
-        <td><strong>Money (in cash):</strong></td>
-        <td align="center"><img src="files/images/icons/money.png"></td>
-        <td><?=$settings->currencySymbol()." ".$settings->createFormat($family->cash); ?></td>
-    </tr>
-    <tr class="top">
-        <td><strong>Money (bank):</strong></td>
+        <td><strong>Money:</strong></td>
         <td align="center"><img src="files/images/icons/bank.png"></td>
         <td><?=$settings->currencySymbol()." ".$settings->createFormat($family->bank); ?></td>
     </tr>
-    <tr class="top">
-        <td><strong>Fights won:</strong></td>
-        <td align="center"><img src="files/images/icons/brick_add.png"></td>
-        <td><?echo$familie->attwins;?></td>
+    <?php if (!empty($family->info)) { ?>
+    <tr>
+        <td align="center" colspan="3"><strong>Family Message</strong></td>
     </tr>
-    <tr class="top">
-        <td><strong>Fights lost:</strong></td>
-        <td align="center"><img src="files/images/icons/brick_delete.png"></td>
-        <td><?echo$familie->attlost;?></td>
+    <tr>
+        <td colspan="3"><?=$family->info; ?></td>
     </tr>
+    <?php } ?>
 </table>
 
 </div>

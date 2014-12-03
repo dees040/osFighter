@@ -38,7 +38,7 @@ $i = ($_GET['page'] < 0) ? 0 : $_GET['page'] * 10;
             </td>
             <td>
                 <div align="center">
-                    <?=$settings->currencySymbol().$settings->createFormat(($family->cash + $family->bank)); ?>
+                    <?=$settings->currencySymbol().$settings->createFormat($family->bank); ?>
                 </div>
             </td>
             <td>

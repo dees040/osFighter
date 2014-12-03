@@ -1,13 +1,7 @@
 <?php
     $healCost = (100 - $user->stats->health) * 100;
 
-    if (isset($_POST['heal'])) {
-        if ($user->healInHospital()) {
-            echo $error->succesSmall("You health yourself!");
-        } else {
-            echo $error->errorSmall("You don't have enough money in cash.");
-        }
-    }
+    echo $validator->getVal('heal');
 ?>
 <table width='100%'>
     <tr>

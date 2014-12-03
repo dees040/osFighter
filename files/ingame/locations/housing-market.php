@@ -1,7 +1,5 @@
 <?php
-    if ($_POST['buy_house']) {
-        echo $user->buyHouse($_POST['house-id']);
-    }
+    echo $validator->getVal('buy_house');
     $houses = $database->query("SELECT * FROM ".TBL_HOUSE_ITEMS." ORDER BY price")->fetchAll(PDO::FETCH_OBJ);
 ?>
 <form method="post">

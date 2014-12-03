@@ -34,11 +34,32 @@ var functions = {
                 clearInterval(interval);
             }
         }, 1000);
+    },
+    crackTheVault: function(e, _object) {
+        var searchText = $.trim($(_object).val());
+
+        var c= String.fromCharCode(e.keyCode);
+        var isWordCharacter = c.match(/\w/);
+        var isBackspaceOrDelete = (e.keyCode == 8 || e.keyCode == 46);
+
+        // trigger only on word characters, backspace or delete and an entry size of at least 3 characters
+        if((isWordCharacter || isBackspaceOrDelete)) {
+            var inputs = $(_object).closest('form').find('.crack_the_vault');
+            inputs.eq(inputs.index(_object) + 1).focus();
+        }
     }
 }
 
 tinymce.init({
-    selector: "textarea"
+    selector: "textarea",
+    plugins: ["image", "emoticons", "textcolor", "link"],
+    toolbar: [
+        "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | forecolor backcolor",
+        "emoticons image | link"
+    ],
+    target_list: [
+        {title: 'New page', value: '_blank'}
+    ]
 });
 
 $(document).ready(function() {
@@ -49,5 +70,9 @@ $(document).ready(function() {
     $('.reload').click(functions.reload);
     $('.multiple-timer').each(function() {
         functions.multipleCountdown($(this));
+    });
+
+    $(".crack_the_vault").keyup(function(e) {
+        functions.crackTheVault(e, this);
     });
 });

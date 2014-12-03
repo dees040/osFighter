@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" align="left">
-                        <br>[<a href="forgotpass.php">Forgot Password?</a>]
+                        <br>[<a href="forgot-pass">Forgot Password?</a>]
                     </td>
                     <td align="right"></td>
                 </tr>

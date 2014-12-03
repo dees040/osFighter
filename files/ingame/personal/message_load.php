@@ -1,16 +1,12 @@
 <?php
-if (isset($_GET['id'])) {
+if (isset($_GET['message_id'])) {
     $message = $database->query(
         "SELECT * FROM " . TBL_MESSAGE . " WHERE id = :id AND (from_id = :uid OR to_id = :uid)"
-        , array(':id' => $_GET['id'], ':uid' => $user->id)
+        , array(':id' => $_GET['message_id'], ':uid' => $user->id)
     )->fetchObject();
     if ($message === false) {
         echo "You don't have permissions to view this message.";
     } else {
-        if ($message->status == 0 && $message->to_id == $user->id) {
-            $items = array(':status' => 1, ':id' => $message->id);
-            $database->query("UPDATE ".TBL_MESSAGE." SET status = :status WHERE id = :id", $items);
-        }
         if ($message->from_id == 0) {
             $from = " * SYSTEM * ";
         } else {

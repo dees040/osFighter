@@ -33,8 +33,7 @@
                 Current Password:
             </td>
             <td>
-                <input type="password" name="curpass" maxlength="30" value="
-                <?php echo $form->value("curpass"); ?>">
+                <input type="password" name="curpass" maxlength="30" value="<?=$form->value("curpass"); ?>">
             </td>
             <td>
                 <?php echo $form->error("curpass"); ?>
@@ -45,8 +44,7 @@
                 New Password:
             </td>
             <td>
-                <input type="password" name="newpass" maxlength="30" value="
-                <?php echo $form->value("newpass"); ?>">
+                <input type="password" name="newpass" maxlength="30" value="<?=$form->value("newpass"); ?>">
             </td>
             <td>
                 <?php echo $form->error("newpass"); ?>
@@ -57,8 +55,7 @@
                 Confirm New Password:
             </td>
             <td>
-                <input type="password" name="conf_newpass" maxlength="30" value="
-                <?php echo $form->value("newpass"); ?>">
+                <input type="password" name="conf_newpass" maxlength="30" value="<?=$form->value("newpass"); ?>">
             </td>
             <td>
                 <?php echo $form->error("newpass"); ?>
@@ -69,13 +66,7 @@
                 Email:
             </td>
             <td>
-                <input type="text" name="email" maxlength="50" value="<?php
-                if ($form->value("email") == "") {
-                   echo $session->userinfo->email;
-                } else {
-                   echo $form->value("email");
-                }
-                ?>">
+                <input type="text" name="email" maxlength="50" value="<?=($form->value("email") == "") ? $session->userinfo->email : $form->value("email"); ?>">
             </td>
             <td>
                 <?php echo $form->error("email"); ?>

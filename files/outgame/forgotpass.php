@@ -11,7 +11,7 @@
        if ($_SESSION['forgotpass']) {
           echo "<h1>New Password Generated</h1>";
           echo "<p>Your new password has been generated "
-              ."and sent to the email <br>associated with your account. "
+              ."and sent to the email associated with your account. <br>"
               ."<a href=".$config['WEB_ROOT'].$config['home_page'].">Main</a>.</p>";
        }
        /**

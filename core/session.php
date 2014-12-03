@@ -13,7 +13,7 @@ class Session
     public $userlevel;    //The level to which the user pertains
     public $time;         //Time user was last active (page loaded)
     public $logged_in;    //True if user is logged in, false otherwise
-    public $userinfo = array();  //The array holding all user info
+    public $userinfo ;    //The object holding all user info
     public $url;          //The page url current being viewed
     public $referrer;     //Last recorded site page viewed
     /**
@@ -241,7 +241,7 @@ class Session
         $this->userlevel = GUEST_LEVEL;
 
         /* Destroy session */
-        session_destroy();
+        //session_destroy();
     }
 
     /**
@@ -300,7 +300,7 @@ class Session
                 $form->setError($field, "* Password too long");
             }
             /* Check if password is not alphanumeric */
-            else if ( !preg_match("/^([0-9a-z])+$/i", ($subpass = trim($subpass)))) {
+            else if ( !ctype_alnum($subpass)) {
                 $form->setError($field, "* Password not alphanumeric");
             }
             /* Check if passwords match */
@@ -638,7 +638,7 @@ class Session
                 $form->setError($field, "* New Password too short");
             }
             /* Check if password is not alphanumeric */
-            else if (!preg_match("/^([0-9a-z])+$/i", ($subnewpass = trim($subnewpass)))) {
+            else if (!ctype_alnum($subnewpass)) {
                 $form->setError($field, "* New Password not alphanumeric");
             }
             /* Check if passwords match */

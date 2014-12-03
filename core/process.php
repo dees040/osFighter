@@ -196,7 +196,7 @@ class Process
 
             /* Get email of user */
             $usrinf = $database->getUserInfo($subuser);
-            $email  = $usrinf['email'];
+            $email  = $usrinf->email;
 
             /* Attempt to send the email with new password */
             if ($mailer->sendNewPass($subuser,$email,$newpass,$config)) {
@@ -223,13 +223,21 @@ class Process
     */
     private function procEditAccount(){
         global $session, $form;
+
+        // If the user is demo we need to stop him from editing his account.
+        if ($session->username == "demo") {
+            $_SESSION['useredit'] = false;
+            header("Location: ../personal/user-edit");
+            return false;
+        }
+
         /* Account edit attempt */
         $retval = $session->editAccount($_POST['curpass'], $_POST['newpass'], $_POST['conf_newpass'], $_POST['email']);
 
         /* Account edit successful */
         if ($retval) {
             $_SESSION['useredit'] = true;
-            header("Location: ../edit-account");
+            header("Location: ../personal/user-edit");
         }
         /* Error found with form */
         else {
