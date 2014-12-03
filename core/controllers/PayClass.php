@@ -31,7 +31,7 @@ class PayClass {
 
     public function buyCredits($amount)
     {
-        global $settings;
+        global $settings, $user;
 
         $price = $amount / 5;
         $_SESSION['amount'] = $amount;
@@ -51,7 +51,7 @@ class PayClass {
             ->setPayer($this->payer)
             ->setTransactions(array($this->transaction));
 
-        $this->redirectUrls->setReturnUrl($settings->config['WEB_ROOT']. 'pay/success')
+        $this->redirectUrls->setReturnUrl($settings->config['WEB_ROOT']. 'pay/success?uid='.$user->id)
             ->setCancelUrl($settings->config['WEB_ROOT']. 'pay/failed');
 
         $this->payment->setRedirectUrls($this->redirectUrls);
