@@ -7,3 +7,7 @@ Functionality:
     Settings:
      - Flight costs
      - Captcha on/off
+
+Pages:
+ - News
+ - Helpdesk (tickets private/public)

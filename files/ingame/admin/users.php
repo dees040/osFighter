@@ -48,7 +48,7 @@
                         Last seen:
                     </td>
                     <td>
-                        <img src="files/images/icons/clock.png">
+                        <img src="files/images/icons/calendar.png">
                     </td>
                     <td>
                         <?=date("Y-m-d H:i", $user_info->timestamp); ?>
@@ -170,6 +170,28 @@
                     </td>
                     <td>
                         <input type="text" name="power" value="<?=$stats->power; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Bullets
+                    </td>
+                    <td>
+                        <img src="files/images/icons/information.png">
+                    </td>
+                    <td>
+                        <input type="text" name="bullets" value="<?=$stats->bullets; ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Gym
+                    </td>
+                    <td>
+                        <img src="files/images/icons/information.png">
+                    </td>
+                    <td>
+                        <input type="text" name="gym" value="<?=$stats->gym; ?>">%
                     </td>
                 </tr>
                 <tr>

@@ -1,7 +1,5 @@
 <?php
-    if (isset($_POST['attack_player'])) {
-        echo $useractions->attackPlayer($_POST['user'], $_POST['bullets']);
-    }
+echo $validator->getVal('attack_player');
 ?>
 <form method="post">
     <table>
@@ -18,7 +16,7 @@
                 Bullets:
             </td>
             <td>
-                <input type="number" name="bullets" max="<?=$user->stats->bullets; ?>" placeholder="Bullets to use">
+                <input type="number" name="bullets" min="0" placeholder="Bullets to use">
             </td>
         </tr>
         <tr>

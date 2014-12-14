@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 03, 2014 at 12:05 PM
+-- Generation Time: Dec 14, 2014 at 12:25 PM
 -- Server version: 5.5.38-MariaDB-cll-lve
 -- PHP Version: 5.5.17
 
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `families` (
   `info` text NOT NULL,
   `join_status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,21 @@ CREATE TABLE IF NOT EXISTS `family_bank_transactions` (
   `uid` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `family_items`
+--
+
+CREATE TABLE IF NOT EXISTS `family_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fid` int(11) NOT NULL,
+  `sid` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -191,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `family_join_invites` (
   `uid` int(11) NOT NULL,
   `fid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -206,6 +220,15 @@ CREATE TABLE IF NOT EXISTS `forum_forums` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
+--
+-- Dumping data for table `forum_forums`
+--
+
+INSERT INTO `forum_forums` (`id`, `title`, `description`) VALUES
+(1, 'Information', 'All information'),
+(2, 'Extra', 'All other shit'),
+(3, 'Main', 'The main forum');
+
 -- --------------------------------------------------------
 
 --
@@ -219,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `forum_reactions` (
   `content` text NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
@@ -235,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `forum_topics` (
   `creator` int(11) NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -284,6 +307,38 @@ INSERT INTO `items_call_credits` (`id`, `name`, `price`, `give`, `item`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `items_cars`
+--
+
+CREATE TABLE IF NOT EXISTS `items_cars` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `worth` int(11) NOT NULL,
+  `image_one` varchar(40) NOT NULL,
+  `image_two` varchar(40) NOT NULL,
+  `steal_change` int(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `items_cars`
+--
+
+INSERT INTO `items_cars` (`id`, `name`, `worth`, `image_one`, `image_two`, `steal_change`) VALUES
+(1, 'Volkswagen Polo', 1000, 'vw_polo.jpg', 'vw_polo1.jpg', 15),
+(2, 'Renault Twingo', 500, 'renault_twingo.jpg', 'renault_twingo1.jpg', 20),
+(3, 'Volvo V60', 3000, 'volvo_v60.jpg', 'volvo_v601.jpg', 10),
+(4, 'Range Rover Sport', 5000, 'range_rover_sport.jpg', 'range_rover_sport1.jpg', 10),
+(5, 'Mercedes CLS63 AMG', 10000, 'mercedes_cls63_amg.jpg', 'mercedes_cls63_amg1.jpg', 9),
+(6, 'Maserati Quattroporte', 30000, 'maserati_quattroporte.jpg', 'maserati_quattroporte1.jpg', 8),
+(7, 'Lamborghini Aventador', 80000, 'lamborghini_aventador.jpg', 'lamborghini_aventador1.jpg', 7),
+(8, 'Bugatti Veyron', 150000, 'bugatti_veyron.jpg', 'bugatti_veyron1.jpg', 5),
+(9, 'Porsche 911 Turbo', 75000, 'porsche_911_turbo.jpg', 'porsche_911_turbo.jpg', 7),
+(10, 'Rolls Royce Phantom', 100000, 'rolls_royce_phantom.jpg', 'rolls_royce_phantom1.jpg', 9);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `items_house`
 --
 
@@ -293,7 +348,7 @@ CREATE TABLE IF NOT EXISTS `items_house` (
   `price` int(11) NOT NULL,
   `image` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `items_house`
@@ -329,6 +384,7 @@ CREATE TABLE IF NOT EXISTS `items_shop` (
   `price` int(11) NOT NULL,
   `power` int(11) NOT NULL,
   `max_amount` int(11) NOT NULL DEFAULT '0',
+  `min_gym` tinyint(3) NOT NULL,
   `image` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
@@ -337,25 +393,25 @@ CREATE TABLE IF NOT EXISTS `items_shop` (
 -- Dumping data for table `items_shop`
 --
 
-INSERT INTO `items_shop` (`id`, `name`, `description`, `price`, `power`, `max_amount`, `image`) VALUES
-(1, 'Bat', 'none', 500, 25, 0, 'knuppel.gif'),
-(2, 'Pepperspray', 'none', 950, 40, 0, 'pepperspray.gif'),
-(3, 'Desert Eagle', 'none', 1000, 45, 0, 'deserteagle.gif'),
-(4, 'Sig P228', 'none', 1400, 55, 0, 'sigp228.gif'),
-(5, 'Attack Coin', 'Get 1 attack coin to attack people.', 300, 0, 0, 'attackcoins.gif'),
-(6, 'C4 Bomb', 'none', 3000, 75, 0, 'c4.gif'),
-(7, 'Machine Gun', 'none', 5000, 150, 0, 'm16.gif'),
-(8, 'Corner Shot', 'none', 5000, 150, 0, 'cornershot.gif'),
-(9, 'Switch Blade', 'none', 9500, 180, 0, 'switchblade.gif'),
-(10, 'Pitbull', 'none', 12500, 250, 0, 'pitbull.gif'),
-(11, 'Sniper', 'none', 20000, 450, 0, 'sniper.gif'),
-(12, 'S.W.A.T. Gun', 'none', 37500, 625, 0, 'swatgun.gif'),
-(13, 'RPG', 'none', 50000, 950, 0, 'rpg.gif'),
-(14, 'Bodyguard', 'none', 50000, 950, 0, 'bodyguards.gif'),
-(15, 'War Boat', 'none', 150000, 10000, 0, 'warboot.gif'),
-(16, 'Nuke', 'none', 200000, 15000, 0, 'nuke.gif'),
-(17, 'Tank', 'none', 240000, 15500, 0, 'tank.gif'),
-(18, 'Scud Rocket', 'none', 450000, 25000, 0, 'scudraket.gif');
+INSERT INTO `items_shop` (`id`, `name`, `description`, `price`, `power`, `max_amount`, `min_gym`, `image`) VALUES
+(1, 'Bat', 'none', 500, 25, 0, 5, 'knuppel.gif'),
+(2, 'Pepperspray', 'none', 950, 40, 0, 10, 'pepperspray.gif'),
+(3, 'Desert Eagle', 'none', 1000, 45, 0, 20, 'deserteagle.gif'),
+(4, 'Sig P228', 'none', 1400, 55, 0, 25, 'sigp228.gif'),
+(5, 'Attack Coin', 'Get 1 attack coin to attack people.', 300, 0, 0, 5, 'attackcoins.gif'),
+(6, 'C4 Bomb', 'none', 3000, 75, 0, 30, 'c4.gif'),
+(7, 'Machine Gun', 'none', 5000, 150, 0, 35, 'm16.gif'),
+(8, 'Corner Shot', 'none', 5000, 150, 0, 40, 'cornershot.gif'),
+(9, 'Switch Blade', 'none', 9500, 180, 0, 45, 'switchblade.gif'),
+(10, 'Pitbull', 'none', 12500, 250, 0, 50, 'pitbull.gif'),
+(11, 'Sniper', 'none', 20000, 450, 0, 55, 'sniper.gif'),
+(12, 'S.W.A.T. Gun', 'none', 37500, 625, 0, 60, 'swatgun.gif'),
+(13, 'RPG', 'none', 50000, 950, 0, 65, 'rpg.gif'),
+(14, 'Bodyguard', 'none', 50000, 950, 0, 70, 'bodyguards.gif'),
+(15, 'War Boat', 'none', 150000, 10000, 0, 75, 'warboot.gif'),
+(16, 'Nuke', 'none', 200000, 15000, 0, 80, 'nuke.gif'),
+(17, 'Tank', 'none', 240000, 15500, 0, 85, 'tank.gif'),
+(18, 'Scud Rocket', 'none', 450000, 25000, 0, 90, 'scudraket.gif');
 
 -- --------------------------------------------------------
 
@@ -371,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `weight` int(11) NOT NULL,
   `display` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
 
 --
 -- Dumping data for table `menus`
@@ -390,37 +446,47 @@ INSERT INTO `menus` (`id`, `pid`, `menu`, `link`, `weight`, `display`) VALUES
 (10, 12, 'crime', 'crime/crimes', 0, 1),
 (11, 13, 'family', 'family', 1, 1),
 (12, 14, 'statistics', 'online', 0, 1),
-(13, 15, 'personal', 'personal/user-edit', 4, 1),
-(14, 16, 'personal', 'personal/user-info', 3, 0),
-(15, 17, 'locations', 'locations/airport', 3, 1),
-(16, 18, 'personal', 'personal/messages', 1, 1),
+(13, 15, 'personal', 'personal/user-edit', 5, 1),
+(14, 16, 'personal', 'personal/user-info', 4, 0),
+(15, 17, 'locations', 'locations/airport', 5, 1),
+(16, 18, 'personal', 'personal/messages', 2, 1),
 (17, 19, 'call-credits', 'call-credits', 0, 1),
 (18, 20, 'call-credits', 'call-credits/shop', 1, 1),
-(19, 21, 'locations', 'locations/shop', 2, 1),
-(20, 22, 'locations', 'locations/jail', 1, 1),
+(19, 21, 'locations', 'locations/shop', 4, 1),
+(20, 22, 'locations', 'locations/jail', 3, 1),
 (21, 23, 'locations', 'locations/bank', 0, 1),
-(22, 24, 'locations', 'locations/housing-market', 5, 1),
-(23, 25, 'locations', 'locations/hospital', 4, 1),
+(22, 24, 'locations', 'locations/housing-market', 7, 1),
+(23, 25, 'locations', 'locations/hospital', 6, 1),
 (24, 26, 'extra', 'extra/attack', 0, 1),
 (25, 27, 'admin', 'admin/modules', 0, 0),
-(26, 28, 'extra', 'extra/shoutbox', 0, 1),
-(27, 29, 'extra', 'forum', 0, 1),
+(26, 28, 'extra', 'extra/shoutbox', 1, 1),
+(27, 29, 'extra', 'forum', 2, 1),
 (28, 30, 'casino', 'casino/crack-the-vault', 0, 1),
 (29, 31, 'family', 'family/profile', 3, 0),
-(30, 32, 'personal', 'personal/message', 2, 0),
+(30, 32, 'personal', 'personal/message', 3, 0),
 (31, 33, 'call-credits', 'pay/failed', 2, 0),
 (32, 34, 'call-credits', 'pay/success', 3, 0),
 (33, 35, 'call-credits', 'credits/payments', 4, 1),
 (34, 36, 'family', 'family/create', 0, 1),
 (35, 37, 'family', 'family/settings', 2, 1),
-(36, 38, 'locations', 'locations/red-light-district', 6, 1),
+(36, 38, 'locations', 'locations/red-light-district', 8, 1),
 (37, 39, 'statistics', 'statistics/members', 0, 0),
 (38, 40, 'statistics', 'statistics/more', 0, 1),
 (39, 41, 'family', 'family/bank', 4, 1),
-(40, 42, 'extra', 'extra/forum/topics', 0, 0),
-(41, 43, 'extra', 'extra/forum/topic', 0, 0),
-(42, 44, 'extra', 'extra/forum/create-topic', 0, 0),
-(43, 45, 'extra', 'extra/forum/create-form', 0, 0);
+(40, 42, 'extra', 'extra/forum/topics', 3, 0),
+(41, 43, 'extra', 'extra/forum/topic', 4, 0),
+(42, 44, 'extra', 'extra/forum/create-topic', 5, 0),
+(43, 45, 'extra', 'extra/forum/create-form', 6, 0),
+(44, 46, 'crime', 'crime/cars', 1, 1),
+(45, 47, 'personal', 'news', 1, 1),
+(46, 48, 'extra', 'extra/garage', 7, 1),
+(47, 49, 'crime', 'crime/streetrace', 2, 1),
+(48, 50, 'locations', 'locations/gym', 2, 1),
+(49, 51, 'statistics', 'statistics/ranks', 0, 1),
+(50, 52, 'locations', 'locations/bullet-factory', 1, 1),
+(51, 53, 'casino', 'casino/higher-lower', 1, 1),
+(52, 54, 'family', 'family/shop', 7, 1),
+(53, 55, 'personal', 'personal/respect', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -438,7 +504,23 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `status` tinyint(4) NOT NULL,
   `from_status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=67 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE IF NOT EXISTS `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `content` text NOT NULL,
+  `date` int(11) NOT NULL,
+  `show_creator` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -455,7 +537,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `jail` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
 
 --
 -- Dumping data for table `pages`
@@ -504,7 +586,17 @@ INSERT INTO `pages` (`id`, `title`, `link`, `file`, `groups`, `jail`) VALUES
 (42, 'Forum Topic', 'extra/forum/topics', 'forum-topics.php', 'a:0:{}', 0),
 (43, 'Topic', 'extra/forum/topic', 'topic.php', 'a:0:{}', 0),
 (44, 'Create topic', 'extra/forum/create-topic', 'create-topic.php', 'a:0:{}', 0),
-(45, 'Create Forum', 'extra/forum/create-form', 'create-forum.php', 'a:1:{i:0;s:1:"1";}', 0);
+(45, 'Create Forum', 'extra/forum/create-form', 'create-forum.php', 'a:1:{i:0;s:1:"1";}', 0),
+(46, 'Car hijacking', 'crime/cars', 'cars.php', 'a:0:{}', 1),
+(47, 'News', 'news', 'news.php', 'a:0:{}', 0),
+(48, 'Garage', 'extra/garage', 'garage.php', 'a:0:{}', 1),
+(49, 'Streetrace', 'crime/streetrace', 'streetrace.php', 'a:0:{}', 1),
+(50, 'Gym', 'locations/gym', 'gym.php', 'a:0:{}', 1),
+(51, 'Ranks', 'statistics/ranks', 'ranks.php', 'a:0:{}', 0),
+(52, 'Bullet Factory', 'locations/bullet-factory', 'bullet-factory.php', 'a:0:{}', 1),
+(53, 'Higher / Lower', 'casino/higher-lower', 'higher-lower.php', 'a:0:{}', 1),
+(54, 'Family Shop', 'family/shop', 'shop.php', 'a:0:{}', 1),
+(55, 'Respect', 'personal/respect', 'respect.php', 'a:0:{}', 0);
 
 -- --------------------------------------------------------
 
@@ -522,7 +614,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `date_completed` int(11) NOT NULL,
   `price` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 -- --------------------------------------------------------
 
@@ -536,7 +628,21 @@ CREATE TABLE IF NOT EXISTS `shoutbox` (
   `message` varchar(600) NOT NULL,
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `streetraces`
+--
+
+CREATE TABLE IF NOT EXISTS `streetraces` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `bet` int(11) NOT NULL,
+  `cid` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 -- --------------------------------------------------------
 
@@ -559,7 +665,22 @@ CREATE TABLE IF NOT EXISTS `users` (
   `groups` varchar(255) NOT NULL,
   `profile_picture` varchar(50) NOT NULL DEFAULT 'none-profile.png',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_garage`
+--
+
+CREATE TABLE IF NOT EXISTS `users_garage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `damage` int(11) NOT NULL,
+  `image` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=126 ;
 
 -- --------------------------------------------------------
 
@@ -584,6 +705,9 @@ CREATE TABLE IF NOT EXISTS `users_info` (
   `protection` int(11) NOT NULL,
   `ho_street` int(11) NOT NULL,
   `ho_glass` int(11) NOT NULL,
+  `gym` tinyint(3) NOT NULL,
+  `last_shoutbox` int(11) NOT NULL,
+  `respect` int(11) NOT NULL,
   UNIQUE KEY `id` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -599,7 +723,7 @@ CREATE TABLE IF NOT EXISTS `users_items` (
   `sid` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 -- --------------------------------------------------------
 
@@ -611,9 +735,12 @@ CREATE TABLE IF NOT EXISTS `users_time` (
   `uid` int(11) NOT NULL,
   `jail` int(11) NOT NULL,
   `crime_time` int(11) NOT NULL,
+  `car_time` int(11) NOT NULL,
   `fly_time` int(11) NOT NULL,
   `pimp_time` int(11) NOT NULL,
   `pimp_money` int(11) NOT NULL,
+  `gym_time` int(11) NOT NULL,
+  `respect` int(11) NOT NULL,
   UNIQUE KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

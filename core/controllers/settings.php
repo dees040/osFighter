@@ -152,4 +152,15 @@ class Settings
         $items = array(':from' => 0, ':to' => $to, ':date' => time(), ':subject' => $subject, ':content' => $message);
         $database->query("INSERT INTO ".TBL_MESSAGE." SET from_id = :from, to_id = :to, date = :date, subject = :subject, content = :content", $items);
     }
+
+    public function getRandomWeightedElement(array $weightedValues) {
+        $rand = mt_rand(1, (int) array_sum($weightedValues));
+
+        foreach ($weightedValues as $key => $value) {
+            $rand -= $value;
+            if ($rand <= 0) {
+                return $key;
+            }
+        }
+    }
 }

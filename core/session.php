@@ -13,7 +13,7 @@ class Session
     public $userlevel;    //The level to which the user pertains
     public $time;         //Time user was last active (page loaded)
     public $logged_in;    //True if user is logged in, false otherwise
-    public $userinfo ;    //The object holding all user info
+    public $userinfo;    //The object holding all user info
     public $url;          //The page url current being viewed
     public $referrer;     //Last recorded site page viewed
     /**

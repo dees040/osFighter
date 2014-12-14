@@ -105,17 +105,21 @@ class UserActions
                 $sid = $key;
 
         if ($amount < 1) {
-            return $error->errorSmall("This product has a minimum of 1");
+            return $error->errorSmall("This product has a minimum of 1.");
         }
 
         $productInfo = $database->query(
-            "SELECT name, price, power, max_amount FROM ".TBL_SHOP_ITEMS." WHERE id = :sid",
+            "SELECT name, price, power, max_amount, min_gym FROM ".TBL_SHOP_ITEMS." WHERE id = :sid",
             array(':sid' => $sid)
         )->fetchObject();
         $cost = $productInfo->price * $amount;
 
         if ($cost > $user->stats->money) {
             return $error->errorSmall("You don't have enough cash to buy this item(s).");
+        }
+
+        if ($productInfo->min_gym > $user->stats->gym) {
+            return $error->errorSmall("You don't have ".$productInfo->min_gym."% gym process.");
         }
 
         $currentAmount = $database->query(
@@ -152,7 +156,73 @@ class UserActions
             $database->query("INSERT INTO ".TBL_USERS_ITEMS." SET uid = :uid, sid = :sid, amount = :amount", $items);
         }
 
-        return $error->succesSmall("You have bought ".$amount." ".$productInfo->name."(s) for ".$settings->currencySymbol().$settings->createFormat($cost)." with succes!");
+        return $error->succesSmall("You have bought ".$amount." ".$productInfo->name."(s) for ".$settings->currencySymbol().$settings->createFormat($cost)." with success!");
+    }
+
+    public function buyFromShopFamily($info)
+    {
+        global $user, $database, $error, $settings;
+
+        $sid = 0;
+        $amount = $_POST['number_family_shop'];
+
+        foreach($info as $key => $item)
+            if ($item == "Buy!")
+                $sid = $key;
+
+        if ($amount < 1) {
+            return $error->errorSmall("This product has a minimum of 1.");
+        }
+
+        if ($user->family->creator != $user->id) {
+            return $error->errorBig("You don't have permission to buy items.");
+        }
+
+        $productInfo = $database->query(
+            "SELECT name, price, power, max_amount FROM ".TBL_SHOP_ITEMS." WHERE id = :sid",
+            array(':sid' => $sid)
+        )->fetchObject();
+        $cost = $productInfo->price * $amount;
+
+        if ($cost > $user->family->bank) {
+            return $error->errorSmall("Your family bank don't have enough money on the bank to buy this item(s).");
+        }
+
+        $currentAmount = $database->query(
+            "SELECT amount FROM ".TBL_FAMILY_ITEMS." WHERE fid = :id AND sid = :sid",
+            array(':id' => $user->family->id, ':sid' => $sid)
+        );
+
+        if ($currentAmount->rowCount() == 1) {
+            $currentAmount = $currentAmount->fetchObject()->amount;
+        } else {
+            $currentAmount = 0;
+        }
+
+        if ($productInfo->max_amount != 0) {
+            if (($currentAmount + $amount) > $productInfo->max_amount) {
+                return $error->errorSmall("You can't buy more than the maximum amount.");
+            }
+        }
+
+        $user->family->bank = $user->family->bank - $cost;
+        $user->family->power = $user->family->power + ($amount * $productInfo->power);
+        $items = array(':fid' => $user->family->id, ':bank' => $user->family->bank, ':power' => $user->family->power);
+        $database->query("UPDATE ".TBL_FAMILY." SET bank = :bank, power = :power WHERE id = :fid", $items);
+
+        $dataExists = $database->query(
+            "SELECT sid FROM ".TBL_FAMILY_ITEMS." WHERE fid = :fid AND sid = :sid",
+            array(':fid' => $user->family->id, ':sid' => $sid)
+        )->rowCount();
+
+        $items = array(':fid' => $user->family->id, ':amount' => ($currentAmount + $amount), ':sid' => $sid);
+        if ($dataExists == 1) {
+            $database->query("UPDATE " . TBL_FAMILY_ITEMS . " SET amount = :amount WHERE fid = :fid AND sid = :sid", $items);
+        } else {
+            $database->query("INSERT INTO ".TBL_FAMILY_ITEMS." SET fid = :fid, sid = :sid, amount = :amount", $items);
+        }
+
+        return $error->succesSmall("You have bought ".$amount." ".$productInfo->name."(s) for ".$settings->currencySymbol().$settings->createFormat($cost)." with success!");
     }
 
     public function buyTicket($toId)
@@ -176,7 +246,7 @@ class UserActions
         $items = array(':uid' => $user->id, ':fly' => $user->time->fly_time);
         $database->query("UPDATE ".TBL_TIME." SET fly_time = :fly WHERE uid = :uid", $items);
 
-        return $error->succesSmall("You're traveling to ".unserialize($settings->config['CITIES'])[$toId]." now");
+        return $error->succesSmall("You're traveling to ".unserialize($settings->config['CITIES'])[$toId].".");
     }
 
     public function buyHouse($id)
@@ -309,7 +379,7 @@ class UserActions
 
     public function attackPlayer($username, $bullets)
     {
-        global $user, $database, $error;
+        global $user, $database, $error, $settings;
 
         if ($username == "demo") {
             return $error->errorSmall("You can't attack the demo account.");
@@ -319,7 +389,7 @@ class UserActions
             return $error->errorSmall("You can't attack yourself.");
         }
 
-        if ($bullets > $user->stats->bullets || empty($bullets)) {
+        if ($bullets > $user->stats->bullets || $user->stats->bullets == 0) {
             return $error->errorSmall("You don't have ".$bullets." bullets.");
         }
 
@@ -333,7 +403,7 @@ class UserActions
             return $error->errorSmall("User \"".$username."\" does not exists.");
         }
 
-        $userToAttack = $database->query("SELECT fid, city, protection FROM ".TBL_INFO." WHERE uid = :uid", array(':uid' => $userToAttackId))->fetchObject();
+        $userToAttack = $database->query("SELECT fid, city, protection, power, health, bullets FROM ".TBL_INFO." WHERE uid = :uid", array(':uid' => $userToAttackId))->fetchObject();
 
         if ($userToAttack->fid == $user->stats->fid) {
             return $error->errorSmall("You can't attack players who are in the same family.");
@@ -347,7 +417,51 @@ class UserActions
             return $error->errorSmall("This user is under protection till ".date("Y-m-d H:i", $userToAttack->protection).".");
         }
 
-        return $error->succesSmall("Success");
+        if ($userToAttack->health == 0) {
+            return $error->errorSmall("This user is death.");
+        }
+
+        $userChance = round(($user->stats->power / ($user->stats->power + $userToAttack->power)) * 100);
+        $userToAttackChange = round(100 - $userChance);
+        $winner = $settings->getRandomWeightedElement(array($user->id => $userChance, $userToAttackId => $userToAttackChange));
+
+        if ($winner == $user->id) {
+            $attackInfo = $this->attackInfo($bullets, $user->id, $userToAttackId);
+
+            $settings->sendMessage("You have been attacked", "Dear ".$username.",<br><br>".$user->info->username." has attacked you. You have lost the fight. He has stole ".$settings->currencySymbol().$settings->createFormat($attackInfo['money'])." from you. He toke ".$attackInfo['health']."% health away from you.", $userToAttackId);
+
+            return $error->succesSmall("You have won. You removed ".$attackInfo['health']."% from ".$username."'s health. You have won ".$settings->currencySymbol().$settings->createFormat($attackInfo['money']).".");
+        } else {
+            $attackInfo = $this->attackInfo(mt_rand(0, $userToAttack->bullets), $userToAttackId, $user->id);
+
+            $settings->sendMessage("You have been attacked", "Dear ".$username.",<br><br>".$user->info->username." has attacked you. You have won the fight. You stole ".$settings->currencySymbol().$settings->createFormat($attackInfo['money'])." from him. You toke ".$attackInfo['health']."% health away from him.", $userToAttackId);
+
+            return $error->errorSmall("You have lost, he removed ".$attackInfo['health']."% health from you. You have lost ".$settings->currencySymbol().$settings->createFormat($attackInfo['money']).".");
+        }
+    }
+
+    private function attackInfo($bullets, $winner, $loser)
+    {
+        global $database;
+
+        $healRemoveVal = ceil($bullets * rand(0, 10000000000) / 100000000000);
+        $healRemove = ($healRemoveVal > 100) ? 100 : $healRemoveVal;
+
+        $items = array(':uid' => $loser);
+        $loserInfo = $database->query("SELECT money, health FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject();
+        $items = array(':uid' => $winner);
+        $winnerInfo = $database->query("SELECT money, bullets FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject();
+
+        $moneyWon = mt_rand(0, $loserInfo->money);
+
+        $items = array(':bullets' => $winnerInfo->bullets - $bullets, ':money' => $winnerInfo->money + $moneyWon, ':uid' => $winner);
+        $database->query("UPDATE ".TBL_INFO." SET bullets = :bullets, money = :money WHERE uid = :uid", $items);
+
+        $newHealth = ($loserInfo->health - $healRemove < 0) ? 0 : $loserInfo->health - $healRemove;
+        $items = array(':money' => $loserInfo->money - $moneyWon, ':health' => $newHealth, ':uid' => $loser);
+        $database->query("UPDATE ".TBL_INFO." SET money = :money, health = :health WHERE uid = :uid", $items);
+
+        return array('health' => $healRemove, 'money' => $moneyWon);
     }
 
     public function createFamily($name)
@@ -358,8 +472,12 @@ class UserActions
             return $error->errorSmall("Please fill in a family name.");
         }
 
+        if (strlen($name) < 3) {
+            return $error->errorSmall("Your family need at least 3 characters, yours is ".strlen($name).".");
+        }
+
         if (strlen($name) > 20) {
-            return $error->errorSmall("Your family is above 20 characters, yours is ".strlen($name).".");
+            return $error->errorSmall("Your family name can't be above 20 characters, yours is ".strlen($name).".");
         }
 
         if (!ctype_alnum($name)) {
@@ -377,7 +495,7 @@ class UserActions
         }
 
         $items = array(':name' => $name, ':bank' => 100, ':power' => 100, ':creator' => $user->id, ':max' => 10);
-        $lastId = $database->query("INSERT INTO ".TBL_FAMILY." SET name = :name, cash = :cash, bank = :bank, power = :power, creator = :creator, max_members = :max", $items, true);
+        $lastId = $database->query("INSERT INTO ".TBL_FAMILY." SET name = :name, bank = :bank, power = :power, creator = :creator, max_members = :max", $items, true);
 
         $items = array(':fid' => $lastId, ':uid' => $user->id);
         $database->query("UPDATE ".TBL_INFO." SET fid = :fid WHERE uid = :uid", $items);
@@ -553,7 +671,7 @@ class UserActions
         }
 
         if ($value > $user->stats->bank) {
-            return $error->errorSmall("You don't have that amount to deposit.");
+            return $error->errorSmall("You don't have that amount on your bank to deposit.");
         }
 
         $user->stats->bank = $user->stats->bank - $value;
@@ -582,7 +700,7 @@ class UserActions
         }
 
         if ($value > $user->family->bank) {
-            return $error->errorSmall("You don't have that amount to withdraw.");
+            return $error->errorSmall("You don't have that amount on your family bank to withdraw.");
         }
 
         $user->stats->bank  = $user->stats->bank + $value;
@@ -627,5 +745,347 @@ class UserActions
         $database->query("UPDATE ".TBL_FAMILY." SET info = :mess WHERE id = :id", $items);
 
         return $error->succesSmall("Your family message has been updated!");
+    }
+
+    public function carHijacking()
+    {
+        global $database, $error, $user, $settings;
+
+        if ($user->time->car_time > time()) {
+            return null;
+        }
+
+        if ($settings->checkCaptcha()) {
+            return $error->errorBig("Verification code is not correct.");
+        }
+
+        $change = mt_rand(0, 100);
+
+        if ($change < 50) {
+            $user->time->car_time = time() + 90;
+            $items = array(':time' => $user->time->car_time, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_TIME." SET car_time = :time WHERE uid = :uid", $items);
+
+            $user->stats->rank_process = $user->stats->rank_process + 1;
+            $items = array(':rank' => $user->stats->rank_process, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_INFO." SET rank_process = :rank WHERE uid = :uid", $items);
+
+            return $error->errorSmall("Car hijacking has failed, but you escaped the police. Cooldown for 90 seconds.");
+        } else if ($change < 75) {
+            $user->time->car_time = time() + 90;
+            $user->time->jail = time() + 120;
+            $items = array(':jail' => $user->time->jail, ':car' => $user->time->car_time, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_TIME." SET jail = :jail, car_time = :car WHERE uid = :uid", $items);
+            return $error->errorSmall("Car hijacking has failed, you're in jail for 120 seconds.");
+        } else {
+            $cars = $database->query("SELECT * FROM ".TBL_CARS)->fetchAll(PDO::FETCH_OBJ);
+
+            $carArray = array();
+            foreach($cars as $car) {
+                $carArray[$car->id] = $car->steal_change;
+            }
+
+            $carForUser = $settings->getRandomWeightedElement($carArray);
+
+            $items = array(':cid' => $carForUser, ':uid' => $user->id, ':damage' => mt_rand(5, 80), ':image' => mt_rand(1, 2));
+            $database->query("INSERT INTO ".TBL_GARAGE." SET cid = :cid, uid = :uid, damage = :damage, image = :image", $items);
+
+            $user->time->car_time = time() + 90;
+            $items = array(':time' => $user->time->car_time, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_TIME." SET car_time = :time WHERE uid = :uid", $items);
+
+            $user->stats->rank_process = $user->stats->rank_process + 3;
+            $items = array(':rank' => $user->stats->rank_process, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_INFO." SET rank_process = :rank WHERE uid = :uid", $items);
+
+            return $error->succesSmall("You have hijacked the ".$cars[($carForUser - 1)]->name." with success!");
+        }
+    }
+
+    public function sellCar($id)
+    {
+        global $error, $database, $user, $settings;
+
+        $items = array(':cid' => $id, ':uid' => $user->id);
+        $car = $database->query("SELECT cid, damage FROM ".TBL_GARAGE." WHERE id = :cid AND uid = :uid", $items)->fetchObject();
+
+        if ($car === false) {
+            return $error->errorSmall("This vehicle doesn't belong to you.");
+        }
+
+        $items = array(':cid' => $car->cid);
+        $car_info = $database->query("SELECT worth FROM ".TBL_CARS." WHERE id = :cid", $items)->fetchObject();
+        $price = $car_info->worth - ($car->damage * ($car_info->worth / 100));
+
+        $user->stats->money = $user->stats->money + $price;
+        $items = array(':uid' => $user->id, ':money' => $user->stats->money);
+        $database->query("UPDATE ".TBL_INFO." SET money = :money WHERE uid = :uid", $items);
+        $items = array(':cid' => $id);
+        $database->query("DELETE FROM ".TBL_GARAGE." WHERE id = :cid", $items);
+
+        return $error->succesSmall("You sold the vehicle for ".$settings->currencySymbol().$settings->createFormat($price).".");
+    }
+
+    public function repairCar($id)
+    {
+        global $user, $database, $error, $settings;
+
+        $items = array(':cid' => $id, ':uid' => $user->id);
+        $car = $database->query("SELECT cid, damage FROM ".TBL_GARAGE." WHERE id = :cid AND uid = :uid", $items)->fetchObject();
+
+        if ($car === false) {
+            return $error->errorSmall("This vehicle doesn't belong to you.");
+        }
+
+        $items = array(':cid' => $car->cid);
+        $car_info = $database->query("SELECT worth FROM ".TBL_CARS." WHERE id = :cid", $items)->fetchObject();
+        $price = $car->damage * ($car_info->worth / 100);
+
+        if ($price > $user->stats->money) {
+            return $error->errorSmall("You don't have ".$settings->currencySymbol().$settings->createFormat($price)." in cash.");
+        }
+
+        $user->stats->money = $user->stats->money - $price;
+        $items = array(':uid' => $user->id, ':money' => $user->stats->money);
+        $database->query("UPDATE ".TBL_INFO." SET money = :money WHERE uid = :uid", $items);
+        $items = array(':cid' => $id, ':damage' => 0);
+        $database->query("UPDATE ".TBL_GARAGE." SET damage = :damage WHERE id = :cid", $items);
+
+        return $error->succesSmall("You have repaired your vehicle for ".$settings->currencySymbol().$settings->createFormat($price).".");
+    }
+
+    public function createRace($cid, $bet)
+    {
+        global $database, $error, $settings, $user;
+
+        $items = array(':cid' => $cid, ':uid' => $user->id);
+        $carForRace = $database->query("SELECT damage FROM ".TBL_GARAGE." WHERE id = :cid AND uid = :uid", $items)->fetchObject();
+
+        if ($carForRace === false) {
+            return $error->errorSmall("This car doesn't belong to you.");
+        }
+
+        if ($bet > $user->stats->money) {
+            return $error->errorSmall("You don't have ".$settings->currencySymbol().$settings->createFormat($bet)." in cash.");
+        }
+
+        $items = array(':uid' => $user->id);
+        $lastRace = $database->query("SELECT id FROM ".TBL_RACES." WHERE uid = :uid", $items)->rowCount();
+
+        if ($lastRace != 0) {
+            return $error->errorSmall("You already have created a race.");
+        }
+
+        $user->stats->money =$user->stats->money - $bet;
+        $items = array(':cash' => $user->stats->money, ':uid' => $user->id);
+        $database->query("UPDATE ".TBL_INFO." SET money = :cash WHERE uid = :uid", $items);
+
+        $items = array(':uid' => $user->id, ':bet' => $bet, ':cid' => $cid);
+        $database->query("INSERT INTO ".TBL_RACES." SET uid = :uid, bet = :bet, cid = :cid", $items);
+
+        return $error->succesSmall("Your streetrace has been created!");
+    }
+
+    public function startRace($rid, $cid)
+    {
+        global $database, $error, $user, $settings;
+
+        $items = array(':rid' => $rid);
+        $race = $database->query("SELECT * FROM ".TBL_RACES." WHERE id = :rid", $items)->fetchObject();
+
+        if ($race === false) {
+            return $error->errorSmall("This race doesn't exists.");
+        }
+
+        if ($race->uid == $user->id) {
+            return $error->errorSmall("You have created this race, you can't start it yourself.");
+        }
+
+        $items = array(':cid' => $cid, ':uid' => $user->id);
+        $car = $database->query("SELECT id, cid, damage FROM ".TBL_GARAGE." WHERE id = :cid AND uid = :uid", $items)->fetchObject();
+
+        if ($car === false) {
+            return $error->errorSmall("This car doesn't belong to you.");
+        }
+
+        $items = array(':cid' => $car->cid);
+        $carWorthStarter = $database->query("SELECT worth FROM ".TBL_CARS." WHERE id = :cid", $items)->fetchObject()->worth;
+        $items = array(':cid' => $race->cid);
+        $creatorCar = $database->query("SELECT cid, damage FROM ".TBL_GARAGE." WHERE id = :cid", $items)->fetchObject();
+        $items = array(':cid' => $creatorCar->cid);
+        $carWorthCreator = $database->query("SELECT worth FROM ".TBL_CARS." WHERE id = :cid", $items)->fetchObject()->worth;
+
+        $carStarterChance = round(($carWorthStarter / ($carWorthStarter + $carWorthCreator)) * 100);
+        $carCreatorChance = round(100 - $carStarterChance);
+
+        $winner = $settings->getRandomWeightedElement(array($user->id => $carStarterChance, $race->uid => $carCreatorChance));
+
+        if ($winner == $user->id) {
+            $settings->sendMessage("Race lost", "You have lost the race from ".$user->info->username.". He has won ".$settings->currencySymbol().$settings->createFormat($race->bet).".", $race->uid);
+
+            $user->stats->money = $user->stats->money + $race->bet;
+            $items = array(':cash' => $user->stats->money, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_INFO." SET money = :cash WHERE uid = :uid", $items);
+
+            $newDamage = $car->damage + mt_rand(5, 95);
+
+            $items = array(':rid' => $race->id);
+            $database->query("DELETE FROM ".TBL_RACES." WHERE id = :rid", $items);
+
+            if ($newDamage >= 100) {
+                $items = array(':cid' => $car->id);
+                $database->query("DELETE FROM ".TBL_GARAGE." WHERE id = :cid", $items);
+
+                return $error->succesSmall("You have won this race. The price of ".$settings->currencySymbol().$settings->createFormat($race->bet)." has been given to you. Your car has been destroyed from the race.");
+            } else {
+                $items = array(':cid' => $car->id, ':damage' => $newDamage);
+                $database->query("UPDATE ".TBL_GARAGE." SET damage = :damage WHERE id = :cid", $items);
+
+                return $error->succesSmall("You have won this race. The price of ".$settings->currencySymbol().$settings->createFormat($race->bet)." has been given to you. Your car has a new damage of ".$newDamage."%.");
+
+            }
+        } else {
+            $items = array(':uid' => $race->uid);
+            $money = $database->query("SELECT money FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject()->money;
+            $items = array(':money' => $money + ($race->bet * 2), ':uid' => $race->uid);
+            $database->query("UPDATE ".TBL_INFO." SET money = :money WHERE uid = :uid", $items);
+
+            $settings->sendMessage("Race won", "You have won the race from ".$user->info->username.". You have won ".$settings->currencySymbol().$settings->createFormat($race->bet).".", $race->uid);
+
+            $user->stats->money = $user->stats->money - $race->bet;
+            $items = array(':cash' => $user->stats->money, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_INFO." SET money = :cash WHERE uid = :uid", $items);
+
+            $newDamage = $car->damage + mt_rand(5, 95);
+
+            $items = array(':rid' => $race->id);
+            $database->query("DELETE FROM ".TBL_RACES." WHERE id = :rid", $items);
+
+            if ($newDamage >= 100) {
+                $items = array(':cid' => $car->id);
+                $database->query("DELETE FROM ".TBL_GARAGE." WHERE id = :cid", $items);
+
+                return $error->errorSmall("You have lost this race. The price of ".$settings->currencySymbol().$settings->createFormat($race->bet)." has been removed from cash. Your car has been destroyed from the race.");
+            } else {
+                $items = array(':cid' => $car->id, ':damage' => $newDamage);
+                $database->query("UPDATE ".TBL_GARAGE." SET damage = :damage WHERE id = :cid", $items);
+
+                return $error->errorSmall("You have lost this race. The price of ".$settings->currencySymbol().$settings->createFormat($race->bet)." has been removed from your cash. Your car has a new damage of ".$newDamage."%.");
+
+            }
+        }
+    }
+
+    public function deleteRace($rid)
+    {
+        global $database, $error, $user, $settings;
+
+        $items = array(':uid' => $user->id, ':rid' => $rid);
+        $race = $database->query("SELECT bet FROM ".TBL_RACES." WHERE uid = :uid AND id = :rid", $items)->fetchObject();
+
+        if ($race === false) {
+            return $error->errorSmall("You haven't created this race.");
+        }
+
+        $user->stats->money = $user->stats->money + $race->bet;
+        $items = array(':cash' => $user->stats->money, ':uid' => $user->id);
+        $database->query("UPDATE ".TBL_INFO. " SET money = :cash WHERE uid = :uid", $items);
+
+        $items = array(':rid' => $rid);
+        $database->query("DELETE FROM ".TBL_RACES." WHERE id = :rid", $items);
+
+        return $error->succesSmall("Your race has been deleted, your ".$settings->currencySymbol().$settings->createFormat($race->bet)." has been given back.");
+    }
+
+    public function trainGym($type)
+    {
+        global $error, $database, $user;
+
+        if ($user->time->gym_time > time()) {
+            return $error->errorSmall("You need to wait <time class='timer'>".($user->time->gym_time - time())."</time> seconds before you can train again.");
+        }
+
+        if ($user->info->gym >= 100) {
+            return $error->errorSmall("Your gym process is already 100%.");
+        }
+
+        $gymInfo = array();
+
+        switch($type) {
+            case '1':
+                $gymInfo = array('time' => 120, 'process' => 1);
+                break;
+            case '2':
+                $gymInfo = array('time' => 240, 'process' => 2);
+                break;
+            case '3':
+                $gymInfo = array('time' => 360, 'process' => 3);
+                break;
+        }
+
+        $user->stats->gym = $user->stats->gym + $gymInfo['process'];
+        $items = array(':gym' => $user->stats->gym, ':uid' => $user->id);
+        $database->query("UPDATE ".TBL_INFO." SET gym = :gym WHERE uid = :uid", $items);
+
+        $user->time->gym_time = time() + $gymInfo['time'];
+        $items = array(':time' => $user->time->gym_time, ':uid' => $user->id);
+        $database->query("UPDATE ".TBL_TIME." SET gym_time = :time WHERE uid = :uid", $items);
+
+        return $error->succesSmall("You have trained ".$gymInfo['process']."%.");
+    }
+
+    public function buyBullets($amount)
+    {
+        global $database, $error, $user, $settings;
+
+        $price = $amount * 200;
+
+        if ($amount < 1) {
+            return $error->errorSmall("You need to have a minimum of one bullet.");
+        }
+
+        if ($price > $user->stats->money) {
+            return $error->errorSmall("You don't have ".$settings->currencySymbol().$settings->createFormat($price)." in cash.");
+        }
+
+        $user->stats->money = $user->stats->money - $price;
+        $user->stats->bullets = $user->stats->bullets + $amount;
+        $items = array(':money' => $user->stats->money, ':bullets' => $user->stats->bullets, ':uid' => $user->id);
+        $database->query("UPDATE ".TBL_INFO." SET money = :money, bullets = :bullets WHERE uid = :uid", $items);
+
+        return $error->succesSmall("You have bought ".$amount." bullets for the price of ".$settings->currencySymbol().$settings->createFormat($price).".");
+    }
+
+    public function giveRespect($to)
+    {
+        global $user, $database, $error, $settings;
+
+        $userid = $database->getUserInfo($to);
+
+        if ($to == NULL || $to == "" || $userid === false) {
+            return $error->errorSmall("This use doens't exists.");
+        }
+
+        if ($user->time->respect > time()) {
+            return $error->errorSmall("You need to wait <time class='timer'>".($user->time->respect - time())."</time> before you can give respect again.");
+        }
+
+        $userid = $userid->id;
+
+        if ($userid == $user->id) {
+            return $error->errorSmall("You can't give respect to yourself.");
+        }
+
+        $items = array(':time' => time() + (3600 * 24), ':uid' => $user->id);
+        $database->query("UPDATE ".TBL_TIME." SET respect = :time WHERE uid = :uid", $items);
+
+        $items = array(':uid' => $userid);
+        $respect = $database->query("SELECT respect FROM ".TBL_INFO." WHERE uid = :uid", $items)->fetchObject()->respect;
+        $items[':respect'] = $respect + 1;
+        $database->query("UPDATE ".TBL_INFO." SET respect = :respect WHERE uid = :uid", $items);
+
+        $settings->sendMessage("Respect", "Dear ".$to.", <br><br>".$user->info->username." has gave you one respect point.", $userid);
+
+        return $error->succesSmall("Respect given to <a href='personal/user-info?user=".$to."'>".$to."</a>.");
     }
 }

@@ -17,7 +17,7 @@
             <table width="100%">
                 <tr>
                     <td colspan="1" align="center" width="2%">
-                        Options
+                        <input type="checkbox" class="delete-messages-all">
                     </td>
                     <td colspan="2" align="center">
                         Title
@@ -39,7 +39,7 @@
                     ?>
                     <tr>
                         <td align="center">
-                            <input type="checkbox" name="messages[]" value="<?= $message->id; ?>">
+                            <input type="checkbox" name="messages[]" value="<?= $message->id; ?>" class="checkbox-message">
                         </td>
                         <td>
                             <img src="files/images/icons/<?= ($message->status) ? 'email_open' : 'email'; ?>.png">

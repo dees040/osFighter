@@ -54,7 +54,7 @@ class Forum
             return $error->errorSmall("Title has a maximum of 50 characters.");
         }
 
-        if (!ctype_alnum($title)) {
+        if (!ctype_alnum(str_replace(' ', '', $title))) {
             return $error->errorSmall("Title may only contain a-z, A-Z and 0-9");
         }
 

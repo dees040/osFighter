@@ -30,6 +30,7 @@ if (isset($_POST['crime'])) {
                 $items = array(':rank' => $newRankProcess, ':money' => $newCash, ':crime' => $newCrimeProcess, ':uid' => $user->info->id);
                 $database->query("UPDATE " . TBL_INFO . " SET rank_process = :rank, money = :money, crime_process = :crime WHERE uid = :uid", $items);
 
+                $user->time->crime_time = time() + 60;
                 $items = array(':time' => (time() + 60), ':uid' => $user->info->id);
                 $database->query("UPDATE " . TBL_TIME . " SET crime_time = :time WHERE uid = :uid", $items);
 
@@ -39,6 +40,7 @@ if (isset($_POST['crime'])) {
                 $items = array(':crime' => $newCrimeProcess, ':uid' => $user->info->id);
                 $database->query("UPDATE " . TBL_INFO . " SET crime_process = :crime WHERE uid = :uid", $items);
 
+                $user->time->crime_time = time() + 60;
                 $items = array(':time' => (time() + 60), ':uid' => $user->info->id);
                 $database->query("UPDATE " . TBL_TIME . " SET crime_time = :time WHERE uid = :uid", $items);
                 echo $error->errorBig("Crime failed, but you escaped the police. Cooldown for 60 seconds.");
@@ -47,6 +49,7 @@ if (isset($_POST['crime'])) {
                 $items = array(':crime' => $newCrimeProcess, ':uid' => $user->info->id);
                 $database->query("UPDATE " . TBL_INFO . " SET crime_process = :crime WHERE uid = :uid", $items);
 
+                $user->time->crime_time = time() + 60;
                 $items = array(':time' => (time() + 60), ':jail' => (time() + 120), ':uid' => $user->info->id);
                 $database->query("UPDATE " . TBL_TIME . " SET crime_time = :time, jail = :jail WHERE uid = :uid", $items);
                 echo $error->errorBig("Crime failed and the police took you to jail. You're in jail for 120 seconds.");
@@ -55,9 +58,9 @@ if (isset($_POST['crime'])) {
     }
 }
 
-if ($user->time->crime_time > time()) {
+if ($user->time->crime_time > time() && !$error->error) {
     echo $error->errorBig("You can do the next crime in <time class='timer'>".($user->time->crime_time - time())."</time> seconds.");
-} else {
+} else if (!$error->error){
     ?>
     <form method="POST" name="captcha-form">
         <table align="center" width="100%" border="0" cellspacing="2" cellpadding="2" class="mod_list">

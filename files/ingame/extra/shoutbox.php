@@ -1,8 +1,7 @@
 <?php
-    if (isset($_POST['add_shoutbox'])) {
-        echo $useractions->addToShoutBox($_POST['message']);
-    }
-    $messages = $database->query("SELECT * FROM ".TBL_SHOUTBOX." ORDER BY date DESC LIMIT 15")->fetchAll(PDO::FETCH_OBJ);
+echo $validator->getVal('add_shoutbox');
+$messages = $database->query("SELECT * FROM ".TBL_SHOUTBOX." ORDER BY date DESC LIMIT 15")->fetchAll(PDO::FETCH_OBJ);
+$user->setShoutbox($messages[0]->id);
 ?>
 <script>
     tinymce.init({

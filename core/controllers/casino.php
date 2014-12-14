@@ -77,4 +77,68 @@ class Casino
             return '';
         }
     }
+
+    public function betHigherLower($type, $bet)
+    {
+        global $database, $error, $user, $settings;
+
+        $_SESSION['higher-lower-bet'] = $bet;
+
+        if ($bet > $user->stats->money) {
+            return $error->errorSmall("You don't have ".$settings->currencySymbol().$settings->createFormat($bet)." in cash.");
+        }
+
+        if ($bet < 500) {
+            return $error->errorSmall("You need to have a minimum of ".$settings->currencySymbol().$settings->createFormat(500).".");
+        }
+
+        if ($bet > 5000) {
+            return $error->errorSmall("The maximum is ".$settings->currencySymbol().$settings->createFormat(5000).".");
+        }
+
+        $newNumber = mt_rand(0, 10);
+        $won = false;
+
+        if ($newNumber == $_SESSION['higher-lower']) {
+            if (($bet * 4) > $user->stats->money) {
+                $user->time->jail = time() + 300;
+                $items = array(':time' => $user->time->jail, ':uid' => $user->id);
+                $database->query("UPDATE ".TBL_TIME." SET jail = :time WHERE uid = :uid", $items);
+
+                return $error->errorBig("The number was the same.. because you didn't have ".$settings->currencySymbol().$settings->createFormat($bet * 4)." you were put in jail for 5 minutes.");
+            } else {
+                $user->stats->money = $user->stats->money - ($bet * 4);
+                $items = array(':money' => $user->stats->money, ':uid' => $user->id);
+                $database->query("UPDATE ".TBL_INFO." SET money = :money WHERE uid = :uid", $items);
+
+                return $error->errorBig("The number was the same.. you have lost ".$settings->currencySymbol().$settings->createFormat($bet * 4).".");
+            }
+        }
+
+        if ($type === true) {
+            if ($newNumber < $_SESSION['higher-lower']) {
+                $won = true;
+            }
+        } else {
+            if ($newNumber > $_SESSION['higher-lower']) {
+                $won = true;
+            }
+        }
+
+        $_SESSION['higher-lower'] = $newNumber;
+
+        if ($won === true) {
+            $user->stats->money = $user->stats->money + ($bet * 2);
+            $items = array(':money' => $user->stats->money, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_INFO." SET money = :money WHERE uid = :uid", $items);
+
+            return $error->succesSmall("You guessed correctly, you have won ".$settings->currencySymbol().$settings->createFormat($bet * 2).".");
+        } else {
+            $user->stats->money = $user->stats->money - $bet;
+            $items = array(':money' => $user->stats->money, ':uid' => $user->id);
+            $database->query("UPDATE ".TBL_INFO." SET money = :money WHERE uid = :uid", $items);
+
+            return $error->errorSmall("You guessed wrong, you have lost ".$settings->currencySymbol().$settings->createFormat($bet).".");
+        }
+    }
 }

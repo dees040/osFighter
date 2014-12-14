@@ -1,19 +1,20 @@
 <?php
 
-echo $validator->getVal('number_shop');
+echo $validator->getVal('number_family_shop');
 
 $shopItems = $database->query("SELECT * FROM ".TBL_SHOP_ITEMS." ORDER BY price ASC")->fetchAll(PDO::FETCH_OBJ);
 foreach ($shopItems as $item) {
-    $items = array(':uid' => $user->id, ':sid' => $item->id);
-    $amount = $database->query("SELECT amount FROM ".TBL_USERS_ITEMS." WHERE uid = :uid AND sid = :sid", $items)->fetchObject()->amount;
-?>
+    if ($item->id == 5) continue;
+    $items = array(':fid' => $user->family->id, ':sid' => $item->id);
+    $amount = $database->query("SELECT amount FROM ".TBL_FAMILY_ITEMS." WHERE fid = :fid AND sid = :sid", $items)->fetchObject()->amount;
+    ?>
     <form method="post">
         <table width=100% cellspacing="2px" cellpadding="2px" class="mod_list">
             <tr>
                 <td colspan=3 style="font-size:14px; font-weight:bold; color:#402810; padding-left:8px;"><?=$item->name; ?></td>
             </tr>
             <tr>
-                <td rowspan=7 width="110px" height="110px" valign="middle" align="center">
+                <td rowspan="6" width="110px" height="110px" valign="middle" align="center">
                     <img src="files/images/shop/<?=$item->image; ?>">
                 </td>
             </tr>
@@ -27,7 +28,7 @@ foreach ($shopItems as $item) {
             </tr>
             <tr>
                 <td width="18px" align="center" valign="middle"><img src="files/images/icons/wand.png"></td>
-                <td valign="middle"><form method="post" style="display: inline;">Amount: <input type="number" name="number_shop" class="input" size="5">&nbsp;<input type="submit" value="Buy!" name="<?=$item->id; ?>"></form></td>
+                <td valign="middle"><form method="post" style="display: inline;">Amount: <input type="number" name="number_family_shop" class="input" size="5">&nbsp;<input type="submit" value="Buy!" name="<?=$item->id; ?>"></form></td>
             </tr>
             <tr>
                 <td width="18px" align="center" valign="middle"><img src="files/images/icons/information.png"></td>
@@ -38,12 +39,6 @@ foreach ($shopItems as $item) {
                 <td valign="middle">
                     Unlimited amount allowed,
                     you have <strong><?=($amount == NULL) ? '0' : $amount; ?></strong>
-                </td>
-            </tr>
-            <tr>
-                <td width="18px" align="center" valign="middle"><img src="files/images/icons/information.png"></td>
-                <td valign="middle">
-                    You need to have a minimum of <?=$item->min_gym; ?>% gym process.
                 </td>
             </tr>
         </table>

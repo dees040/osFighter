@@ -22,7 +22,7 @@
         <img src="files/images/icons/bomb.png"> <a href="extra/attack?target=<?=$user_info->username; ?>"><strong>Attack</strong></a>
         <img src="files/images/icons/vcard.png" style="margin-left:30px;"> <a href="personal/messages?reply=<?=$user_info->username; ?>"><strong>PM</strong></a>
         <img src="files/images/icons/key.png" style="margin-left:30px;"> <a href="click?to=<?=$user_info->username; ?>" target="_blank"><strong>Secret link</strong></a>
-        <img src="files/images/icons/ruby_add.png" style="margin-left:30px;"> <a href="respect?to=<?=$user_info->username; ?>"><strong>Respect</strong></a>
+        <img src="files/images/icons/ruby_add.png" style="margin-left:30px;"> <a href="personal/respect?respect-to=<?=$user_info->username; ?>"><strong>Respect</strong></a>
         <img src="files/images/icons/group_link.png" style="margin-left:30px;"><a href="friends-enemies?add=<?=$user_info->username; ?>"><strong>Friend</strong></a>
 
 

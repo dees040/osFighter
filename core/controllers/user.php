@@ -20,7 +20,7 @@ class User
     {
         global $database, $session;
 
-        if ($session->userinfo->id == null) return false;
+        if (!isset($session->userinfo->id) || $session->userinfo->id == NULL) return false;
 
         $items = array(':uid' => $session->userinfo->id);
         $this->info  = (object)$session->userinfo;
@@ -28,6 +28,8 @@ class User
         $this->time  = $database->query("SELECT * FROM ".TBL_TIME." WHERE uid = :uid", $items)->fetchObject();
 
         $this->init();
+
+        return true;
     }
 
     private function init()
@@ -156,5 +158,39 @@ class User
         }
 
         return $money;
+    }
+
+    public function cars()
+    {
+        global $database;
+
+        $items = array(':uid' => $this->id);
+        return $database
+            ->query("SELECT * FROM ".TBL_GARAGE." WHERE uid = :uid", $items)
+            ->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function setShoutbox($sid)
+    {
+        global $database;
+
+        $items = array(':sid' => $sid, ':uid' => $this->id);
+        $database->query(
+            "UPDATE ".TBL_INFO." SET last_shoutbox = :sid WHERE uid = :uid",
+            $items
+        );
+    }
+
+    public function newShoutBoxMessage()
+    {
+        global $database;
+
+        $lastShoutBox = $database->query("SELECT id FROM ".TBL_SHOUTBOX." ORDER BY date DESC LIMIT 1")->fetchObject();
+
+        if ($lastShoutBox->id != $this->stats->last_shoutbox){
+            return '<span style="color: red; font-size: 10px; vertical-align: top;">&nbsp;&nbsp;NEW</span>';
+        }
+
+        return '';
     }
 }

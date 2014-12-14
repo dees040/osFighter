@@ -8,7 +8,7 @@
 
 define("DB_SERVER", "localhost");
 define("DB_USER", "deb65120n6_osf");
-define("DB_PASS", "pIet1234!");
+define("DB_PASS", "");
 define("DB_NAME", "deb65120n6_os");
 
 /**
@@ -32,6 +32,7 @@ define("TBL_FAMILY", "families");
 define("TBL_MESSAGE", "messages");
 define("TBL_SHOP_ITEMS", "items_shop");
 define("TBL_USERS_ITEMS", "users_items");
+define("TBL_FAMILY_ITEMS", "family_items");
 define("TBL_HOUSE_ITEMS", "items_house");
 define("TBL_ITEMS_CC", "items_call_credits");
 define("TBL_PAYMENTS", "payments");
@@ -41,6 +42,10 @@ define("TBL_FAMILY_TRAN", "family_bank_transactions");
 define("TBL_FORUMS", "forum_forums");
 define("TBL_TOPICS", "forum_topics");
 define("TBL_REACTIONS", "forum_reactions");
+define("TBL_CARS", "items_cars");
+define("TBL_GARAGE", "users_garage");
+define("TBL_RACES", "streetraces");
+define("TBL_NEWS", "news");
 
 
 /**

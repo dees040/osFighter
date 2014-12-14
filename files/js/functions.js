@@ -8,7 +8,7 @@ var init = {
     change: function() {
         $('.crime-change-output').text($('.input-change').val());
     }
-}
+};
 
 var functions = {
     countDown: function() {
@@ -47,8 +47,17 @@ var functions = {
             var inputs = $(_object).closest('form').find('.crack_the_vault');
             inputs.eq(inputs.index(_object) + 1).focus();
         }
+    },
+    selectMessages: function(e, _object){
+        var selected = $(_object).prop('checked');
+
+        if (selected == true) {
+            $('.checkbox-message').prop("checked", true);
+        } else {
+            $('.checkbox-message').prop("checked", false);
+        }
     }
-}
+};
 
 tinymce.init({
     selector: "textarea",
@@ -74,5 +83,9 @@ $(document).ready(function() {
 
     $(".crack_the_vault").keyup(function(e) {
         functions.crackTheVault(e, this);
+    });
+
+    $(".delete-messages-all").click(function(e) {
+        functions.selectMessages(e, this);
     });
 });

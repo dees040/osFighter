@@ -6,11 +6,6 @@
         <link href="views/FrenzoTheme/css/ingame.css" rel="stylesheet" />
         <link href="views/FrenzoTheme/js/tabs/template5/tabcontent.css" rel="stylesheet" />
         <link rel="icon" type="image/png" href="files/images/favicon.png">
-        <script src="files/js/jquery.min.js"></script>
-        <script src="files/js/jquery-ui.min.js"></script>
-        <script src="views/FrenzoTheme/js/tabs/tabcontent.js"></script>
-        <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
-        <script src="files/js/functions.js"></script>
     </head>
     <body>
         <div id="header">
@@ -41,7 +36,7 @@
 
                     <tr>
                         <td class="first">Rank</td>
-                        <td><?=$info['ranks'][$user->stats->rank]; ?></td>
+                        <td><a href="statistics/ranks" style="color: white;"><?=$info['ranks'][$user->stats->rank]; ?></a></td>
                     </tr>
 
                     <tr>
@@ -112,7 +107,11 @@
                     <?php
                     if (isset($info['menu']['extra'])) {
                         foreach($info['menu']['extra'] as $menu) {
-                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'].'</a></li>';
+                            echo '<li><a href="'.$menu['link'].'">'.$menu['title'];
+                            if (strtolower($menu['title']) == "shoutbox") {
+                                echo $user->newShoutBoxMessage();
+                            }
+                            echo '</a></li>';
                         }
                     }
                     ?>
@@ -195,6 +194,10 @@
         <div id="footer">
 
         </div>
-
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+        <script src="views/FrenzoTheme/js/tabs/tabcontent.js"></script>
+        <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+        <script src="files/js/functions.js"></script>
     </body>
 </html>

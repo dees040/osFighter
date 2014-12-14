@@ -11,7 +11,7 @@ class Validator
 
     private function init()
     {
-        global $useractions, $admin, $forum;
+        global $useractions, $admin, $forum, $casino;
 
         foreach($_POST as $key => $val) {
             switch ($key) {
@@ -35,6 +35,9 @@ class Validator
                     break;
                 case 'number_shop':
                     $this->setReturningValue('number_shop', $useractions->buyFromShop($_POST));
+                    break;
+                case 'number_family_shop':
+                    $this->setReturningValue('number_family_shop', $useractions->buyFromShopFamily($_POST));
                     break;
                 case 'delete_message':
                     array_pop($_POST);
@@ -80,6 +83,33 @@ class Validator
                 case 'new_forum':
                     $this->setReturningValue('new_forum', $forum->createForum($_POST['title'], $_POST['desc']));
                     break;
+                case 'car_hijacking':
+                    $this->setReturningValue('car_hijacking', $useractions->carHijacking());
+                    break;
+                case 'attack_player':
+                    $this->setReturningValue('attack_player', $useractions->attackPlayer($_POST['user'], $_POST['bullets']));
+                    break;
+                case 'create_race':
+                    $this->setReturningValue('create_race', $useractions->createRace($_POST['race_car'], $_POST['race_bet']));
+                    break;
+                case 'start_race':
+                    $this->setReturningValue('start_race', $useractions->startRace($_POST['rid'], $_POST['race_car']));
+                    break;
+                case 'train_gym':
+                    $this->setReturningValue('train_gym', $useractions->trainGym($_POST['train_type']));
+                    break;
+                case 'buy_bullets':
+                    $this->setReturningValue('buy_bullets', $useractions->buyBullets($_POST['bullets']));
+                    break;
+                case 'add_shoutbox':
+                    $this->setReturningValue('add_shoutbox', $useractions->addToShoutBox($_POST['message']));
+                    break;
+                case 'bet_lower':
+                    $this->setReturningValue('bet_higher_lower', $casino->betHigherLower(true, $_POST['higher_lower_bet']));
+                    break;
+                case 'bet_higher':
+                    $this->setReturningValue('bet_higher_lower', $casino->betHigherLower(false, $_POST['higher_lower_bet']));
+                    break;
             }
         }
 
@@ -90,6 +120,18 @@ class Validator
                     break;
                 case 'delete':
                     $this->setReturningValue('delete', $useractions->deleteMessage(array('messages' => array(0 => $_GET['delete']))));
+                    break;
+                case 'sell-car':
+                    $this->setReturningValue('sell-car', $useractions->sellCar($_GET['sell-car']));
+                    break;
+                case 'repair':
+                    $this->setReturningValue('repair', $useractions->repairCar($_GET['repair']));
+                    break;
+                case 'delete-race':
+                    $this->setReturningValue('delete-race', $useractions->deleteRace($_GET['delete-race']));
+                    break;
+                case 'respect-to':
+                    $this->setReturningValue('respect-to', $useractions->giveRespect($_GET['respect-to']));
                     break;
             }
         }

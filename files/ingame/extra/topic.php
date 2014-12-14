@@ -2,12 +2,12 @@
 echo $validator->getVal('new_reaction');
 
 $topic = $forum->getTopic($_GET['id']);
-$username = $database->getUserInfoById($topic->creator)->username;
+$user_creator = $database->getUserInfoById($topic->creator);
 ?>
 <table width="100%">
     <tr>
         <td align="center">
-            <a href="personal/user-info?user=<?=$username; ?>"><?=$username; ?></a>
+            <a href="personal/user-info?user=<?=$user_creator->username; ?>"><?=$user_creator->username; ?></a>
         </td>
         <td align="center">
             <strong><?=date("Y-m-d H:i", $topic->date); ?></strong>
@@ -15,7 +15,7 @@ $username = $database->getUserInfoById($topic->creator)->username;
     </tr>
     <tr>
         <td width="100px">
-            <a href="personal/user-info?user=<?=$username; ?>"><img src="files/images/user_profile/<?=$user->profile_pic; ?>" width="100px"></a>
+            <a href="personal/user-info?user=<?=$user_creator->username; ?>"><img src="files/images/user_profile/<?=$user_creator->profile_picture; ?>" width="100px"></a>
         </td>
         <td rowspan="2" style="vertical-align: top;">
             <?=$topic->content; ?>

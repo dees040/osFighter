@@ -184,3 +184,34 @@ foreach($database->paginateField(TBL_INFO, 'power', 0, 10) as $info_a) {
     }
     ?>
 </table>
+
+<table width="100%">
+    <tr>
+        <td colspan="2" align="center">
+            <strong>Top 10 Respect</strong>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="50%">
+            <strong>User</strong>
+        </td>
+        <td align="center">
+            <strong>Respect points</strong>
+        </td>
+    </tr>
+    <?php
+    foreach($database->paginateField(TBL_INFO, 'respect', 0, 10) as $info_a) {
+        $username = $database->getUserInfoById($info_a->uid)->username;
+        ?>
+        <tr>
+            <td>
+                <a href="personal/user-info?user=<?=$username; ?>"><?=$username; ?></a>
+            </td>
+            <td>
+                <?=$settings->createFormat($info_a->respect); ?>
+            </td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>
