@@ -1,8 +1,5 @@
 osFighter
 =========
-[](http://www.ultimate-survival.net/views/FrenzoTheme/images/layout/logo.png)
-
-:octocat: &nbsp;**Live Demo**: http://www.ultimate-survival.net/
 
 Currently under development. Theme(s) by Frenzo Brouwer.
 
