@@ -12,7 +12,22 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'osFighter',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Slogan
+    |--------------------------------------------------------------------------
+    |
+    | This value is the slogan of your application. This value is used when the
+    | framework needs to place the application's slogan in a notification or
+    | any other location as required by the application or its packages.
+    |
+    | Leave empty if you wish to not use a slogan.
+    |
+    */
+
+    'slogan' => '',
 
     /*
     |--------------------------------------------------------------------------
