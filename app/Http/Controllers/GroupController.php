@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Group\StoreRequest;
+use App\Http\Requests\Group\UpdateRequest;
 use App\Models\Group;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,9 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return view('group.index');
+        $groups = Group::with('users', 'child', 'parent')->get();
+
+        return view('admin.group.index', compact('groups'));
     }
 
     /**
@@ -24,18 +28,22 @@ class GroupController extends Controller
      */
     public function create()
     {
-        return view('group.create');
+        $groups = Group::all();
+
+        return view('admin.group.create', compact('groups'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $group = $request->persist();
+
+        return redirect()->route('groups.show', $group);
     }
 
     /**
@@ -46,7 +54,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        return view('group.show', compact('group'));
+        return view('admin.group.show', compact('group'));
     }
 
     /**
@@ -57,19 +65,23 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        return view('group.edit', compact('group'));
+        $groups = Group::all();
+
+        return view('admin.group.edit', compact('group', 'groups'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  UpdateRequest $request
      * @param Group $group
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Group $group)
+    public function update(UpdateRequest $request, Group $group)
     {
-        //
+        $request->persist();
+
+        return redirect()->route('groups.show', $group);
     }
 
     /**
@@ -82,6 +94,6 @@ class GroupController extends Controller
     {
         $group->delete();
 
-        return redirect()->route('group.index');
+        return redirect()->route('groups.index');
     }
 }

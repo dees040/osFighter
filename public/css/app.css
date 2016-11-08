@@ -5874,4 +5874,9 @@ button.close {
     .navbar-fixed-side.navbar-inverse .dropdown > .dropdown-toggle {
       color: #777777 !important; } }
 
+.panel-main-content {
+  margin-top: 30px; }
+  .panel-main-content .table-clearance {
+    margin-top: 10px; }
+
 /*# sourceMappingURL=app.css.map */

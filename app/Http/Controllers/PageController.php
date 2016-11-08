@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Menu;
+use App\Models\Page;
+use App\Http\Requests\Page\UpdateRequest;
 
 class PageController extends Controller
 {
@@ -13,72 +15,49 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $pages = Page::with('menu')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('admin.page.index', compact('pages'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Page $page
      * @return \Illuminate\Http\Response
+     * @ param int $id
      */
-    public function show($id)
+    public function show(Page $page)
     {
-        //
+        $page->load('menu');
+
+        return view('admin.page.show', compact('page'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Page $page
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Page $page)
     {
-        //
+        $menus = Menu::all();
+
+        return view('admin.page.edit', compact('page', 'menus'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  UpdateRequest  $request
+     * @param Page $page
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Page $page)
     {
-        //
-    }
+        $request->persist();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect()->route('pages.show', $page);
     }
 }

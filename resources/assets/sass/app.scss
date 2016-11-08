@@ -8,3 +8,11 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "plugins/navbar-fixed-side";
+
+.panel-main-content {
+  margin-top: 30px;
+
+  .table-clearance {
+    margin-top: 10px;
+  }
+}

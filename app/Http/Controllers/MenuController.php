@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use Illuminate\Http\Request;
+use App\Http\Requests\Menu\UpdateRequest;
 
 class MenuController extends Controller
 {
@@ -14,28 +14,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return view('menu.index');
-    }
+        $menus = Menu::with('pages')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('menu.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
+        return view('admin.menu.index', compact('menus'));
     }
 
     /**
@@ -46,7 +27,9 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        return view('menu.show', compact('menu'));
+        $menu->load('pages');
+
+        return view('admin.menu.show', compact('menu'));
     }
 
     /**
@@ -57,31 +40,20 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        return view('menu.edit', compact('menu'));
+        return view('admin.menu.edit', compact('menu'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  UpdateRequest  $request
      * @param Menu $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Menu $menu)
+    public function update(UpdateRequest $request, Menu $menu)
     {
+        $request->persist();
 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Menu $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Menu $menu)
-    {
-        $menu->delete();
-
-        return redirect()->route('menu.index');
+        return redirect()->route('menus.show', $menu);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Menu extends Model
+class Configuration extends Model
 {
     /**
      * Indicates if the model should be timestamped.
@@ -19,14 +19,6 @@ class Menu extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'position'
+        'key', 'value'
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function pages()
-    {
-        return $this->hasMany(Page::class);
-    }
 }

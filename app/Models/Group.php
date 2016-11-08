@@ -31,6 +31,14 @@ class Group extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function parent()
+    {
+        return $this->hasOne(static::class, 'child_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users()

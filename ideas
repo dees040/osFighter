@@ -1,5 +1,6 @@
 Changeable URLs
 Groups
+ - Give warning when destroying group which has members.
 Permission per page
 Translation
 reCaptcha

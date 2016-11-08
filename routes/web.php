@@ -18,9 +18,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/about', 'HomeController@index')->name('about');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('menus', 'MenuController');
-    Route::resource('pages', 'PageController');
-    Route::resource('groups', 'GroupController');
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('menus', 'MenuController', [
+            'except' => ['create', 'store', 'destroy']
+        ]);
+        Route::resource('groups', 'GroupController');
+        Route::resource('pages', 'PageController', [
+            'except' => ['create', 'store', 'destroy']
+        ]);
+    });
+
 });

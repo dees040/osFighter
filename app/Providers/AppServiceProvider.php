@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->singleton('App\Library\Game', function ($app) {
+            return new \App\Library\Game();
+        });
     }
 
     /**

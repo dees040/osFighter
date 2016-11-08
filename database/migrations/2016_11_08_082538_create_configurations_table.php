@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePagesTable extends Migration
+class CreateConfigurationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('configurations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('route_name');
-            $table->string('url');
-            $table->integer('menu_id')->unsigned();
-            $table->integer('weight')->unsigned();
+            $table->string('key');
+            $table->string('value');
         });
+
+        DB::table('configurations')->insert([
+           ['key' => 'user_start_group', 'value' => '1']
+        ]);
     }
 
     /**
@@ -30,6 +31,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('configurations');
     }
 }
