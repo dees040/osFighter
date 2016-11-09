@@ -16,6 +16,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Library\Game', function ($app) {
             return new \App\Library\Game();
         });
+
+        $this->app->singleton('App\Library\UserHandler', function ($app) {
+            return new \App\Library\UserHandler();
+        });
     }
 
     /**

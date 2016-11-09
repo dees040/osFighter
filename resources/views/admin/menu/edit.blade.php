@@ -8,7 +8,7 @@
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <label for="name">Menu name</label>
+            <label class="control-label" for="name">Menu name</label>
             <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $menu->name) }}">
             @if ($errors->has('name'))
                 <p class="help-block">
@@ -18,7 +18,7 @@
         </div>
 
         <div class="form-group{{ $errors->has('position') ? ' has-error' : '' }}">
-            <label for="position">Menu position</label>
+            <label class="control-label" for="position">Menu position</label>
             <select class="form-control" name="position" id="position">
                 <option value="1"{{ $menu->position == 1 ? ' selected' : '' }}>Left menus</option>
                 <option value="2"{{ $menu->position == 2 ? ' selected' : '' }}>Right menus</option>

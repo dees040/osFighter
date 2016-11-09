@@ -49,6 +49,7 @@
                     </tr>
                 @endforeach
             </table>
+            <a href="{{ route('menus.create') }}" class="btn btn-primary">Create new menu</a>
         </div>
     </div>
 @endsection

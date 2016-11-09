@@ -10,8 +10,8 @@
 
     <title>
         @yield('title') - {{ config('app.name', 'osFighter') }}
-        @if(config('app.slogan'))
-            - {{ config('app.slogan') }}
+        @if(game('app_slogan'))
+            - {{ game('app_slogan') }}
         @endif
     </title>
 
@@ -39,6 +39,7 @@
                             <div class="panel-heading">@yield('title')</div>
 
                             <div class="panel-body">
+                                @include('layouts.blocks.messages')
                                 @yield('content')
                             </div>
                         </div>

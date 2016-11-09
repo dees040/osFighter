@@ -5,7 +5,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            All the information you can find about the {{ $menu->name }} menu.
+            All the information you can find about the {{ $menu->name }} menu. To add a page to this menu you need to go
+            to the <a href="{{ route('pages.index') }}">Pages</a> and select a page to update.
         </div>
         <div class="col-md-12">
             <table class="table table-responsive table-clearance">
@@ -40,6 +41,15 @@
                 @endforeach
             </table>
             <a href="{{ route('menus.edit', $menu) }}" class="btn btn-primary">Edit menu</a>
+            <a href="{{ route('menus.destroy', $menu) }}" class="btn btn-warning"
+               onclick="event.preventDefault();
+                                document.getElementById('destroy-form').submit();">
+                Destroy menu
+            </a>
+            <form id="destroy-form" action="{{ route('menus.destroy', $menu) }}" method="POST" style="display: none;">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
+            </form>
             <a href="{{ route('menus.index') }}" class="btn btn-default">Back to Menus</a>
         </div>
     </div>

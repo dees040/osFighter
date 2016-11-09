@@ -18,6 +18,12 @@ class CreateMenusTable extends Migration
             $table->string('name');
             $table->tinyInteger('position');
         });
+
+        DB::table('menus')->insert([
+           ['name' => 'Main', 'position' => 1],
+           ['name' => 'Family', 'position' => 1],
+           ['name' => 'Crimes', 'position' => 2],
+        ]);
     }
 
     /**

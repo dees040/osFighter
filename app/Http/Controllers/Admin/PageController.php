@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\Group;
 use App\Models\Menu;
 use App\Models\Page;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Page\UpdateRequest;
 
 class PageController extends Controller
@@ -43,8 +45,9 @@ class PageController extends Controller
     public function edit(Page $page)
     {
         $menus = Menu::all();
+        $groups = Group::all();
 
-        return view('admin.page.edit', compact('page', 'menus'));
+        return view('admin.page.edit', compact('page', 'menus', 'groups'));
     }
 
     /**

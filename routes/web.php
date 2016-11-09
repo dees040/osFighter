@@ -17,19 +17,23 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/about', 'HomeController@index')->name('about');
-
 Route::group(['middleware' => ['auth']], function () {
 
+    Route::post('crimes/crime', 'Crimes\CrimeController@store')->name('crime.store');
+
     Route::group(['prefix' => 'admin'], function () {
-        Route::resource('menus', 'MenuController', [
+        Route::get('configuration', 'Admin\ConfigurationController@index')->name('config.index');
+        Route::put('configuration', 'Admin\ConfigurationController@update')->name('config.update');
+
+        Route::resource('menus', 'Admin\MenuController');
+        Route::resource('groups', 'Admin\GroupController');
+        Route::resource('ranks', 'Admin\RankController', [
+            'only' => 'store'
+        ]);
+        Route::resource('pages', 'Admin\PageController', [
             'except' => ['create', 'store', 'destroy']
         ]);
-        Route::resource('groups', 'GroupController');
-        Route::resource('pages', 'PageController', [
-            'except' => ['create', 'store', 'destroy']
-        ]);
+        Route::resource('crimes', 'Admin\CrimeController');
     });
 
 });

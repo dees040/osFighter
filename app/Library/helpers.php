@@ -1,5 +1,17 @@
 <?php
 
+if (! function_exists('currentUser')) {
+    /**
+     * Get the current authenticated user.
+     *
+     * @return \App\Models\User|null
+     */
+    function currentUser()
+    {
+        return Auth::user();
+    }
+}
+
 if (! function_exists('game')) {
     /**
      * Get the Game instance.
@@ -29,5 +41,30 @@ if (! function_exists('icon')) {
     function icon($name)
     {
         return asset('images/icons/' . $name . '.png');
+    }
+}
+
+if (! function_exists('money')) {
+    /**
+     * Convert amount to money string.
+     *
+     * @param $amount
+     * @return string
+     */
+    function money($amount)
+    {
+        return game()->currency_symbol . number_format($amount, 0, '.', ',');
+    }
+}
+
+if (! function_exists('user')) {
+    /**
+     * Get the UserHandler instance.
+     *
+     * @return \App\Library\UserHandler
+     */
+    function user()
+    {
+        return app()->make('App\Library\UserHandler');
     }
 }

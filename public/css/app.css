@@ -5878,5 +5878,9 @@ button.close {
   margin-top: 30px; }
   .panel-main-content .table-clearance {
     margin-top: 10px; }
+  .panel-main-content .nav-tabs-content {
+    margin-bottom: 10px; }
+  .panel-main-content #tab-ranks .input-group-addon {
+    cursor: row-resize; }
 
 /*# sourceMappingURL=app.css.map */

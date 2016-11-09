@@ -9,3 +9,6 @@ window._ = require('lodash');
 
 window.$ = window.jQuery = require('jquery');
 require('bootstrap-sass');
+
+window.Turbolinks = require("turbolinks");
+window.Sortable = require("sortablejs");

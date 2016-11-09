@@ -29,9 +29,11 @@
                             {{ $page->name }}
                         </td>
                         <td>
-                            <a href="{{ route('menus.show', $page->menu) }}">
-                                {{ $page->menu->name }}
-                            </a>
+                            @if(! is_null($page->menu))
+                                <a href="{{ route('menus.show', $page->menu) }}">
+                                    {{ $page->menu->name }}
+                                </a>
+                            @endif
                         </td>
                         <td>
                             <a href="{{ route($page->route_name) }}">{{ $page->url }}</a>

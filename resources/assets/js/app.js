@@ -6,3 +6,18 @@
  */
 
 require('./bootstrap');
+
+Turbolinks.start();
+
+$('.nav-tabs-content a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
+
+var el = document.getElementById('sortable-items');
+
+if (el != null) {
+    var sortable = Sortable.create(el, {
+        handle: ".input-group-addon"
+    });
+}

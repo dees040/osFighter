@@ -8,7 +8,7 @@
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <label for="name">Group name</label>
+            <label class="control-label" for="name">Group name</label>
             <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $group->name) }}">
             @if ($errors->has('name'))
                 <p class="help-block">
@@ -18,7 +18,7 @@
         </div>
 
         <div class="form-group{{ $errors->has('child') ? ' has-error' : '' }}">
-            <label for="child">Child group</label>
+            <label class="control-label" for="child">Child group</label>
             <select class="form-control" name="child" id="child">
                 <option value="0" selected disabled>None</option>
                 @foreach($groups as $item)

@@ -19,7 +19,7 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'url', 'menu_id', 'weight'
+        'name', 'url', 'menu_id', 'group_id', 'weight'
     ];
 
     /**
@@ -28,5 +28,13 @@ class Page extends Model
     public function menu()
     {
         return $this->belongsTo(Menu::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 }

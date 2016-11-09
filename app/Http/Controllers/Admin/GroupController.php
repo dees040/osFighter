@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\Group;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Group\StoreRequest;
 use App\Http\Requests\Group\UpdateRequest;
-use App\Models\Group;
-use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {

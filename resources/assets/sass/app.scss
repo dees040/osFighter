@@ -15,4 +15,14 @@
   .table-clearance {
     margin-top: 10px;
   }
+
+  .nav-tabs-content {
+    margin-bottom: 10px;
+  }
+
+  #tab-ranks {
+    .input-group-addon {
+      cursor: row-resize;
+    }
+  }
 }

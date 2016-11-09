@@ -45,4 +45,12 @@ class Group extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
+    }
 }

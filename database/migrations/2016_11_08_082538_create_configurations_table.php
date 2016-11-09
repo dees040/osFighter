@@ -15,12 +15,15 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key');
+            $table->string('key')->unique();
             $table->string('value');
         });
 
         DB::table('configurations')->insert([
-           ['key' => 'user_start_group', 'value' => '1']
+            ['key' => 'user_start_group', 'value' => '1'],
+            ['key' => 'app_slogan', 'value' => ''],
+            ['key' => 'admin_group', 'value' => '4'],
+            ['key' => 'currency_symbol', 'value' => '$'],
         ]);
     }
 
