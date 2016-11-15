@@ -11,7 +11,8 @@
         "greggilbert/recaptcha": "dev-master",
         "intervention/image": "^2.3",
         "camroncade/timezone": "0.1",
-        "pusher/pusher-php-server": "^2.6"
+        "pusher/pusher-php-server": "^2.6",
+        "pda/pheanstalk": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
