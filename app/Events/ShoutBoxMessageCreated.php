@@ -32,7 +32,7 @@ class ShoutBoxMessageCreated implements ShouldBroadcast
     {
         $this->message = $message;
 
-        $this->message->user = $message->user;
+        $this->message->user = $message->user->username;
     }
 
     /**
