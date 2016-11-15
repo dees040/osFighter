@@ -42,6 +42,6 @@ class ShoutBoxMessageCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('shout_box');
+        return ['shout_box'];
     }
 }
