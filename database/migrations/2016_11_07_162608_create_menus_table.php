@@ -20,9 +20,11 @@ class CreateMenusTable extends Migration
         });
 
         DB::table('menus')->insert([
-           ['name' => 'Main', 'position' => 1],
-           ['name' => 'Family', 'position' => 1],
-           ['name' => 'Crimes', 'position' => 2],
+            ['name' => 'Main', 'position' => 1],
+            ['name' => 'Family', 'position' => 1],
+            ['name' => 'Crimes', 'position' => 2],
+            ['name' => 'Locations', 'position' => 2],
+            ['name' => 'Extra', 'position' => 1],
         ]);
     }
 

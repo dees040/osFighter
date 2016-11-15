@@ -1,9 +1,19 @@
-Changeable URLs
-Groups
- - Give warning when destroying group which has members.
-Permission per page
+Give warning when destroying group which has members.
 Translation
-reCaptcha
 Stocks
 socialite login
+a forum ban
+a shoutbox ban
+Better tabs
+Buy credits with PayPal and Stripe
+
+Done:
+
+reCaptcha
+Permission per page
+Changeable URLs
+Groups
+user may only view the routes which he/she has access to
+Real time shoutbox (with Laravel Echo)
+Email notifications on user creation via admin.
 version update system for pages

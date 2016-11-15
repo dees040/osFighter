@@ -21,4 +21,12 @@ class Rank extends Model
     protected $fillable = [
         'name', 'level'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany(UserInfo::class);
+    }
 }

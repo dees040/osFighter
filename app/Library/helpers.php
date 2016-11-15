@@ -12,6 +12,19 @@ if (! function_exists('currentUser')) {
     }
 }
 
+if (! function_exists('call_dynamic_route')) {
+    /**
+     * Call a dynamic route.
+     *
+     * @param \App\Models\Page $page
+     * @return \Illuminate\Routing\Route
+     */
+    function call_dynamic_route(\App\Models\Page $page)
+    {
+        return (new \App\Library\DynamicRouter($page))->call();
+    }
+}
+
 if (! function_exists('game')) {
     /**
      * Get the Game instance.
@@ -57,14 +70,35 @@ if (! function_exists('money')) {
     }
 }
 
+if (! function_exists('sec_difference')) {
+    /**
+     * Get the difference in seconds.
+     *
+     * @param \Carbon\Carbon $time
+     * @param Carbon\Carbon $now
+     * @return int
+     */
+    function sec_difference(\Carbon\Carbon $time, $now = null)
+    {
+        $now = $now ?: \Carbon\Carbon::now();
+
+        return $time->diffInSeconds($now);
+    }
+}
+
 if (! function_exists('user')) {
     /**
      * Get the UserHandler instance.
      *
+     * @param \App\Models\User|null $user
      * @return \App\Library\UserHandler
      */
-    function user()
+    function user($user = null)
     {
-        return app()->make('App\Library\UserHandler');
+        if (is_null($user)) {
+            return app()->make('App\Library\UserHandler');
+        }
+
+        return new \App\Library\UserHandler($user);
     }
 }

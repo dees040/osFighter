@@ -23,8 +23,8 @@ class CreateCrimesTable extends Migration
         });
 
         DB::table('crimes')->insert([
-            ['title' => 'Steal from child', 'min_payout' => 10,  'max_payout' => 100, 'chance' => 10],
-            ['title' => 'Rob a jewelry store', 'min_payout' => 15000,  'max_payout' => 30000, 'chance' => 109],
+            ['title' => 'Steal from child', 'min_payout' => 10,  'max_payout' => 100, 'chance' => 10, 'max_chance' => 100],
+            ['title' => 'Rob a jewelry store', 'min_payout' => 15000,  'max_payout' => 30000, 'chance' => 109, 'max_chance' => 90],
             ['title' => 'Rob the bank', 'min_payout' => 150000,  'max_payout' => 300000, 'chance' => 200, 'max_chance' => 50],
         ]);
     }

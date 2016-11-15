@@ -6,7 +6,7 @@ use App\Models\Crime;
 use App\Models\Rank;
 use App\Models\Group;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Configuration\UpdateRequest;
+use App\Http\Requests\Admin\Configuration\UpdateRequest;
 
 class ConfigurationController extends Controller
 {
@@ -34,6 +34,7 @@ class ConfigurationController extends Controller
     {
         $request->persist();
 
-        return redirect()->route('config.index');
+        return redirect()->route('config.index')
+            ->with('m_success', 'Configuration updated with success.');
     }
 }

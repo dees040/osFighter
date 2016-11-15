@@ -30,6 +30,38 @@
         </p>
     </div>
 
+    <div class="form-group{{ $errors->has('currency_symbol') ? ' has-error' : '' }}">
+        <label class="control-label" for="currency_symbol">Currency symbol</label>
+        <select class="form-control" name="currency_symbol" id="currency_symbol">
+            <option value="&euro;"{{ game('currency_symbol') == '€' ? ' selected' : '' }}>&euro; (Euro)</option>
+            <option value="&dollar;"{{ game('currency_symbol') == '$' ? ' selected' : '' }}>&dollar; (Dollar)</option>
+            <option value="&pound;"{{ game('currency_symbol') == '£' ? ' selected' : '' }}>&pound; (Pound)</option>
+            <option value="&yen;"{{ game('currency_symbol') == '¥' ? ' selected' : '' }}>&yen; (Yen/Yuan)</option>
+            <option value="&#x20b9;"{{ game('currency_symbol') == '₹' ? ' selected' : '' }}>&#x20b9; (Rupee)</option>
+        </select>
+        @if ($errors->has('currency_symbol'))
+            <p class="help-block">
+                <strong>{{ $errors->first('currency_symbol') }}</strong>
+            </p>
+        @endif
+        <p class="help-block">
+            The currency symbol you want to use for your application.
+        </p>
+    </div>
+
+    <div class="form-group{{ $errors->has('timezone') ? ' has-error' : '' }}">
+        <label class="control-label" for="timezone">Timezone</label>
+        {!! Timezone::selectForm(config('app.timezone'), 'App Timezone', ['class' => 'form-control', 'name' => 'timezone', 'id' => 'timezone']) !!}
+        @if ($errors->has('timezone'))
+            <p class="help-block">
+                <strong>{{ $errors->first('timezone') }}</strong>
+            </p>
+        @endif
+        <p class="help-block">
+            The currency symbol you want to use for your application.
+        </p>
+    </div>
+
     <div class="form-group{{ $errors->has('user_start_group') ? ' has-error' : '' }}">
         <label class="control-label" for="user_start_group">New User Start Group</label>
         <select class="form-control" name="user_start_group" id="user_start_group">
@@ -70,22 +102,22 @@
         </p>
     </div>
 
-    <div class="form-group{{ $errors->has('currency_symbol') ? ' has-error' : '' }}">
-        <label class="control-label" for="currency_symbol">Currency symbol</label>
-        <select class="form-control" name="currency_symbol" id="currency_symbol">
-            <option value="&euro;"{{ game('currency_symbol') == '€' ? ' selected' : '' }}>&euro; (Euro)</option>
-            <option value="&dollar;"{{ game('currency_symbol') == '$' ? ' selected' : '' }}>&dollar; (Dollar)</option>
-            <option value="&pound;"{{ game('currency_symbol') == '£' ? ' selected' : '' }}>&pound; (Pound)</option>
-            <option value="&yen;"{{ game('currency_symbol') == '¥' ? ' selected' : '' }}>&yen; (Yen/Yuan)</option>
-            <option value="&#x20b9;"{{ game('currency_symbol') == '₹' ? ' selected' : '' }}>&#x20b9; (Rupee)</option>
-        </select>
-        @if ($errors->has('currency_symbol'))
+    <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
+        <input type="hidden" name="captcha" value="0">
+        <div class="checkbox">
+            <label class="control-label" for="captcha">
+                <input type="checkbox" name="captcha" id="captcha" value="1"{{ game('captcha') ? ' checked' : '' }}>
+                Use captcha
+            </label>
+        </div>
+        @if ($errors->has('captcha'))
             <p class="help-block">
-                <strong>{{ $errors->first('currency_symbol') }}</strong>
+                <strong>{{ $errors->first('captcha') }}</strong>
             </p>
         @endif
         <p class="help-block">
-            The currency symbol you want to use for your application.
+            Captcha is needed for not cheating in your application. If captcha is turned off, user's can create a bot
+            which plays the game for them.
         </p>
     </div>
 

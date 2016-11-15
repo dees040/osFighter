@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Group;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Group\StoreRequest;
-use App\Http\Requests\Group\UpdateRequest;
+use App\Http\Requests\Group\Admin\StoreRequest;
+use App\Http\Requests\Group\Admin\UpdateRequest;
 
 class GroupController extends Controller
 {
@@ -43,7 +43,8 @@ class GroupController extends Controller
     {
         $group = $request->persist();
 
-        return redirect()->route('groups.show', $group);
+        return redirect()->route('groups.show', $group)
+            ->with('m_success', $group->name . ' created with success.');
     }
 
     /**
@@ -81,7 +82,8 @@ class GroupController extends Controller
     {
         $request->persist();
 
-        return redirect()->route('groups.show', $group);
+        return redirect()->route('groups.show', $group)
+            ->with('m_success', $group->name . ' updated with success.');
     }
 
     /**
@@ -92,8 +94,11 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        $name = $group->name;
+
         $group->delete();
 
-        return redirect()->route('groups.index');
+        return redirect()->route('groups.index')
+            ->with('m_success', $name . ' destroyed with success.');
     }
 }

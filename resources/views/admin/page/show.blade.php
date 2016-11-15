@@ -6,7 +6,11 @@
     <p>
         Page name: {{ $page->name }}
     </p>
-    @if(! is_null($page->menu))
+    @if(! $page->menuable)
+        <p class="text-warning">
+            This page can't be assigned to a menu item.
+        </p>
+    @elseif(! is_null($page->menu))
         <p>
             Belongs to <a href="{{ route('menus.show', $page->menu) }}">{{ $page->menu->name }}</a> menu.
         </p>

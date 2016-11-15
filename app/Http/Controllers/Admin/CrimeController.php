@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Crime;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Crime\StoreRequest;
-use App\Http\Requests\Crime\UpdateRequest;
+use App\Http\Requests\Crime\Admin\StoreRequest;
+use App\Http\Requests\Crime\Admin\UpdateRequest;
 
 class CrimeController extends Controller
 {
@@ -41,7 +41,8 @@ class CrimeController extends Controller
     {
         $crime = $request->persist();
 
-        return redirect()->route('crimes.show', $crime);
+        return redirect()->route('crimes.show', $crime)
+            ->with('m_success', 'New crime created with success.');
     }
 
     /**
@@ -77,7 +78,8 @@ class CrimeController extends Controller
     {
         $request->persist();
 
-        return redirect()->route('crimes.show', $crime);
+        return redirect()->route('crimes.show', $crime)
+            ->with('m_success', 'Crime updated with success.');
     }
 
     /**
@@ -90,6 +92,7 @@ class CrimeController extends Controller
     {
         $crime->delete();
 
-        return redirect()->route('crimes.index');
+        return redirect()->route('crimes.index')
+            ->with('m_success', 'Crime destroyed with success.');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Library;
 
 use Carbon\Carbon;
+use App\Models\Rank;
 
 class UserHandler
 {
@@ -23,10 +24,12 @@ class UserHandler
 
     /**
      * UserHandler constructor.
+     *
+     * @param null $user
      */
-    public function __construct()
+    public function __construct($user = null)
     {
-        $user = currentUser()->load('info', 'time');
+        $user = $user ?: currentUser()->load('info.rank', 'time');
 
         $this->user = $user;
         $this->info = $user->info;
@@ -52,22 +55,73 @@ class UserHandler
      */
     public function extract($values, $value = null)
     {
-        $this->updateValues($values, $value, false);
+        $this->updateValues($values, $value, 'extract');
+    }
+
+    /**
+     * Indicate is the user is in the jail.
+     *
+     * @return bool
+     */
+    public function isInJail()
+    {
+        return ! $this->mayView('jail');
+    }
+
+    /**
+     * Indicates if user may view sometime based on the
+     * time field given and the current/given time.
+     *
+     * @param $field
+     * @param null $time
+     * @return bool
+     */
+    public function mayView($field, $time = null)
+    {
+        $time = $time ?: Carbon::now();
+
+        return $time->gt($this->times->$field);
+    }
+
+    /**
+     * Check if the user is in the admin group.
+     *
+     * @return bool
+     */
+    public function isInAdminGroup()
+    {
+        return game()->isInAdminGroup();
+    }
+
+    /**
+     * Get the user it's rank.
+     *
+     * @return string
+     */
+    public function rank()
+    {
+        $rank = game()->getRanks($this->info->rank);
+
+        if (is_null($rank) || ! $rank instanceof Rank) {
+            return "";
+        }
+
+        return $rank->name;
     }
 
     /**
      * Update a user time.
      *
-     * @param $field
-     * @param $time
+     * @param string|array $field
+     * @param Carbon $timestamp
      */
-    public function updateTime($field, Carbon $time)
+    public function updateTime($field, $timestamp = null)
     {
-        if (property_exists($field, $this->times)) {
-            $this->times->update([
-                $field => $time,
-            ]);
+        if (! is_array($field)) {
+            $field = [$field => $timestamp];
         }
+
+        $this->times->update($field);
     }
 
     /**
@@ -75,20 +129,16 @@ class UserHandler
      *
      * @param $values
      * @param $value
-     * @param bool $add
+     * @param string $operation
      */
-    private function updateValues($values, $value, $add = true)
+    private function updateValues($values, $value, $operation = 'add')
     {
         if (! is_array($values)) {
             $values = [$values => $value];
         }
 
         foreach ($values as $key => $value) {
-            if ($add) {
-                $this->addValue($key, $value);
-            } else {
-                $this->extractValue($key, $value);
-            }
+            call_user_func_array([$this, $operation . 'Value'], [$key, $value]);
         }
 
         $this->info->save();
@@ -100,7 +150,7 @@ class UserHandler
      * @param $key
      * @param $value
      */
-    private function addValue($key, $value)
+    protected function addValue($key, $value)
     {
         $this->info->$key = $this->info->$key + $value;
     }
@@ -111,8 +161,29 @@ class UserHandler
      * @param $key
      * @param $value
      */
-    private function extractValue($key, $value)
+    protected function extractValue($key, $value)
     {
         $this->info->$key = $this->info->$key - $value;
+    }
+
+    /**
+     * Get a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function __get($field)
+    {
+        $models = ['user', 'info', 'times'];
+
+        foreach ($models as $model) {
+            $value = $this->$model->getAttributeValue($field);
+
+            if (! is_null($value)) {
+                return $value;
+            }
+        }
+
+        return "";
     }
 }

@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,6 +169,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Camroncade\Timezone\TimezoneServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -178,6 +179,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\MorphMapServiceProvider::class,
+        App\Providers\ValidationServiceProvider::class,
 
     ],
 

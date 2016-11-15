@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Menu\StoreRequest;
 use App\Models\Menu;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Menu\UpdateRequest;
+use App\Http\Requests\Menu\Admin\StoreRequest;
+use App\Http\Requests\Menu\Admin\UpdateRequest;
 
 class MenuController extends Controller
 {
@@ -41,7 +41,8 @@ class MenuController extends Controller
     {
         $menu = $request->persist();
 
-        return redirect()->route('menus.show', $menu);
+        return redirect()->route('menus.show', $menu)
+            ->with('m_success', $menu->name . ' created with success.');
     }
 
     /**
@@ -79,7 +80,8 @@ class MenuController extends Controller
     {
         $request->persist();
 
-        return redirect()->route('menus.show', $menu);
+        return redirect()->route('menus.show', $menu)
+            ->with('m_success', $menu->name . ' menu updated with success.');
     }
 
     /**
@@ -94,8 +96,11 @@ class MenuController extends Controller
             'menu_id' => 0,
         ]);
 
+        $name = $menu->name;
+
         $menu->delete();
 
-        return redirect()->route('menus.index');
+        return redirect()->route('menus.index')
+            ->with('m_success', $name . ' menu destroyed with success.');
     }
 }

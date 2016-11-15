@@ -12,5 +12,5 @@
 */
 
 foreach (game()->pages() as $page) {
-    Route::get($page->url, $page->route_action)->name($page->route_name);
+    call_dynamic_route($page)->name($page->route_name);
 }

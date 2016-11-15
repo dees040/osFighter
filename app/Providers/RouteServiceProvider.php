@@ -87,7 +87,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapDynamicRoutes()
     {
         Route::group([
-            'middleware' => 'web',
+            'middleware' => ['web', 'auth'],
             'namespace' => $this->namespace,
         ], function ($router) {
             require base_path('routes/dynamic.php');

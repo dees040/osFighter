@@ -16,9 +16,16 @@ class CreateTimesTable extends Migration
         Schema::create('user_times', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->timestamp('jail');
-            $table->timestamp('crime');
+            $table->timestamp('jail')->nullable();
+            $table->timestamp('crime')->nullable();
         });
+
+        \App\Models\User::create([
+            'group_id' => 4,
+            'username' => 'dees',
+            'email' => 'd.oomens@hotmail.nl',
+            'password' => bcrypt('test1234'),
+        ]);
     }
 
     /**

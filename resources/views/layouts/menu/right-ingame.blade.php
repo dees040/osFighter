@@ -31,6 +31,7 @@
             @if(Auth::check() && game()->isInAdminGroup())
                 <ul class="nav navbar-nav">
                     <li class="disabled"><a href="#">Admin</a></li>
+                    <li><a href="{{ route('users.index') }}">Users</a></li>
                     <li><a href="{{ route('menus.index') }}">Menus</a></li>
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
                     <li><a href="{{ route('groups.index') }}">Groups</a></li>

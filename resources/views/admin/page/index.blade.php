@@ -29,14 +29,23 @@
                             {{ $page->name }}
                         </td>
                         <td>
-                            @if(! is_null($page->menu))
+                            @if(! $page->menuable)
+                                <span class="text-warning"
+                                      title="This means that the url may not be shown in the menus">Not assignable</span>
+                            @elseif(is_null($page->menu))
+                                Unassigned
+                            @else
                                 <a href="{{ route('menus.show', $page->menu) }}">
                                     {{ $page->menu->name }}
                                 </a>
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route($page->route_name) }}">{{ $page->url }}</a>
+                            @if(! $page->menuable)
+                                {{ $page->url }}
+                            @else
+                                <a href="{{ route($page->route_name) }}">{{ $page->url }}</a>
+                            @endif
                         </td>
                         <td>
                             <a href="{{ route('pages.show', $page) }}">

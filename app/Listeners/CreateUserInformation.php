@@ -31,7 +31,7 @@ class CreateUserInformation
 
         ]);
 
-        $event->user->info()->create([
+        $event->user->time()->create([
             'jail'  => Carbon::now(),
             'crime' => Carbon::now(),
         ]);

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.outgame')
 
 @section('title', 'Login')
 

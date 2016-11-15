@@ -41,6 +41,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the router key name.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function group()

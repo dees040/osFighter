@@ -17,6 +17,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\CreateUserInformation',
             'App\Listeners\SendActivationEmail',
         ],
+        'App\Events\AdminCreatedUser' => [
+            'App\Listeners\SendPasswordMail',
+        ],
     ];
 
     /**

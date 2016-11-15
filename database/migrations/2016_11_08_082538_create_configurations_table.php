@@ -24,6 +24,7 @@ class CreateConfigurationsTable extends Migration
             ['key' => 'app_slogan', 'value' => ''],
             ['key' => 'admin_group', 'value' => '4'],
             ['key' => 'currency_symbol', 'value' => '$'],
+            ['key' => 'captcha', 'value' => '1'],
         ]);
     }
 

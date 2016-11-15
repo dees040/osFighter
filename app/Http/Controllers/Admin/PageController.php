@@ -6,7 +6,7 @@ use App\Models\Group;
 use App\Models\Menu;
 use App\Models\Page;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Page\UpdateRequest;
+use App\Http\Requests\Page\Admin\UpdateRequest;
 
 class PageController extends Controller
 {
@@ -61,6 +61,7 @@ class PageController extends Controller
     {
         $request->persist();
 
-        return redirect()->route('pages.show', $page);
+        return redirect()->route('pages.show', $page)
+            ->with('m_success', $page->name . ' page updated with success.');
     }
 }

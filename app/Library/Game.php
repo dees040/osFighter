@@ -2,15 +2,17 @@
 
 namespace App\Library;
 
-use App\Models\Crime;
+use App\Models\Rank;
+use App\Models\Time;
+use Carbon\Carbon;
 use Schema;
 use App\Models\Menu;
 use App\Models\Page;
 use App\Models\User;
+use App\Models\Crime;
 use App\Models\Group;
 use App\Models\Configuration;
 use Illuminate\Support\Collection;
-use App\Exceptions\GameConfigNotFound;
 
 class Game
 {
@@ -112,7 +114,7 @@ class Game
 
         // Set the user, if needed.
         if (is_null($user)) {
-            $user = request()->user();
+            $user = auth()->user();
         }
 
         // If the user is in the given group we return true.
@@ -161,11 +163,12 @@ class Game
      * Abort unless the current user has permission for the
      * current page.
      *
+     * @param null $page
      * @return bool
      */
-    public function abortUnlessHasPermissionForPage()
+    public function abortUnlessHasPermissionForPage($page = null)
     {
-        $page = $this->getCurrentPage();
+        $page = $page ?: $this->getCurrentPage();
 
         // We assume this is a post request for a non dynamic route.
         if (is_null($page)) {
@@ -199,7 +202,7 @@ class Game
     {
         return ! is_null($group->parent);
     }
-
+    
     /**
      * Get a random payout for the given crime.
      *
@@ -212,13 +215,71 @@ class Game
     }
 
     /**
+     * Check if the user needs to go to jail.
+     *
+     * @param null|Page $page
+     * @return bool
+     */
+    public function userNeedsToGoToJail($page = null)
+    {
+        $page = $page ?: $this->getCurrentPage();
+
+        if (is_null($page)) {
+            return false;
+        }
+
+        return $page->jail && user()->isInJail();
+    }
+
+    /**
+     * Get all users which are in jail.
+     *
+     * @return Collection
+     */
+    public function usersInJail()
+    {
+        $users = User::whereHas('time', function ($query) {
+            $query->where('jail', '>', Carbon::now());
+        })->get();
+
+        return $users;
+    }
+    
+    /**
+     * Indicate if we need to use captcha.
+     *
+     * @return bool
+     */
+    public function isUsingCaptcha()
+    {
+        return $this->captcha ? true : false;
+    }
+
+    /**
+     * Get the ranks from the database.
+     *
+     * @param Rank $rank
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getRanks($rank = null)
+    {
+        $ranks = Rank::all();
+
+        if (is_null($rank)) {
+            return $ranks;
+        }
+
+        return $ranks->where('id', $rank->id)->first();
+    }
+
+    /**
      * Get the admin group.
      *
-     * @return string
+     * @return Group
      */
     public function getAdminGroup()
     {
-        return $this->__get('admin_group');
+        return Group::findOrFail($this->__get('admin_group'));
     }
 
     /**
@@ -257,7 +318,6 @@ class Game
      *
      * @param $configKey
      * @return string
-     * @throws GameConfigNotFound
      */
     public function __get($configKey)
     {
@@ -265,6 +325,8 @@ class Game
             return $this->config->get($configKey);
         }
 
-        throw new GameConfigNotFound(sprintf("'%s' is not found in the game config.", $configKey));
+        //throw new GameConfigNotFound(sprintf("'%s' is not found in the game config.", $configKey));
+
+        return null;
     }
 }

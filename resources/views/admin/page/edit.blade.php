@@ -17,22 +17,24 @@
             @endif
         </div>
 
-        <div class="form-group{{ $errors->has('menu') ? ' has-error' : '' }}">
-            <label class="control-label" for="menu">Menu</label>
-            <select class="form-control" name="menu" id="menu">
-                <option value="0" selected disabled>Select a menu</option>
-                @foreach($menus as $menu)
-                    <option value="{{ $menu->id }}"{{ $menu->id == old('menu', $page->menu_id) ? ' selected' : '' }}>
-                        {{ $menu->name }}
-                    </option>
-                @endforeach
-            </select>
-            @if ($errors->has('menu'))
-                <p class="help-block">
-                    <strong>{{ $errors->first('menu') }}</strong>
-                </p>
-            @endif
-        </div>
+        @if ($page->menuable)
+            <div class="form-group{{ $errors->has('menu') ? ' has-error' : '' }}">
+                <label class="control-label" for="menu">Menu</label>
+                <select class="form-control" name="menu" id="menu">
+                    <option value="0" selected disabled>Select a menu</option>
+                    @foreach($menus as $menu)
+                        <option value="{{ $menu->id }}"{{ $menu->id == old('menu', $page->menu_id) ? ' selected' : '' }}>
+                            {{ $menu->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @if ($errors->has('menu'))
+                    <p class="help-block">
+                        <strong>{{ $errors->first('menu') }}</strong>
+                    </p>
+                @endif
+            </div>
+        @endif
 
         <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
             <label class="control-label" for="url">Page url</label>

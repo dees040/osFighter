@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ChangeAppNameCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -14,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ChangeAppNameCommand::class,
+        Commands\ChangeAppNameCommand::class,
+        Commands\ChangeAppTimezoneCommand::class,
     ];
 
     /**

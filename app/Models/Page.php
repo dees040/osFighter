@@ -19,7 +19,16 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'url', 'menu_id', 'group_id', 'weight'
+        'name', 'url', 'menu_id', 'group_id', 'weight', 'jail',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'jail' => 'boolean',
     ];
 
     /**

@@ -11,15 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-
-    Route::post('crimes/crime', 'Crimes\CrimeController@store')->name('crime.store');
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('configuration', 'Admin\ConfigurationController@index')->name('config.index');
@@ -34,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
             'except' => ['create', 'store', 'destroy']
         ]);
         Route::resource('crimes', 'Admin\CrimeController');
+        Route::resource('users', 'Admin\UserController');
     });
 
 });

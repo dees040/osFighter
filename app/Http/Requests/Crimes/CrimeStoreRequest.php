@@ -27,7 +27,7 @@ class CrimeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'g-recaptcha-response' => 'required|recaptcha',
+            'g-recaptcha-response' => 'captcha_confirmed',
             'crime'                => [
                 'required',
                 Rule::exists('crimes', 'id'),
@@ -38,7 +38,7 @@ class CrimeStoreRequest extends FormRequest
     /**
      * Persist the request.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
     public function persist()
     {
@@ -68,7 +68,7 @@ class CrimeStoreRequest extends FormRequest
             user()->updateTime('jail', Carbon::now()->addSeconds(120));
             user()->updateTime('crime', Carbon::now()->addSeconds(60));
 
-            return redirect()->route('crime.create')
+            return redirect()->route('jail.index')
                 ->with('m_danger', 'The police caught you. You\'re in jail for 120 seconds.');
         }
     }

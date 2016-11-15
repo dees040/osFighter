@@ -36,4 +36,12 @@ class UserInfo extends Model
     {
         return $this->belongsTo(UserInfo::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function rank()
+    {
+        return $this->belongsTo(Rank::class);
+    }
 }
