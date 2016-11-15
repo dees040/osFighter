@@ -44,8 +44,6 @@ $('.game-countdown').each(function () {
 
 Echo.channel('shout_box')
     .listen('ShoutBoxMessageCreated', event => {
-        console.log(event);
-
         var $row = '<tr class="message"><td>' + event.user + ' </td><td class="col-xs-9">' + event.message.body + '</td><td><time class="timeago" datetime="' + event.message.created_at + '">' + event.message.created_at + '</time></td></tr>';
 
         $('.shout-box table').prepend($row);
