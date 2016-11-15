@@ -19,13 +19,6 @@ class CreateTimesTable extends Migration
             $table->timestamp('jail')->nullable();
             $table->timestamp('crime')->nullable();
         });
-
-        \App\Models\User::create([
-            'group_id' => 4,
-            'username' => 'dees',
-            'email' => 'd.oomens@hotmail.nl',
-            'password' => bcrypt('test1234'),
-        ]);
     }
 
     /**
