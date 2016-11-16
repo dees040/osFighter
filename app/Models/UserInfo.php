@@ -26,7 +26,7 @@ class UserInfo extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'cash', 'bank', 'power', 'health', 'crime_progress'
+        'user_id', 'location_id', 'rank_id', 'rank_progress', 'cash', 'bank', 'power', 'health', 'crime_progress', 'hoes', 'hoes_working',
     ];
 
     /**
@@ -43,5 +43,13 @@ class UserInfo extends Model
     public function rank()
     {
         return $this->belongsTo(Rank::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
     }
 }

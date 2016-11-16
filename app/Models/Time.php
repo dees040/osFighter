@@ -26,7 +26,7 @@ class Time extends Model
      * @var array
      */
     protected $fillable = [
-        'jail', 'crime'
+        'jail', 'crime', 'pimped', 'pimped_cash', 'flying'
     ];
 
     /**
@@ -35,7 +35,7 @@ class Time extends Model
      * @var array
      */
     protected $dates = [
-        'jail', 'crime'
+        'jail', 'crime', 'pimped', 'pimped_cash', 'flying'
     ];
 
     /**

@@ -14,6 +14,7 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="main-right-navbar">
+            @include('layouts.blocks.stats')
             @foreach(game()->rightMenus() as $menu)
                 <ul class="nav navbar-nav">
                     <li class="disabled">

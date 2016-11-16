@@ -2,6 +2,7 @@
 
 namespace App\Library;
 
+use App\Models\Location;
 use Carbon\Carbon;
 use App\Models\Rank;
 
@@ -41,10 +42,11 @@ class UserHandler
      *
      * @param string|array $values
      * @param string $value
+     * @return UserHandler
      */
     public function add($values, $value = null)
     {
-        $this->updateValues($values, $value);
+        return $this->updateValues($values, $value);
     }
 
     /**
@@ -52,10 +54,29 @@ class UserHandler
      *
      * @param string|array $values
      * @param string $value
+     * @return UserHandler
      */
-    public function extract($values, $value = null)
+    public function take($values, $value = null)
     {
-        $this->updateValues($values, $value, 'extract');
+        return $this->updateValues($values, $value, 'take');
+    }
+
+    /**
+     * Indicates if the user has enough supplies of the given amount.
+     *
+     * @param string $field
+     * @param int $requiredAmount
+     * @return bool
+     */
+    public function hasSupplies($field, $requiredAmount)
+    {
+        $realAmount = $this->info->$field;
+
+        if (is_null($realAmount)) {
+            return false;
+        }
+
+        return $realAmount >= $requiredAmount;
     }
 
     /**
@@ -80,6 +101,10 @@ class UserHandler
     {
         $time = $time ?: Carbon::now();
 
+        if (is_null($this->times->$field)) {
+            return true;
+        }
+
         return $time->gt($this->times->$field);
     }
 
@@ -94,19 +119,61 @@ class UserHandler
     }
 
     /**
+     * Indicates if the user is flying.
+     *
+     * @return bool
+     */
+    public function isFlying()
+    {
+        return ! $this->mayView('flying');
+    }
+
+    /**
      * Get the user it's rank.
      *
-     * @return string
+     * @return Rank
      */
     public function rank()
     {
-        $rank = game()->getRanks($this->info->rank);
+        return $this->info->rank;
+    }
 
-        if (is_null($rank) || ! $rank instanceof Rank) {
-            return "";
-        }
+    /**
+     * Get the user location.
+     *
+     * @return Location
+     */
+    public function location()
+    {
+        return $this->info->location;
+    }
 
-        return $rank->name;
+    /**
+     * Get the amount of cash earned by the user it's hoes.
+     *
+     * @return float
+     */
+    public function getCashAmountFromHoes()
+    {
+        $hoursPast = floor(sec_difference($this->times->pimped_cash) / 3600);
+
+        return $hoursPast * 60;
+    }
+
+    /**
+     * Update one or multiple values in the info table.
+     *
+     * @param string|array $key
+     * @param string $value
+     * @return UserHandler
+     */
+    public function update($key, $value = null)
+    {
+        $values = is_array($key) ? $key : [$key => $value];
+
+        $this->info->update($values);
+
+        return $this;
     }
 
     /**
@@ -114,6 +181,7 @@ class UserHandler
      *
      * @param string|array $field
      * @param Carbon $timestamp
+     * @return UserHandler
      */
     public function updateTime($field, $timestamp = null)
     {
@@ -122,6 +190,8 @@ class UserHandler
         }
 
         $this->times->update($field);
+
+        return $this;
     }
 
     /**
@@ -130,6 +200,7 @@ class UserHandler
      * @param $values
      * @param $value
      * @param string $operation
+     * @return UserHandler
      */
     private function updateValues($values, $value, $operation = 'add')
     {
@@ -142,6 +213,8 @@ class UserHandler
         }
 
         $this->info->save();
+
+        return $this;
     }
 
     /**
@@ -161,7 +234,7 @@ class UserHandler
      * @param $key
      * @param $value
      */
-    protected function extractValue($key, $value)
+    protected function takeValue($key, $value)
     {
         $this->info->$key = $this->info->$key - $value;
     }

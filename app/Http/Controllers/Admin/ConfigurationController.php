@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Crime;
 use App\Models\Rank;
+use App\Models\Crime;
 use App\Models\Group;
+use App\Models\Location;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Configuration\UpdateRequest;
 
@@ -20,8 +21,9 @@ class ConfigurationController extends Controller
         $groups = Group::all();
         $ranks = Rank::all()->sortBy('level');
         $crimes = Crime::all()->sortBy('chance');
+        $locations = Location::all();
 
-        return view('admin.config.index', compact('groups', 'ranks', 'crimes'));
+        return view('admin.config.index', compact('groups', 'ranks', 'crimes', 'locations'));
     }
 
     /**

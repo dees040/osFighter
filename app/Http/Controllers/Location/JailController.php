@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Crimes;
+namespace App\Http\Controllers\Location;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Crimes\JailFreeStoreRequest;
@@ -16,7 +16,7 @@ class JailController extends Controller
     {
         $users = game()->usersInJail();
 
-        return view('crimes.jail', compact('users'));
+        return view('location.jail', compact('users'));
     }
 
     /**

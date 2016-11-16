@@ -38,6 +38,12 @@ class ValidationServiceProvider extends ServiceProvider
             $this->extension('ShoutBoxValidator@limit'),
             'You may only post two message after each other.'
         );
+
+        Validator::extend(
+            'has_cash',
+            $this->extension('SuppliesValidator@hasCash'),
+            'You don\'t have enough cash.'
+        );
     }
 
     /**

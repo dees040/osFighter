@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\Auth\Middleware\Authenticate::class,
             \App\Http\Middleware\ValidatePermission::class,
             \App\Http\Middleware\RedirectUserToJailIfNeeded::class,
+            \App\Http\Middleware\RedirectUserToAirportIfFlying::class,
         ],
 
         'api' => [

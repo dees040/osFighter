@@ -58,7 +58,7 @@ class JailFreeStoreRequest extends FormRequest
         }
 
         $userInJail->updateTime('jail', Carbon::now());
-        user()->extract('cash', $priceToFree);
+        user()->take('cash', $priceToFree);
 
         return back()
             ->with('m_success', 'You bought ' . $userInJail->username . ' free.');

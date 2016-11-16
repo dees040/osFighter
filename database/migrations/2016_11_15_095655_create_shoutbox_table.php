@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShoutBoxesTable extends Migration
+class CreateShoutboxTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,6 +28,6 @@ class CreateShoutBoxesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shout_boxes');
+        Schema::dropIfExists('shoutbox');
     }
 }

@@ -26,6 +26,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('ranks', 'Admin\RankController', [
             'only' => 'store'
         ]);
+        Route::resource('locations', 'Admin\LocationController', [
+            'only' => 'store'
+        ]);
         Route::resource('pages', 'Admin\PageController', [
             'except' => ['create', 'store', 'destroy']
         ]);

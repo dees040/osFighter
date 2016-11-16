@@ -58,7 +58,7 @@
             </p>
         @endif
         <p class="help-block">
-            The currency symbol you want to use for your application.
+            The timezone you want to use for your application.
         </p>
     </div>
 

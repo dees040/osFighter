@@ -75,14 +75,14 @@ if (! function_exists('sec_difference')) {
      * Get the difference in seconds.
      *
      * @param \Carbon\Carbon $time
-     * @param Carbon\Carbon $now
+     * @param \Carbon\Carbon $now
      * @return int
      */
-    function sec_difference(\Carbon\Carbon $time, $now = null)
+    function sec_difference($time, $now = null)
     {
         $now = $now ?: \Carbon\Carbon::now();
 
-        return $time->diffInSeconds($now);
+        return is_null($time) ? 0 : $time->diffInSeconds($now);
     }
 }
 

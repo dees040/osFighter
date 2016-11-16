@@ -18,7 +18,17 @@ class CreateTimesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->timestamp('jail')->nullable();
             $table->timestamp('crime')->nullable();
+            $table->timestamp('flying')->nullable();
+            $table->timestamp('pimped')->nullable();
+            $table->timestamp('pimped_cash')->nullable();
         });
+
+        \App\Models\User::create([
+            'group_id' => 4,
+            'username' => 'dees',
+            'email' => 'd.oomens@hotmail.nl',
+            'password' => bcrypt('test1234'),
+        ]);
     }
 
     /**
