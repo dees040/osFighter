@@ -16,12 +16,27 @@ if (! function_exists('call_dynamic_route')) {
     /**
      * Call a dynamic route.
      *
-     * @param \App\Models\Page $page
+     * @param \App\Models\Route $page
      * @return \Illuminate\Routing\Route
      */
-    function call_dynamic_route(\App\Models\Page $page)
+    function call_dynamic_route(\App\Models\Route $page)
     {
-        return (new \App\Library\DynamicRouter($page))->call();
+        return app()->make('dynamic_router')->call($page);
+    }
+}
+
+if (! function_exists('dynamic_route')) {
+    /**
+     * Generate url via dynamic route.
+     *
+     * @param $name
+     * @param $binding
+     * @param null $onlyUrl
+     * @return \Illuminate\Support\HtmlString|string
+     */
+    function dynamic_route($name, $binding, $onlyUrl = null)
+    {
+        return DynamicRouter::generateUrl($name, $binding, $onlyUrl);
     }
 }
 

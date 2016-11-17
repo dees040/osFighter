@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Group;
 use App\Models\Menu;
-use App\Models\Page;
+use App\Models\Group;
+use App\Models\Route;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Page\Admin\UpdateRequest;
+use App\Http\Requests\Admin\Route\UpdateRequest;
 
-class PageController extends Controller
+class RouteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,51 +17,51 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::with('menu')->get();
+        $routes = Route::with('menu')->get();
 
-        return view('admin.page.index', compact('pages'));
+        return view('admin.route.index', compact('routes'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Page $page
+     * @param Route $route
      * @return \Illuminate\Http\Response
      * @ param int $id
      */
-    public function show(Page $page)
+    public function show(Route $route)
     {
-        $page->load('menu');
+        $route->load('menu');
 
-        return view('admin.page.show', compact('page'));
+        return view('admin.route.show', compact('route'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Page $page
+     * @param Route $route
      * @return \Illuminate\Http\Response
      */
-    public function edit(Page $page)
+    public function edit(Route $route)
     {
         $menus = Menu::all();
         $groups = Group::all();
 
-        return view('admin.page.edit', compact('page', 'menus', 'groups'));
+        return view('admin.route.edit', compact('route', 'menus', 'groups'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest  $request
-     * @param Page $page
+     * @param Route $route
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Page $page)
+    public function update(UpdateRequest $request, Route $route)
     {
         $request->persist();
 
-        return redirect()->route('pages.show', $page)
-            ->with('m_success', $page->name . ' page updated with success.');
+        return redirect()->route('routes.show', $route)
+            ->with('m_success', $route->title . ' page updated with success.');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Library\Validators;
 
-use App\Models\Page;
+use App\Models\Route;
 use Symfony\Component\HttpFoundation\File\File;
 
 class RequirementValidator
@@ -18,9 +18,9 @@ class RequirementValidator
      */
     public function ifMenuable($attribute, $value, $parameters)
     {
-        $page = Page::findOrFail(head($parameters));
+        $route = Route::findOrFail(head($parameters));
 
-        if ($page->menuable) {
+        if ($route->rules->menuable) {
             return $this->validateRequired($value);
         }
 

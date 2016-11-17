@@ -2,7 +2,7 @@
 
 namespace App\Library\Validators;
 
-use App\Models\Page;
+use App\Models\Route;
 use App\Models\ShoutBox;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\File\File;

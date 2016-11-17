@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('locations', 'Admin\LocationController', [
             'only' => 'store'
         ]);
-        Route::resource('pages', 'Admin\PageController', [
+        Route::resource('routes', 'Admin\RouteController', [
             'except' => ['create', 'store', 'destroy']
         ]);
         Route::resource('crimes', 'Admin\CrimeController');

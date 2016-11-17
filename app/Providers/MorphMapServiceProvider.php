@@ -34,7 +34,7 @@ class MorphMapServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'groups' => \App\Models\Group::class,
-            'pages' => \App\Models\Page::class,
+            'pages' => \App\Models\Route::class,
         ]);
     }
 }

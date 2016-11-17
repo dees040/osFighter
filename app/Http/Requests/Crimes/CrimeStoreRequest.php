@@ -49,10 +49,11 @@ class CrimeStoreRequest extends FormRequest
         if ($crimeSucceededRate <= $crime->userChance()) {
             $payout = game()->crimePayout($crime);
 
-            user()->add([
-                'cash'           => $payout,
-                'crime_progress' => mt_rand(1, 3),
-            ]);
+            user()
+                ->add([
+                    'cash'          => $payout,
+                    'crime_progress' => mt_rand(1, 3),
+                ])->addRankProgress(mt_rand(1, 3));
 
             user()->updateTime('crime', Carbon::now()->addSeconds(60));
 

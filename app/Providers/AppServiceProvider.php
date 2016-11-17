@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Library\UserHandler', function ($app) {
             return new \App\Library\UserHandler();
         });
+
+        $this->app->singleton('dynamic_router', function ($app) {
+            return new \App\Library\Routing\DynamicRouter();
+        });
     }
 
     /**

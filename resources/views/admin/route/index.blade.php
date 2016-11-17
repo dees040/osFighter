@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pages')
+@section('title', 'Routes')
 
 @section('content')
     <div class="row">
@@ -23,35 +23,35 @@
                         Options
                     </th>
                 </tr>
-                @foreach($pages as $page)
+                @foreach($routes as $route)
                     <tr>
                         <td>
-                            {{ $page->name }}
+                            {{ $route->title }}
                         </td>
                         <td>
-                            @if(! $page->menuable)
+                            @if(! $route->rules->menuable)
                                 <span class="text-warning"
                                       title="This means that the url may not be shown in the menus">Not assignable</span>
-                            @elseif(is_null($page->menu))
+                            @elseif(is_null($route->menu))
                                 Unassigned
                             @else
-                                <a href="{{ route('menus.show', $page->menu) }}">
-                                    {{ $page->menu->name }}
+                                <a href="{{ route('menus.show', $route->menu) }}">
+                                    {{ $route->menu->name }}
                                 </a>
                             @endif
                         </td>
                         <td>
-                            @if(! $page->menuable)
-                                {{ $page->url }}
+                            @if(! $route->rules->menuable)
+                                {{ $route->url }}
                             @else
-                                <a href="{{ route($page->route_name) }}">{{ $page->url }}</a>
+                                <a href="{{ route($route->name) }}">{{ $route->url }}</a>
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('pages.show', $page) }}">
+                            <a href="{{ route('routes.show', $route) }}">
                                 <img src="{{ icon('eye--arrow') }}" alt="Show">
                             </a>
-                            <a href="{{ route('pages.edit', $page) }}">
+                            <a href="{{ route('routes.edit', $route) }}">
                                 <img src="{{ icon('pencil') }}" alt="Edit">
                             </a>
                         </td>

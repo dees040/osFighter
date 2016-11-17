@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             All the information you can find about the {{ $menu->name }} menu. To add a page to this menu you need to go
-            to the <a href="{{ route('pages.index') }}">Pages</a> and select a page to update.
+            to the <a href="{{ route('routes.index') }}">Routes</a> and select a route to update.
         </div>
         <div class="col-md-12">
             <table class="table table-responsive table-clearance">
@@ -21,19 +21,19 @@
                         Actions
                     </th>
                 </tr>
-                @foreach($menu->pages as $page)
+                @foreach($menu->routes as $route)
                     <tr>
                         <td>
-                            {{ $page->name }}
+                            {{ $route->title }}
                         </td>
                         <td>
-                            <a href="{{ route($page->route_name) }}">{{ $page->url }}</a>
+                            <a href="{{ route($route->name) }}">{{ $route->url }}</a>
                         </td>
                         <td>
-                            <a href="{{ route('pages.show', $page) }}">
+                            <a href="{{ route('routes.show', $route) }}">
                                 <img src="{{ icon('eye--arrow') }}" alt="Show">
                             </a>
-                            <a href="{{ route('pages.edit', $page) }}">
+                            <a href="{{ route('routes.edit', $route) }}">
                                 <img src="{{ icon('pencil') }}" alt="Edit">
                             </a>
                         </td>

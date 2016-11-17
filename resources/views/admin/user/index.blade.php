@@ -27,7 +27,7 @@
                 @foreach($users as $user)
                     <tr>
                         <td>
-                            {{ $user->username }}
+                            {{ dynamic_route('users.show', $user, $user->username) }}
                         </td>
                         <td>
                             {{ money($user->info->cash + $user->info->bank) }}

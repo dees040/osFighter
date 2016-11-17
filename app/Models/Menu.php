@@ -25,8 +25,8 @@ class Menu extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function pages()
+    public function routes()
     {
-        return $this->hasMany(Page::class);
+        return $this->hasMany(Route::class);
     }
 }

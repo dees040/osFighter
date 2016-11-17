@@ -21,6 +21,7 @@ class CreateTimesTable extends Migration
             $table->timestamp('flying')->nullable();
             $table->timestamp('pimped')->nullable();
             $table->timestamp('pimped_cash')->nullable();
+            $table->timestamp('training')->nullable();
         });
 
         \App\Models\User::create([

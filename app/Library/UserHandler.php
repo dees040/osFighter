@@ -62,6 +62,34 @@ class UserHandler
     }
 
     /**
+     * Update the rank progress.
+     *
+     * @param $progress
+     * @return UserHandler
+     */
+    public function addRankProgress($progress)
+    {
+        if ($this->hasHighestRank()) {
+            if ($this->info->progress < 100) {
+                $this->updateValues('rank_progress', $this->info->rank_progress + $progress > 100 ? 0 : $progress);
+            }
+
+            return $this;
+        }
+
+        $this->updateValues('rank_progress', $progress);
+
+        if ($this->info->rank_progress >= 100) {
+            $this->update([
+                'rank_id'       => $this->info->rank_id + 1,
+                'rank_progress' => $this->info->rank_progress == 100 ? 1 : $this->info->rank_progress - 100,
+            ]);
+        }
+
+        return $this;
+    }
+
+    /**
      * Indicates if the user has enough supplies of the given amount.
      *
      * @param string $field
@@ -77,6 +105,16 @@ class UserHandler
         }
 
         return $realAmount >= $requiredAmount;
+    }
+
+    /**
+     * Indicates if the user has the highest rank.
+     *
+     * @return bool
+     */
+    public function hasHighestRank()
+    {
+        return count(game()->getRanks()) == $this->info->rank_id;
     }
 
     /**
@@ -126,6 +164,16 @@ class UserHandler
     public function isFlying()
     {
         return ! $this->mayView('flying');
+    }
+
+    /**
+     * Indicate if the user is in a family.
+     *
+     * @return boolean
+     */
+    public function isInFamily()
+    {
+        return ! is_null($this->user->family);
     }
 
     /**
@@ -237,6 +285,16 @@ class UserHandler
     protected function takeValue($key, $value)
     {
         $this->info->$key = $this->info->$key - $value;
+    }
+
+    /**
+     * Get the user model.
+     *
+     * @return \App\Models\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

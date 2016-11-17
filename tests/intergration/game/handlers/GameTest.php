@@ -12,7 +12,7 @@ class GameTest extends TestCase
     public function it_does_not_allow_user_to_visit_unauthorized_pages()
     {
         $userNotAuthorised = factory(\App\Models\User::class)->create(['group_id' => 1]);
-        $page = factory(\App\Models\Page::class)->create(['group_id' => 2]);
+        $page = factory(\App\Models\Route::class)->create(['group_id' => 2]);
 
         $this->actingAs($userNotAuthorised);
 
@@ -27,7 +27,7 @@ class GameTest extends TestCase
     public function it_allows_user_to_visit_page_if_authorized()
     {
         $userAuthorised = factory(\App\Models\User::class)->create(['group_id' => 4]);
-        $page = factory(\App\Models\Page::class)->create(['group_id' => 2]);
+        $page = factory(\App\Models\Route::class)->create(['group_id' => 2]);
 
         $this->actingAs($userAuthorised);
 
@@ -54,7 +54,7 @@ class GameTest extends TestCase
     public function it_knows_if_a_user_is_in_jail()
     {
         $user = factory(\App\Models\User::class)->create();
-        $page = factory(\App\Models\Page::class)->create(['jail' => 1]);
+        $page = factory(\App\Models\Route::class)->create(['jail' => 1]);
 
         $this->actingAs($user);
 

@@ -11,6 +11,4 @@
 |
 */
 
-foreach (game()->pages() as $page) {
-    call_dynamic_route($page)->name($page->route_name);
-}
+DynamicRouter::build();

@@ -26,7 +26,7 @@ class UserInfo extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'location_id', 'rank_id', 'rank_progress', 'cash', 'bank', 'power', 'health', 'crime_progress', 'hoes', 'hoes_working',
+        'user_id', 'location_id', 'rank_id', 'rank_progress', 'cash', 'bank', 'power', 'health', 'crime_progress', 'hoes', 'hoes_working', 'strength',
     ];
 
     /**

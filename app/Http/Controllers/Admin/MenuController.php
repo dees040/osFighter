@@ -16,7 +16,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::with('pages')->get();
+        $menus = Menu::with('routes.rules')->get();
 
         return view('admin.menu.index', compact('menus'));
     }
@@ -53,7 +53,7 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        $menu->load('pages');
+        $menu->load('routes.rules');
 
         return view('admin.menu.show', compact('menu'));
     }

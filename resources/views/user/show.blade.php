@@ -12,7 +12,7 @@
                 <img src="{{ icon('user') }}" alt="User">
             </td>
             <td class="col-md-7">
-                {{ dynamic_route('users.show', currentUser(), user()->username) }}
+                {{ dynamic_route('users.show', $user->getUser(), $user->username) }}
             </td>
         </tr>
         <tr>
@@ -20,10 +20,10 @@
                 Health
             </td>
             <td>
-                <img src="{{ icon(user()->health == 0 ? 'heart-empty' : 'heart') }}" alt="Health">
+                <img src="{{ icon($user->health == 0 ? 'heart-empty' : 'heart') }}" alt="Health">
             </td>
             <td class="col-md-7">
-                {{ user()->health }}%
+                {{ $user->health }}%
             </td>
         </tr>
         <tr>
@@ -34,7 +34,7 @@
                 <img src="{{ icon('lightning') }}" alt="Power">
             </td>
             <td class="col-md-7">
-                {{ user()->power }}
+                {{ $user->power }}
             </td>
         </tr>
         <tr>
@@ -45,7 +45,7 @@
                 <img src="{{ icon('money') }}" alt="Cash">
             </td>
             <td class="col-md-7">
-                {{ money(user()->cash) }}
+                {{ money($user->cash) }}
             </td>
         </tr>
         <tr>
@@ -56,7 +56,7 @@
                 <img src="{{ icon('bank') }}" alt="Bank">
             </td>
             <td class="col-md-7">
-                {{ money(user()->bank) }}
+                {{ money($user->bank) }}
             </td>
         </tr>
         <tr>
@@ -78,7 +78,7 @@
                 <img src="{{ icon('medal') }}" alt="Credits">
             </td>
             <td class="col-md-7">
-                {{ user()->rank()->name }}
+                {{ $user->rank()->name }}
             </td>
         </tr>
         <tr>
@@ -89,7 +89,7 @@
                 <img src="{{ icon('crown') }}" alt="Credits">
             </td>
             <td class="col-md-7">
-                {{ user()->rank_progress }}%
+                {{ $user->rank_progress }}%
             </td>
         </tr>
         <tr>
@@ -100,10 +100,10 @@
                 <img src="{{ icon('globe') }}" alt="Location">
             </td>
             <td class="col-md-7">
-                @if(user()->location_id == 0)
+                @if($user->location_id == 0)
                     None
                 @else
-                    {{ user()->location()->name }}
+                    {{ $user->location()->name }}
                 @endif
             </td>
         </tr>
@@ -115,10 +115,10 @@
                 <img src="{{ icon('user') }}" alt="User">
             </td>
             <td class="col-md-7">
-                @if(user()->family_id == 0)
+                @if($user->family_id == 0)
                     None
                 @else
-                    {{ user()->family->name }}
+                    {{ $user->family->name }}
                 @endif
             </td>
         </tr>

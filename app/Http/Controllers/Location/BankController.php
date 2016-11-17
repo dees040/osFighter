@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Location;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Location\Bank\StoreRequest;
 
 class BankController extends Controller
 {
@@ -15,5 +15,14 @@ class BankController extends Controller
     public function create()
     {
         return view('location.bank');
+    }
+
+    /**
+     * @param StoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(StoreRequest $request)
+    {
+        return $request->persist();
     }
 }

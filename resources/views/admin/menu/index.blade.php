@@ -29,7 +29,7 @@
                             {{ $menu->name }}
                         </td>
                         <td>
-                            {{ count($menu->pages) }}
+                            {{ count($menu->routes) }}
                         </td>
                         <td>
                             @if($menu->position == 1)

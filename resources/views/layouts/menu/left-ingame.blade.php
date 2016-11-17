@@ -19,9 +19,9 @@
                             {{ $menu->name }}
                         </a>
                     </li>
-                    @foreach($menu->pages as $page)
+                    @foreach($menu->routes as $route)
                         <li class="">
-                            <a href="{{ route($page->route_name) }}">{{ $page->name }}</a>
+                            <a href="{{ route($route->name) }}">{{ $route->title }}</a>
                         </li>
                     @endforeach
                     @if($loop->first)

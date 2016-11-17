@@ -22,9 +22,9 @@
                             {{ $menu->name }}
                         </a>
                     </li>
-                    @foreach($menu->pages as $page)
+                    @foreach($menu->routes as $route)
                         <li class="">
-                            <a href="{{ route($page->route_name) }}">{{ $page->name }}</a>
+                            <a href="{{ route($route->name) }}">{{ $route->title }}</a>
                         </li>
                     @endforeach
                 </ul>
@@ -34,7 +34,7 @@
                     <li class="disabled"><a href="#">Admin</a></li>
                     <li><a href="{{ route('users.index') }}">Users</a></li>
                     <li><a href="{{ route('menus.index') }}">Menus</a></li>
-                    <li><a href="{{ route('pages.index') }}">Pages</a></li>
+                    <li><a href="{{ route('routes.index') }}">Routes</a></li>
                     <li><a href="{{ route('groups.index') }}">Groups</a></li>
                     <li><a href="{{ route('config.index') }}">Configuration</a></li>
                 </ul>

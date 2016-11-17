@@ -23,7 +23,7 @@
                             <img src="{{ icon('medal-red') }}" alt="Rank">
                         </td>
                         <td class="">
-                            {{ user()->rank() }}
+                            {{ user()->rank()->name }}
                         </td>
                         <td class="text-center">
                             <img src="{{ icon('clock') }}" alt="Clock">

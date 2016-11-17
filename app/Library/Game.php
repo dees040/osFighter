@@ -7,7 +7,7 @@ use App\Models\Time;
 use Carbon\Carbon;
 use Schema;
 use App\Models\Menu;
-use App\Models\Page;
+use App\Models\Route;
 use App\Models\User;
 use App\Models\Crime;
 use App\Models\Group;
@@ -68,7 +68,7 @@ class Game
      */
     public function leftMenus()
     {
-        return Menu::with('pages')->where('position', 1)->get();
+        return Menu::with('routes.rules')->where('position', 1)->get();
     }
 
     /**
@@ -78,7 +78,7 @@ class Game
      */
     public function rightMenus()
     {
-        return Menu::with('pages')->where('position', 2)->get();
+        return Menu::with('routes.rules')->where('position', 2)->get();
     }
 
     /**
@@ -91,7 +91,7 @@ class Game
         // Small check if the pages table exists. This is necessary because
         // of the dynamic routes which are loaded from the pages table.
         if (Schema::hasTable('pages')) {
-            return Page::all();
+            return Route::all();
         }
 
         return collect();
@@ -217,7 +217,7 @@ class Game
     /**
      * Check if the user needs to go to jail.
      *
-     * @param null|Page $page
+     * @param null|Route $page
      * @return bool
      */
     public function userNeedsToGoToJail($page = null)
@@ -285,13 +285,13 @@ class Game
     /**
      * Get the current Page model.
      *
-     * @return Page|mixed
+     * @return Route|mixed
      */
     public function getCurrentPage()
     {
         $name = request()->route()->getName();
 
-        return Page::with('group')
+        return Route::with('group')
             ->where('route_name', $name)
             ->first();
     }

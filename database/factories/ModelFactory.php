@@ -46,17 +46,17 @@ $factory->define(App\Models\Crime::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Route::class, function (Faker\Generator $faker) {
     return [
+        'title' => $faker->name,
         'name' => $faker->name,
-        'route_name' => $faker->name,
-        'route_action' => $faker->name,
-        'route_method' => $faker->name,
+        'action' => $faker->name,
+        'method' => $faker->name,
         'url' => $faker->url,
         'menu_id' => 1,
-        'group_id' => 1,
+        //'group_id' => 1,
         'weight' => 999,
-        'jail' => 1,
-        'menuable' => 0,
+        //'jail' => 1,
+        //'menuable' => 0,
     ];
 });

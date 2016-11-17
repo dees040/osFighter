@@ -28,7 +28,7 @@ class ValidationServiceProvider extends ServiceProvider
         );
 
         Validator::extend(
-            'captcha_confirmed',
+            'required_if_menuable',
             $this->extension('RequirementValidator@ifMenuable'),
             'The :attribute field is required.'
         );
@@ -43,6 +43,12 @@ class ValidationServiceProvider extends ServiceProvider
             'has_cash',
             $this->extension('SuppliesValidator@hasCash'),
             'You don\'t have enough cash.'
+        );
+
+        Validator::extend(
+            'route_bindings',
+            $this->extension('BindingsValidator@route'),
+            'You need to have all the bindings.'
         );
     }
 

@@ -231,6 +231,7 @@ return [
 
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'DynamicRouter' => App\Library\Routing\Facade\DynamicRouter::class,
 
     ],
 
