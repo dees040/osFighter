@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Car;
 use App\Models\Rank;
 use App\Models\Crime;
 use App\Models\Group;
@@ -21,9 +22,10 @@ class ConfigurationController extends Controller
         $groups = Group::all();
         $ranks = Rank::all()->sortBy('level');
         $crimes = Crime::all()->sortBy('chance');
+        $cars = Car::all()->sortBy('price');
         $locations = Location::all();
 
-        return view('admin.config.index', compact('groups', 'ranks', 'crimes', 'locations'));
+        return view('admin.config.index', compact('groups', 'ranks', 'crimes', 'cars', 'locations'));
     }
 
     /**

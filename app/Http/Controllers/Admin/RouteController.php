@@ -62,6 +62,6 @@ class RouteController extends Controller
         $request->persist();
 
         return redirect()->route('routes.show', $route)
-            ->with('m_success', $route->title . ' page updated with success.');
+            ->with('m_success', $route->title . 'Route updated with success.');
     }
 }

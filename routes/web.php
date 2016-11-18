@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth']], function () {
             'except' => ['create', 'store', 'destroy']
         ]);
         Route::resource('crimes', 'Admin\CrimeController');
+        Route::resource('cars', 'Admin\CarController');
         Route::resource('users', 'Admin\UserController');
     });
 

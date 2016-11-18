@@ -17,7 +17,9 @@ class LocationController extends Controller
     {
         $request->persist();
 
-        return redirect()->route('config.index')
+        $url = route('config.index') . '#tab-locations';
+
+        return redirect($url)
             ->with('m_success', 'Locations updated.');
     }
 }

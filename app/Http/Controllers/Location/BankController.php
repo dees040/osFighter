@@ -14,7 +14,9 @@ class BankController extends Controller
      */
     public function create()
     {
-        return view('location.bank');
+        $logs = currentUser()->bankLogs()->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('location.bank', compact('logs'));
     }
 
     /**

@@ -17,7 +17,7 @@
                             <img src="{{ icon('user') }}" alt="User">
                         </td>
                         <td class="">
-                            {{ $user->username }}
+                            {{ dynamic_route('users.show', $user, $user->username) }}
                         </td>
                         <td class="text-center">
                             <img src="{{ icon('medal-red') }}" alt="Rank">

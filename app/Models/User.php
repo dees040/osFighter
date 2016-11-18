@@ -81,4 +81,20 @@ class User extends Authenticatable
     {
         return $this->hasOne(Time::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bankLogs()
+    {
+        return $this->hasMany(BankLog::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function cars()
+    {
+        return $this->belongsToMany(Car::class)->withTimestamps()->withPivot('id', 'damage');
+    }
 }

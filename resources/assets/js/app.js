@@ -15,6 +15,12 @@ $('.nav-tabs-content a').click(function (e) {
     $(this).tab('show');
 });
 
+if (window.location.href.includes('#tab-')) {
+    var tab = window.location.href.split('#').pop();
+
+    $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+}
+
 var el = document.getElementById('sortable-items');
 
 if (el != null) {

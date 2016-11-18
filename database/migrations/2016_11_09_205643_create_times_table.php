@@ -18,6 +18,7 @@ class CreateTimesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->timestamp('jail')->nullable();
             $table->timestamp('crime')->nullable();
+            $table->timestamp('car')->nullable();
             $table->timestamp('flying')->nullable();
             $table->timestamp('pimped')->nullable();
             $table->timestamp('pimped_cash')->nullable();

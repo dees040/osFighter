@@ -78,7 +78,7 @@
         <div class="form-group{{ $errors->has('jail') ? ' has-error' : '' }}">
             <input type="hidden" name="captcha" value="0">
             <div class="checkbox">
-                <label class="control-label" for="flying">
+                <label class="control-label" for="jail">
                     <input type="hidden" name="jail" value="0">
                     <input type="checkbox" name="jail" id="jail"
                            value="1"{{ $route->rules->jail_viewable ? ' checked' : '' }}>

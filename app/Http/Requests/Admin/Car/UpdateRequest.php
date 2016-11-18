@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Crime\Admin;
+namespace App\Http\Requests\Admin\Car;
 
 use Image;
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,12 +25,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:2|max:255',
-            'image' => 'image',
-            'chance' => 'required|numeric|min:1',
-            'max_chance' => 'required|digits_between:1,100',
-            'min_payout' => 'required|numeric|min:1',
-            'max_payout' => 'required|numeric|min:' . ($this->min_payout + 1),
+            'name'  => 'required|min:2|max:100',
+            'image' => 'image|max:5000',
+            'price' => 'required|numeric|min:10',
         ];
     }
 
@@ -39,18 +36,16 @@ class UpdateRequest extends FormRequest
      */
     public function persist()
     {
-        $crime = $this->route('crime');
+        $car = $this->route('car');
 
-        $crime->update(
-            $this->only('title', 'chance', 'max_chance', 'min_payout', 'max_payout')
-        );
+        $car->update($this->only('name', 'price'));
 
         if ($this->hasFile('image')) {
-            $crime->deleteImage();
+            $car->deleteImage();
 
             $image = $this->file('image');
 
-            Image::make($image)->encode('jpg')->save($crime->getPath());
+            Image::make($image)->encode('jpg')->save(public_path($car->getPath()));
         }
     }
 }

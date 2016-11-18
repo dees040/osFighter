@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 
 class RLDCashOutController extends Controller
 {
+    /**
+     * Get cash from the Red Light District.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function index()
     {
         $cash = user()->getCashAmountFromHoes();

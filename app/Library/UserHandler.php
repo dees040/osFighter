@@ -2,6 +2,7 @@
 
 namespace App\Library;
 
+use App\Models\Car;
 use App\Models\Location;
 use Carbon\Carbon;
 use App\Models\Rank;
@@ -71,7 +72,11 @@ class UserHandler
     {
         if ($this->hasHighestRank()) {
             if ($this->info->progress < 100) {
-                $this->updateValues('rank_progress', $this->info->rank_progress + $progress > 100 ? 0 : $progress);
+                if ($this->info->rank_progress + $progress > 100) {
+                    $this->update('rank_progress', 100);
+                } else {
+                    $this->updateValues('rank_progress', $progress);
+                }
             }
 
             return $this;
@@ -87,6 +92,20 @@ class UserHandler
         }
 
         return $this;
+    }
+
+    /**
+     * Assign random car to user.
+     *
+     * @return Car
+     */
+    public function addRandomCar()
+    {
+        $car = Car::all()->random();
+
+        $this->user->cars()->attach($car, ['damage' => mt_rand(5, 95)]);
+
+        return $this->user->cars()->orderBy('created_at', 'desc')->first();
     }
 
     /**
@@ -174,6 +193,16 @@ class UserHandler
     public function isInFamily()
     {
         return ! is_null($this->user->family);
+    }
+
+    /**
+     * Indicate if the user is in Amsterdam.
+     *
+     * @return bool
+     */
+    public function isInAmsterdam()
+    {
+        return strtolower($this->location()->name) == 'amsterdam';
     }
 
     /**

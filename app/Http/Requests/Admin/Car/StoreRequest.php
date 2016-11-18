@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Location\RLD;
+namespace App\Http\Requests\Admin\Car;
 
-use Carbon\Carbon;
+use Image;
+use App\Models\Car;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -25,31 +26,25 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'  => 'required|min:2|max:100',
+            'image' => 'required|image|max:5000',
+            'price' => 'required|numeric|min:10',
         ];
     }
 
     /**
      * Persist the request.
      *
-     * @return int
+     * @return Car
      */
     public function persist()
     {
-        if (user()->isInAmsterdam()) {
-            $pimped = mt_rand(4, 25);
-        } else {
-            $pimped = mt_rand(2, 15);
-        }
+        $car = Car::create($this->only('name', 'price'));
 
-        if (! user()->pimped_cash) {
-            user()->updateTime('pimped_cash', Carbon::now());
-        }
+        $image = $this->file('image');
 
-        user()
-            ->add('hoes', $pimped)
-            ->updateTime('pimped', Carbon::now()->addMinute(5));
+        Image::make($image)->encode('jpg')->save(public_path($car->getPath()));
 
-        return $pimped;
+        return $car;
     }
 }

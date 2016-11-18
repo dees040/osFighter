@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Crimes;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Crimes\Car\StoreRequest;
 
 class CarController extends Controller
 {
     /**
-     * Show the form for creating a new car theft.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param StoreRequest $request
+     * @return mixed
      */
-    public function create()
+    public function store(StoreRequest $request)
     {
-        return view('crimes.car');
+        return $request->persist();
     }
 }

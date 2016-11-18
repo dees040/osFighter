@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Rank\Admin\StoreRequest;
+use App\Http\Requests\Admin\Rank\StoreRequest;
 
 class RankController extends Controller
 {
@@ -17,7 +17,9 @@ class RankController extends Controller
     {
         $request->persist();
 
-        return redirect()->route('config.index')
+        $url = route('config.index') . '#tab-ranks';
+
+        return redirect($url)
             ->with('m_success', 'Ranks are updated with success.');
     }
 }
