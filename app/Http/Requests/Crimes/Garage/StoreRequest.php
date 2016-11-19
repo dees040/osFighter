@@ -42,7 +42,6 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'g-recaptcha-response' => 'captcha_confirmed',
             'car'                  => [
                 'required',
                 Rule::exists('car_user', 'id')->where('user_id', currentUser()->id),

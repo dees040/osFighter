@@ -2,15 +2,14 @@
 
 namespace App\Library;
 
-use App\Models\Rank;
-use App\Models\Time;
-use Carbon\Carbon;
 use Schema;
+use Carbon\Carbon;
 use App\Models\Menu;
-use App\Models\Route;
+use App\Models\Rank;
 use App\Models\User;
 use App\Models\Crime;
 use App\Models\Group;
+use App\Models\Route;
 use App\Models\Configuration;
 use Illuminate\Support\Collection;
 

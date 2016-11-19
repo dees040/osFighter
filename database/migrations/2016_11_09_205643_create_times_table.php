@@ -31,6 +31,12 @@ class CreateTimesTable extends Migration
             'email' => 'd.oomens@hotmail.nl',
             'password' => bcrypt('test1234'),
         ]);
+
+        \App\Models\User::create([
+            'username' => 'demo',
+            'email' => 'demo@osfighter.com',
+            'password' => bcrypt('demo'),
+        ]);
     }
 
     /**

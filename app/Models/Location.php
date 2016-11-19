@@ -19,4 +19,12 @@ class Location extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function population()
+    {
+        return $this->hasMany(UserInfo::class);
+    }
 }

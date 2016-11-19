@@ -325,4 +325,32 @@ return [
             'bindings'      => 'user',
         ],
     ],
+    [
+        'title'   => 'Shop',
+        'name'    => 'location.shop',
+        'action'  => 'Location\ShopController@create',
+        'method'  => 'get',
+        'url'     => 'shop',
+        'menu_id' => 4,
+        'weight'  => 5,
+        'rules'   => [
+            'group_id'      => 1,
+            'jail_viewable' => 0,
+            'menuable'      => 1,
+        ],
+    ],
+    [
+        'title'   => 'Shop Buy',
+        'name'    => 'location.shop.store',
+        'action'  => 'Location\ShopController@store',
+        'method'  => 'post',
+        'url'     => 'shop',
+        'menu_id' => 0,
+        'weight'  => 0,
+        'rules'   => [
+            'group_id'      => 1,
+            'jail_viewable' => 0,
+            'menuable'      => 0,
+        ],
+    ],
 ];

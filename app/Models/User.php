@@ -97,4 +97,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Car::class)->withTimestamps()->withPivot('id', 'damage');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function shopItems()
+    {
+        return $this->belongsToMany(ShopItem::class)->withPivot('amount');
+    }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Requests\Crime\Admin;
 
 use App\Models\Crime;
 use Illuminate\Foundation\Http\FormRequest;
-use Image;
 
 class StoreRequest extends FormRequest
 {
@@ -46,10 +45,7 @@ class StoreRequest extends FormRequest
             $this->only('title', 'chance', 'max_chance', 'min_payout', 'max_payout')
         );
 
-        $image = $this->file('image');
-        $path = public_path('images/game/crimes/' . $crime->id . '.jpg');
-
-        Image::make($image)->encode('jpg')->save($path);
+        $crime->storeImage($this->file('image'));
 
         return $crime;
     }

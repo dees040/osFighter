@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('crimes', 'Admin\CrimeController');
         Route::resource('cars', 'Admin\CarController');
         Route::resource('users', 'Admin\UserController');
+        Route::resource('shop', 'Admin\ShopController', ['parameters' => [
+            'shop' => 'item'
+        ]]);
     });
 
 });

@@ -4,38 +4,13 @@
 
 @section('content')
     <ul class="nav nav-tabs nav-tabs-content" role="tablist">
-        <li role="presentation" class="active"><a href="#tab-cars" aria-controls="configuration" role="tab"
-                                                  data-toggle="tab">Steal cars</a></li>
-        <li role="presentation"><a href="#tab-garage" aria-controls="ranks" role="tab" data-toggle="tab">Garage</a></li>
+        <li role="presentation" class="active"><a href="#tab-garage" aria-controls="ranks" role="tab" data-toggle="tab">Garage</a>
+        </li>
+        <li role="presentation"><a href="#tab-cars" aria-controls="configuration" role="tab" data-toggle="tab">Steal
+                cars</a></li>
     </ul>
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="tab-cars">
-            @if(user()->mayView('car'))
-                <form action="{{ route('car.store') }}" method="post">
-                    {{ csrf_field() }}
-
-                    @if (game()->isUsingCaptcha())
-                        <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
-                            {!! Recaptcha::render() !!}
-
-                            @if ($errors->has('g-recaptcha-response'))
-                                <p class="help-block">
-                                    <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                </p>
-                            @endif
-                        </div>
-                    @endif
-
-                    <button type="submit" class="btn btn-primary">Steal a car</button>
-                </form>
-            @else
-                <div class="alert alert-warning alert-dismissible" role="alert">
-                    <strong>Warning!</strong> You're still cooling down from the police for
-                    <span class="game-countdown">{{ sec_difference(user()->car) }}</span> seconds.
-                </div>
-            @endif
-        </div>
-        <div role="tabpanel" class="tab-pane" id="tab-garage">
+        <div role="tabpanel" class="tab-pane active" id="tab-garage">
             <form action="{{ route('garage.store') }}" method="post">
                 {{ csrf_field() }}
                 <table class="table table-responsive table-clearance">
@@ -77,9 +52,36 @@
                         </tr>
                     @endforeach
                 </table>
+                <div>{{ $cars->links() }}</div>
                 <button type="submit" class="btn btn-primary" name="action" value="sell">Sell</button>
                 <button type="submit" class="btn btn-primary" name="action" value="repair">Repair</button>
             </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-cars">
+            @if(user()->mayView('car'))
+                <form action="{{ route('car.store') }}" method="post">
+                    {{ csrf_field() }}
+
+                    @if (game()->isUsingCaptcha())
+                        <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
+                            {!! Recaptcha::render() !!}
+
+                            @if ($errors->has('g-recaptcha-response'))
+                                <p class="help-block">
+                                    <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                </p>
+                            @endif
+                        </div>
+                    @endif
+
+                    <button type="submit" class="btn btn-primary">Steal a car</button>
+                </form>
+            @else
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <strong>Warning!</strong> You're still cooling down from the police for
+                    <span class="game-countdown">{{ sec_difference(user()->car) }}</span> seconds.
+                </div>
+            @endif
         </div>
     </div>
 @endsection

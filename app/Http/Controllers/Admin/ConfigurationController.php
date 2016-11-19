@@ -9,6 +9,7 @@ use App\Models\Group;
 use App\Models\Location;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Configuration\UpdateRequest;
+use App\Models\ShopItem;
 
 class ConfigurationController extends Controller
 {
@@ -24,8 +25,9 @@ class ConfigurationController extends Controller
         $crimes = Crime::all()->sortBy('chance');
         $cars = Car::all()->sortBy('price');
         $locations = Location::all();
+        $items = ShopItem::all()->sortBy('power');
 
-        return view('admin.config.index', compact('groups', 'ranks', 'crimes', 'cars', 'locations'));
+        return view('admin.config.index', compact('groups', 'ranks', 'crimes', 'cars', 'locations', 'items'));
     }
 
     /**

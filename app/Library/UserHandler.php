@@ -4,6 +4,7 @@ namespace App\Library;
 
 use App\Models\Car;
 use App\Models\Location;
+use App\Models\ShopItem;
 use Carbon\Carbon;
 use App\Models\Rank;
 
@@ -235,6 +236,17 @@ class UserHandler
         $hoursPast = floor(sec_difference($this->times->pimped_cash) / 3600);
 
         return $hoursPast * 60;
+    }
+
+    /**
+     * Get the user pivot shop item model.
+     *
+     * @param ShopItem $item
+     * @return ShopItem|null
+     */
+    public function getShopItem(ShopItem $item)
+    {
+        return $this->user->shopItems->where('id', $item->id)->first();
     }
 
     /**

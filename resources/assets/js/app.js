@@ -13,6 +13,11 @@ $("time.timeago").timeago();
 $('.nav-tabs-content a').click(function (e) {
     e.preventDefault();
     $(this).tab('show');
+
+    var id = $(this).attr('href');
+    var url = window.location.href.split('#')[0];
+
+    window.history.pushState('', '', url + id);
 });
 
 if (window.location.href.includes('#tab-')) {

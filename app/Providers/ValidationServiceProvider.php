@@ -50,6 +50,18 @@ class ValidationServiceProvider extends ServiceProvider
             $this->extension('BindingsValidator@route'),
             'You need to have all the bindings.'
         );
+
+        Validator::extend(
+            'strength_points',
+            $this->extension('ShopValidator@strengthPoints'),
+            'You don\'t have the required strength points.'
+        );
+
+        Validator::extend(
+            'shop_item_amount',
+            $this->extension('ShopValidator@amount'),
+            'You can\'t have more then the maximum.'
+        );
     }
 
     /**

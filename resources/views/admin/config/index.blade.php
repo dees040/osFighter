@@ -9,6 +9,7 @@
         <li role="presentation"><a href="#tab-cars" aria-controls="cars" role="tab" data-toggle="tab">Cars</a></li>
         <li role="presentation"><a href="#tab-crimes" aria-controls="crimes" role="tab" data-toggle="tab">Crimes</a></li>
         <li role="presentation"><a href="#tab-locations" aria-controls="locations" role="tab" data-toggle="tab">Locations</a></li>
+        <li role="presentation"><a href="#tab-shop" aria-controls="shop" role="tab" data-toggle="tab">Shop items</a></li>
     </ul>
 
     <div class="tab-content">
@@ -26,6 +27,9 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="tab-locations">
             @include('admin.config.locations')
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-shop">
+            @include('admin.config.shop')
         </div>
     </div>
 @endsection

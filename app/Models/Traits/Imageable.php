@@ -3,6 +3,8 @@
 namespace App\Models\Traits;
 
 use File;
+use Illuminate\Http\UploadedFile;
+use Image;
 use Illuminate\Database\Eloquent\Model;
 
 trait Imageable
@@ -33,6 +35,16 @@ trait Imageable
     public function getPath()
     {
         return 'images/game/'.$this->getFolderName().'/' . $this->id . '.jpg';
+    }
+
+    /**
+     * Store a new image for the current model.
+     *
+     * @param UploadedFile $image
+     */
+    public function storeImage(UploadedFile $image)
+    {
+        Image::make($image)->encode('jpg')->save(public_path($this->getPath()));
     }
 
     /**

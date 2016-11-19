@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'g-recaptcha-response' => 'captcha_confirmed',
         ];
     }
 
@@ -38,7 +38,7 @@ class StoreRequest extends FormRequest
     {
         $chance = mt_rand(1, 100);
 
-        if ($chance < 30) {
+        if ($chance < 35) {
             $car = user()
                 ->add('crime_progress', mt_rand(2, 5))
                 ->addRankProgress(mt_rand(1, 3))

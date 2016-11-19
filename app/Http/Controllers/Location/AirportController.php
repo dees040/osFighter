@@ -15,7 +15,7 @@ class AirportController extends Controller
      */
     public function index()
     {
-        $locations = Location::all();
+        $locations = Location::with('population')->get();
 
         return view('location.airport', compact('locations'));
     }

@@ -14,7 +14,7 @@ class GarageController extends Controller
      */
     public function index()
     {
-        $cars = currentUser()->cars;
+        $cars = currentUser()->cars()->paginate(10);
 
         return view('crimes.garage', compact('cars'));
     }

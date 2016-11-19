@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin\Car;
 
-use Image;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -43,9 +42,7 @@ class UpdateRequest extends FormRequest
         if ($this->hasFile('image')) {
             $car->deleteImage();
 
-            $image = $this->file('image');
-
-            Image::make($image)->encode('jpg')->save(public_path($car->getPath()));
+            $car->storeImage($this->file('image'));
         }
     }
 }

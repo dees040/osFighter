@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin\Car;
 
-use Image;
 use App\Models\Car;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -41,9 +40,7 @@ class StoreRequest extends FormRequest
     {
         $car = Car::create($this->only('name', 'price'));
 
-        $image = $this->file('image');
-
-        Image::make($image)->encode('jpg')->save(public_path($car->getPath()));
+        $car->storeImage($this->file('image'));
 
         return $car;
     }

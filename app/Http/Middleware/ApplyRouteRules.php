@@ -17,7 +17,7 @@ class ApplyRouteRules
      */
     public function handle($request, Closure $next)
     {
-        if ($request->is('logout')) {
+        if ($request->is('logout') || user()->isInAdminGroup()) {
             return $next($request);
         }
 

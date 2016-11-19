@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Crime\Admin;
 
-use Image;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -48,9 +47,7 @@ class UpdateRequest extends FormRequest
         if ($this->hasFile('image')) {
             $crime->deleteImage();
 
-            $image = $this->file('image');
-
-            Image::make($image)->encode('jpg')->save($crime->getPath());
+            $crime->storeImage($this->file('image'));
         }
     }
 }
