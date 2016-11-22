@@ -8,6 +8,19 @@ require('./bootstrap');
 
 Turbolinks.start();
 
+$('#trumbowyg').trumbowyg({
+    btns: [
+        ['undo', 'redo'],
+        'btnGrp-semantic',
+        ['insertImage'],
+        'btnGrp-justify',
+        'btnGrp-lists',
+        ['horizontalRule'],
+        ['removeformat'],
+        ['fullscreen']
+    ]
+});
+
 $("time.timeago").timeago();
 
 $('.nav-tabs-content a').click(function (e) {

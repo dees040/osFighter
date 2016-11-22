@@ -3,6 +3,7 @@
 namespace App\Library;
 
 use App\Models\Car;
+use App\Models\Family;
 use App\Models\Location;
 use App\Models\ShopItem;
 use Carbon\Carbon;
@@ -224,6 +225,16 @@ class UserHandler
     public function location()
     {
         return $this->info->location;
+    }
+
+    /**
+     * Get the user it's family.
+     *
+     * @return Family|null
+     */
+    public function family()
+    {
+        return $this->user->family;
     }
 
     /**

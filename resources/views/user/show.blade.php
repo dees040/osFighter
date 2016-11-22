@@ -118,9 +118,13 @@
                 @if($user->family_id == 0)
                     None
                 @else
-                    {{ $user->family->name }}
+                    {!! dynamic_route('families.show', $user->family(), $user->family()->name) !!}
                 @endif
             </td>
         </tr>
     </table>
+
+    <div class="profile-text">
+        {!! $user->profile_text !!}
+    </div>
 @endsection

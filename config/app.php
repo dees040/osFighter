@@ -170,6 +170,7 @@ return [
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Camroncade\Timezone\TimezoneServiceProvider::class,
+        Golonka\BBCode\BBCodeParserServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -232,6 +233,7 @@ return [
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'DynamicRouter' => App\Library\Routing\Facade\DynamicRouter::class,
+        'BBCode' => Golonka\BBCode\Facades\BBCodeParser::class,
 
     ],
 

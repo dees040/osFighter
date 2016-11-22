@@ -20,6 +20,7 @@
     "pusher-js": "^3.2.2",
     "sortablejs": "^1.4.2",
     "timeago": "^1.5.3",
+    "trumbowyg": "^2.3.0",
     "turbolinks": "^5.0.0"
   }
 }

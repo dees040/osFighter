@@ -26,8 +26,19 @@ class UserInfo extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'location_id', 'rank_id', 'rank_progress', 'cash', 'bank', 'power', 'health', 'crime_progress', 'hoes', 'hoes_working', 'strength',
+        'user_id', 'location_id', 'rank_id', 'rank_progress', 'cash', 'bank', 'power', 'health', 'crime_progress',
+        'hoes', 'hoes_working', 'strength', 'profile_text'
     ];
+
+    /**
+     * Get the profile text attribute.
+     *
+     * @return string
+     */
+    public function getProfileTextAttribute($text)
+    {
+        return strip_tags($text, "<p><em><br><ol><ul><li><strong><strike><img>");
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

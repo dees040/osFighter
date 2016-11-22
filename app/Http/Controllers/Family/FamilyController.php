@@ -3,11 +3,20 @@
 namespace App\Http\Controllers\Family;
 
 use App\Models\Family;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Family\StoreRequest;
+use App\Http\Requests\Family\UpdateRequest;
 
 class FamilyController extends Controller
 {
+    /**
+     * FamilyController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('family_free')->only('create', 'store');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -27,61 +36,66 @@ class FamilyController extends Controller
      */
     public function create()
     {
-        //
+        return view('family.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $family = $request->persist();
+
+        return redirect()->route('families.show', $family)
+            ->with('m_success', 'All rise for ' . $family->name. '!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Family $family
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Family $family)
     {
-        //
+        $family->load('creator', 'members');
+
+        return view('family.show', compact('family'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Family $family
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Family $family)
     {
-        //
+        return view('family.edit', compact('family'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  UpdateRequest  $request
+     * @param  Family $family
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Family $family)
     {
-        //
+        $request->persist();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Family $family
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Family $family)
     {
         //
     }

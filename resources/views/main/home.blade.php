@@ -112,13 +112,13 @@
                 Family
             </td>
             <td>
-                <img src="{{ icon('user') }}" alt="User">
+                <img src="{{ icon('users') }}" alt="User">
             </td>
             <td class="col-md-7">
                 @if(user()->family_id == 0)
                     None
                 @else
-                    {{ user()->family->name }}
+                    {!! dynamic_route('families.show', user()->family(), user()->family()->name) !!}
                 @endif
             </td>
         </tr>

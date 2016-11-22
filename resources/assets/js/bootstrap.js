@@ -28,3 +28,6 @@ window.Echo = new Echo({
 window.Turbolinks = require("turbolinks");
 window.Sortable = require("sortablejs");
 window.timeago = require("timeago");
+window.trumbowyg = require("trumbowyg");
+
+$.trumbowyg.svgPath = '/images/ui/icons.svg';

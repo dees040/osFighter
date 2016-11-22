@@ -19,6 +19,7 @@ class CreateUserInfoTable extends Migration
             $table->tinyInteger('location_id')->default(1)->unsigned();
             $table->tinyInteger('rank_id')->default(1)->unsigned();
             $table->tinyInteger('rank_progress')->default(1)->unsigned();
+            $table->text('profile_text')->nullable();
             $table->bigInteger('cash')->default(0);
             $table->bigInteger('bank')->default(0);
             $table->bigInteger('power')->default(0)->unsigned();
